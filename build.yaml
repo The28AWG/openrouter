@@ -1,0 +1,10 @@
+global_options:
+  freezed:
+    runs_before:
+      - json_serializable
+  json_serializable:
+    options:
+      explicit_to_json: true
+      # OpenRouter (Zod) rejects explicit null for optional objects: "expected object, received null".
+      include_if_null: false
+

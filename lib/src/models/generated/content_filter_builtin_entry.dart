@@ -1,0 +1,81 @@
+// Generated from the OpenRouter OpenAPI schema. Do not edit by hand.
+// ignore_for_file: library_private_types_in_public_api
+
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+import 'content_filter_builtin_action.dart';
+import 'content_filter_builtin_slug.dart';
+import 'prompt_injection_scan_scope.dart';
+
+part 'content_filter_builtin_entry.freezed.dart';
+part 'content_filter_builtin_entry.g.dart';
+
+/// A builtin content filter entry. Builtin filters include PII detectors, API-key and secret detectors, and the regex-based prompt injection detector.
+///
+/// Example:
+/// ```
+/// {
+///   "action": "redact",
+///   "label": "[EMAIL]",
+///   "slug": "email"
+/// }
+/// ```
+@freezed
+sealed class ContentFilterBuiltinEntry with _$ContentFilterBuiltinEntry {
+  const factory ContentFilterBuiltinEntry({
+    /// Action taken when the builtin filter triggers
+    ///
+    /// Allowed: `redact`, `block`, `flag`
+    ///
+    /// Unknown values are allowed by the specification.
+    ///
+    /// Example:
+    /// ```
+    /// "block"
+    /// ```
+    @JsonKey(unknownEnumValue: ContentFilterBuiltinAction.unknown_)
+    required ContentFilterBuiltinAction action,
+
+    /// Read-only, system-assigned redaction placeholder derived from the slug (e.g. "[EMAIL]", "[PHONE]"). Not settable by the caller.
+    ///
+    /// maxLength: 100
+    ///
+    /// Example:
+    /// ```
+    /// "[EMAIL]"
+    /// ```
+    String? label,
+
+    /// Which message roles to scan for prompt injection. Only applies to the regex-prompt-injection builtin. Defaults to all_messages.
+    ///
+    /// Allowed: `user_only`, `all_messages`
+    ///
+    /// Unknown values are allowed by the specification.
+    ///
+    /// Example:
+    /// ```
+    /// "user_only"
+    /// ```
+    @JsonKey(
+      name: 'scan_scope',
+      unknownEnumValue: PromptInjectionScanScope.unknown_,
+    )
+    PromptInjectionScanScope? scanScope,
+
+    /// The builtin filter identifier
+    ///
+    /// Allowed: `email`, `phone`, `ssn`, `credit-card`, `ip-address`, `secrets`, `person-name`, `address`, `regex-prompt-injection`
+    ///
+    /// Unknown values are allowed by the specification.
+    ///
+    /// Example:
+    /// ```
+    /// "regex-prompt-injection"
+    /// ```
+    @JsonKey(unknownEnumValue: ContentFilterBuiltinSlug.unknown_)
+    required ContentFilterBuiltinSlug slug,
+  }) = _ContentFilterBuiltinEntry;
+
+  factory ContentFilterBuiltinEntry.fromJson(Map<String, dynamic> json) =>
+      _$ContentFilterBuiltinEntryFromJson(json);
+}
