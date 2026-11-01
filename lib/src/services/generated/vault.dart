@@ -146,6 +146,22 @@ class VaultResource {
     int? offset,
     OpenRouterCallOptions? options,
   }) async {
+    if (limit != null) {
+      if (limit < 1) {
+        throw ArgumentError.value(limit, 'limit', 'must be >= 1');
+      }
+      if (limit > 100) {
+        throw ArgumentError.value(limit, 'limit', 'must be <= 100');
+      }
+    }
+    if (offset != null) {
+      if (offset < 0) {
+        throw ArgumentError.value(offset, 'offset', 'must be >= 0');
+      }
+      if (offset > 10000) {
+        throw ArgumentError.value(offset, 'offset', 'must be <= 10000');
+      }
+    }
     final query = OpenRouterQuery();
     query.add('limit', limit);
     query.add('offset', offset);
@@ -234,6 +250,22 @@ class VaultResource {
     int? offset,
     OpenRouterCallOptions? options,
   }) async {
+    if (limit != null) {
+      if (limit < 1) {
+        throw ArgumentError.value(limit, 'limit', 'must be >= 1');
+      }
+      if (limit > 100) {
+        throw ArgumentError.value(limit, 'limit', 'must be <= 100');
+      }
+    }
+    if (offset != null) {
+      if (offset < 0) {
+        throw ArgumentError.value(offset, 'offset', 'must be >= 0');
+      }
+      if (offset > 10000) {
+        throw ArgumentError.value(offset, 'offset', 'must be <= 10000');
+      }
+    }
     final query = OpenRouterQuery();
     query.add('limit', limit);
     query.add('offset', offset);
@@ -309,6 +341,16 @@ class VaultResource {
     required String name,
     OpenRouterCallOptions? options,
   }) async {
+    if (name.isEmpty) {
+      throw ArgumentError.value(name, 'name', 'must have length >= 1');
+    }
+    if (!RegExp('^(?!.*__)[a-z]([a-z0-9_]*[a-z0-9])?\$').hasMatch(name)) {
+      throw ArgumentError.value(
+        name,
+        'name',
+        'must match ^(?!.*__)[a-z]([a-z0-9_]*[a-z0-9])?\$',
+      );
+    }
     await _client.send<Object?>(
       method: 'DELETE',
       path:
@@ -403,6 +445,19 @@ class VaultResource {
     required String name,
     OpenRouterCallOptions? options,
   }) async {
+    if (name.isEmpty) {
+      throw ArgumentError.value(name, 'name', 'must have length >= 1');
+    }
+    if (name.length > 255) {
+      throw ArgumentError.value(name, 'name', 'must have length <= 255');
+    }
+    if (!RegExp('^(?!.*__)[a-z]([a-z0-9_]*[a-z0-9])?\$').hasMatch(name)) {
+      throw ArgumentError.value(
+        name,
+        'name',
+        'must match ^(?!.*__)[a-z]([a-z0-9_]*[a-z0-9])?\$',
+      );
+    }
     return _client.send<VaultSecretResponse>(
       method: 'PUT',
       path:
@@ -565,6 +620,22 @@ class VaultResource {
     int? offset,
     OpenRouterCallOptions? options,
   }) async {
+    if (limit != null) {
+      if (limit < 1) {
+        throw ArgumentError.value(limit, 'limit', 'must be >= 1');
+      }
+      if (limit > 100) {
+        throw ArgumentError.value(limit, 'limit', 'must be <= 100');
+      }
+    }
+    if (offset != null) {
+      if (offset < 0) {
+        throw ArgumentError.value(offset, 'offset', 'must be >= 0');
+      }
+      if (offset > 10000) {
+        throw ArgumentError.value(offset, 'offset', 'must be <= 10000');
+      }
+    }
     final query = OpenRouterQuery();
     query.add('limit', limit);
     query.add('offset', offset);
@@ -629,6 +700,16 @@ class VaultResource {
     required String name,
     OpenRouterCallOptions? options,
   }) async {
+    if (name.isEmpty) {
+      throw ArgumentError.value(name, 'name', 'must have length >= 1');
+    }
+    if (!RegExp('^(?!.*__)[a-z]([a-z0-9_]*[a-z0-9])?\$').hasMatch(name)) {
+      throw ArgumentError.value(
+        name,
+        'name',
+        'must match ^(?!.*__)[a-z]([a-z0-9_]*[a-z0-9])?\$',
+      );
+    }
     await _client.send<Object?>(
       method: 'DELETE',
       path: '/vault/secrets/${Uri.encodeComponent(name.toString())}',
@@ -712,6 +793,19 @@ class VaultResource {
     required String name,
     OpenRouterCallOptions? options,
   }) async {
+    if (name.isEmpty) {
+      throw ArgumentError.value(name, 'name', 'must have length >= 1');
+    }
+    if (name.length > 255) {
+      throw ArgumentError.value(name, 'name', 'must have length <= 255');
+    }
+    if (!RegExp('^(?!.*__)[a-z]([a-z0-9_]*[a-z0-9])?\$').hasMatch(name)) {
+      throw ArgumentError.value(
+        name,
+        'name',
+        'must match ^(?!.*__)[a-z]([a-z0-9_]*[a-z0-9])?\$',
+      );
+    }
     return _client.send<VaultSecretResponse>(
       method: 'PUT',
       path: '/vault/secrets/${Uri.encodeComponent(name.toString())}',

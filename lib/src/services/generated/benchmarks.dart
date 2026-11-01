@@ -133,6 +133,11 @@ class BenchmarksResource {
     int? maxResults,
     OpenRouterCallOptions? options,
   }) async {
+    if (maxResults != null) {
+      if (maxResults < 1) {
+        throw ArgumentError.value(maxResults, 'maxResults', 'must be >= 1');
+      }
+    }
     final query = OpenRouterQuery();
     query.add(
       'source',

@@ -70,6 +70,14 @@ class ContainersResource {
     String? after,
     OpenRouterCallOptions? options,
   }) async {
+    if (limit != null) {
+      if (limit < 1) {
+        throw ArgumentError.value(limit, 'limit', 'must be >= 1');
+      }
+      if (limit > 1000) {
+        throw ArgumentError.value(limit, 'limit', 'must be <= 1000');
+      }
+    }
     final query = OpenRouterQuery();
     query.add('limit', limit);
     query.add('after', after);

@@ -151,6 +151,40 @@ class DatasetsResource {
     int? offset,
     OpenRouterCallOptions? options,
   }) async {
+    if (startDate != null) {
+      if (!RegExp('^\\d{4}-\\d{2}-\\d{2}\$').hasMatch(startDate)) {
+        throw ArgumentError.value(
+          startDate,
+          'startDate',
+          'must match ^\\d{4}-\\d{2}-\\d{2}\$',
+        );
+      }
+    }
+    if (endDate != null) {
+      if (!RegExp('^\\d{4}-\\d{2}-\\d{2}\$').hasMatch(endDate)) {
+        throw ArgumentError.value(
+          endDate,
+          'endDate',
+          'must match ^\\d{4}-\\d{2}-\\d{2}\$',
+        );
+      }
+    }
+    if (limit != null) {
+      if (limit < 1) {
+        throw ArgumentError.value(limit, 'limit', 'must be >= 1');
+      }
+      if (limit > 100) {
+        throw ArgumentError.value(limit, 'limit', 'must be <= 100');
+      }
+    }
+    if (offset != null) {
+      if (offset < 0) {
+        throw ArgumentError.value(offset, 'offset', 'must be >= 0');
+      }
+      if (offset > 100) {
+        throw ArgumentError.value(offset, 'offset', 'must be <= 100');
+      }
+    }
     final query = OpenRouterQuery();
     query.add(
       'category',
@@ -258,6 +292,32 @@ class DatasetsResource {
     int? limit,
     OpenRouterCallOptions? options,
   }) {
+    if (startDate != null) {
+      if (!RegExp('^\\d{4}-\\d{2}-\\d{2}\$').hasMatch(startDate)) {
+        throw ArgumentError.value(
+          startDate,
+          'startDate',
+          'must match ^\\d{4}-\\d{2}-\\d{2}\$',
+        );
+      }
+    }
+    if (endDate != null) {
+      if (!RegExp('^\\d{4}-\\d{2}-\\d{2}\$').hasMatch(endDate)) {
+        throw ArgumentError.value(
+          endDate,
+          'endDate',
+          'must match ^\\d{4}-\\d{2}-\\d{2}\$',
+        );
+      }
+    }
+    if (limit != null) {
+      if (limit < 1) {
+        throw ArgumentError.value(limit, 'limit', 'must be >= 1');
+      }
+      if (limit > 100) {
+        throw ArgumentError.value(limit, 'limit', 'must be <= 100');
+      }
+    }
     return OpenRouterPagination.offset<AppRankingsItem, AppRankingsResponse>(
       load: (offset) => getAppRankings(
         offset: offset,
@@ -399,6 +459,24 @@ class DatasetsResource {
     GetRankingsDailyLanguageType? languageType,
     OpenRouterCallOptions? options,
   }) async {
+    if (startDate != null) {
+      if (!RegExp('^\\d{4}-\\d{2}-\\d{2}\$').hasMatch(startDate)) {
+        throw ArgumentError.value(
+          startDate,
+          'startDate',
+          'must match ^\\d{4}-\\d{2}-\\d{2}\$',
+        );
+      }
+    }
+    if (endDate != null) {
+      if (!RegExp('^\\d{4}-\\d{2}-\\d{2}\$').hasMatch(endDate)) {
+        throw ArgumentError.value(
+          endDate,
+          'endDate',
+          'must match ^\\d{4}-\\d{2}-\\d{2}\$',
+        );
+      }
+    }
     final query = OpenRouterQuery();
     query.add('start_date', startDate);
     query.add('end_date', endDate);
@@ -524,6 +602,22 @@ class DatasetsResource {
     int? offset,
     OpenRouterCallOptions? options,
   }) async {
+    if (limit != null) {
+      if (limit < 1) {
+        throw ArgumentError.value(limit, 'limit', 'must be >= 1');
+      }
+      if (limit > 500) {
+        throw ArgumentError.value(limit, 'limit', 'must be <= 500');
+      }
+    }
+    if (offset != null) {
+      if (offset < 0) {
+        throw ArgumentError.value(offset, 'offset', 'must be >= 0');
+      }
+      if (offset > 5000) {
+        throw ArgumentError.value(offset, 'offset', 'must be <= 5000');
+      }
+    }
     final query = OpenRouterQuery();
     query.add('app_slug', appSlug);
     query.add('model', model);
@@ -596,6 +690,14 @@ class DatasetsResource {
     int? limit,
     OpenRouterCallOptions? options,
   }) {
+    if (limit != null) {
+      if (limit < 1) {
+        throw ArgumentError.value(limit, 'limit', 'must be >= 1');
+      }
+      if (limit > 500) {
+        throw ArgumentError.value(limit, 'limit', 'must be <= 500');
+      }
+    }
     return OpenRouterPagination.offset<SessionCostItem, SessionCostResponse>(
       load: (offset) => getSessionCost(
         offset: offset,

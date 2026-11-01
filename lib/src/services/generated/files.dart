@@ -127,6 +127,14 @@ class FilesResource {
     ListFilesOrder? order,
     OpenRouterCallOptions? options,
   }) async {
+    if (limit != null) {
+      if (limit < 1) {
+        throw ArgumentError.value(limit, 'limit', 'must be >= 1');
+      }
+      if (limit > 1000) {
+        throw ArgumentError.value(limit, 'limit', 'must be <= 1000');
+      }
+    }
     final query = OpenRouterQuery();
     query.add('limit', limit);
     query.add('cursor', cursor);
@@ -324,6 +332,15 @@ class FilesResource {
     FileProvider? provider,
     OpenRouterCallOptions? options,
   }) async {
+    if (fileId.isEmpty) {
+      throw ArgumentError.value(fileId, 'fileId', 'must have length >= 1');
+    }
+    if (fileId.length > 256) {
+      throw ArgumentError.value(fileId, 'fileId', 'must have length <= 256');
+    }
+    if (!RegExp('^[\\w-]+\$').hasMatch(fileId)) {
+      throw ArgumentError.value(fileId, 'fileId', 'must match ^[\\w-]+\$');
+    }
     final query = OpenRouterQuery();
     query.add('workspace_id', workspaceId);
     query.add(
@@ -408,6 +425,15 @@ class FilesResource {
     FileProvider? provider,
     OpenRouterCallOptions? options,
   }) async {
+    if (fileId.isEmpty) {
+      throw ArgumentError.value(fileId, 'fileId', 'must have length >= 1');
+    }
+    if (fileId.length > 256) {
+      throw ArgumentError.value(fileId, 'fileId', 'must have length <= 256');
+    }
+    if (!RegExp('^[\\w-]+\$').hasMatch(fileId)) {
+      throw ArgumentError.value(fileId, 'fileId', 'must match ^[\\w-]+\$');
+    }
     final query = OpenRouterQuery();
     query.add('workspace_id', workspaceId);
     query.add(
@@ -493,6 +519,15 @@ class FilesResource {
     FileProvider? provider,
     OpenRouterCallOptions? options,
   }) async {
+    if (fileId.isEmpty) {
+      throw ArgumentError.value(fileId, 'fileId', 'must have length >= 1');
+    }
+    if (fileId.length > 256) {
+      throw ArgumentError.value(fileId, 'fileId', 'must have length <= 256');
+    }
+    if (!RegExp('^[\\w-]+\$').hasMatch(fileId)) {
+      throw ArgumentError.value(fileId, 'fileId', 'must match ^[\\w-]+\$');
+    }
     final query = OpenRouterQuery();
     query.add('workspace_id', workspaceId);
     query.add(

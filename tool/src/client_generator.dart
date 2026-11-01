@@ -316,6 +316,7 @@ class ClientGenerator {
     }
     buffer.writeln('    OpenRouterCallOptions? options,');
     buffer.writeln('  }) ${streaming ? 'async*' : 'async'} {');
+    _writeValidations(buffer, params);
     final hasQuery = _has(params, _Location.query);
     final hasHeader = _has(params, _Location.header);
     if (hasQuery) {
@@ -509,6 +510,10 @@ class ClientGenerator {
     }
     buffer.writeln('    OpenRouterCallOptions? options,');
     buffer.writeln('  }) {');
+    _writeValidations(buffer, [
+      for (final param in params)
+        if (!_skipsPageParam(param, offsetName, cursorName)) param,
+    ]);
     final arguments = StringBuffer();
     for (final param in params) {
       if (_skipsPageParam(param, offsetName, cursorName)) {
@@ -575,6 +580,175 @@ class ClientGenerator {
     }
     final required = param.required ? 'required ' : '';
     buffer.writeln('    $required${param.type} ${param.name},');
+  }
+
+  void _writeValidations(StringBuffer buffer, List<_Param> params) {
+    for (final param in params) {
+      final constraints = param.constraints;
+      if (constraints == null || constraints.isEmpty) {
+        continue;
+      }
+      final nullable = param.type.endsWith('?');
+      if (nullable) {
+        buffer.writeln('    if (${param.name} != null) {');
+        _writeConstraintChecks(
+          buffer,
+          param.name,
+          param.type.substring(0, param.type.length - 1),
+          constraints,
+          indent: '      ',
+        );
+        buffer.writeln('    }');
+      } else {
+        _writeConstraintChecks(
+          buffer,
+          param.name,
+          param.type,
+          constraints,
+          indent: '    ',
+        );
+      }
+    }
+  }
+
+  void _writeConstraintChecks(
+    StringBuffer buffer,
+    String name,
+    String type,
+    _Constraints constraints, {
+    required String indent,
+  }) {
+    final isString = type == 'String';
+    final isList = type.startsWith('List<');
+    final isNumber = type == 'int' || type == 'num' || type == 'double';
+    if (isNumber) {
+      if (constraints.minimum != null) {
+        buffer.writeln(
+          '$indent'
+          'if ($name < ${constraints.minimum}) {',
+        );
+        buffer.writeln(
+          '$indent'
+          '  throw ArgumentError.value('
+          '$name, ${_quote(name)}, '
+          '${_quote('must be >= ${constraints.minimum}')});',
+        );
+        buffer.writeln('$indent}');
+      }
+      if (constraints.maximum != null) {
+        buffer.writeln(
+          '$indent'
+          'if ($name > ${constraints.maximum}) {',
+        );
+        buffer.writeln(
+          '$indent'
+          '  throw ArgumentError.value('
+          '$name, ${_quote(name)}, '
+          '${_quote('must be <= ${constraints.maximum}')});',
+        );
+        buffer.writeln('$indent}');
+      }
+    }
+    if (isString) {
+      if (constraints.minLength != null) {
+        final check = constraints.minLength == 1
+            ? '$name.isEmpty'
+            : '$name.length < ${constraints.minLength}';
+        buffer.writeln(
+          '$indent'
+          'if ($check) {',
+        );
+        buffer.writeln(
+          '$indent'
+          '  throw ArgumentError.value('
+          '$name, ${_quote(name)}, '
+          '${_quote('must have length >= ${constraints.minLength}')});',
+        );
+        buffer.writeln('$indent}');
+      }
+      if (constraints.maxLength != null) {
+        buffer.writeln(
+          '$indent'
+          'if ($name.length > ${constraints.maxLength}) {',
+        );
+        buffer.writeln(
+          '$indent'
+          '  throw ArgumentError.value('
+          '$name, ${_quote(name)}, '
+          '${_quote('must have length <= ${constraints.maxLength}')});',
+        );
+        buffer.writeln('$indent}');
+      }
+      if (constraints.pattern != null) {
+        buffer.writeln(
+          '$indent'
+          'if (!RegExp(${_quote(constraints.pattern!)}).hasMatch($name)) {',
+        );
+        buffer.writeln(
+          '$indent'
+          '  throw ArgumentError.value('
+          '$name, ${_quote(name)}, '
+          '${_quote('must match ${constraints.pattern}')});',
+        );
+        buffer.writeln('$indent}');
+      }
+    }
+    if (isList) {
+      if (constraints.minItems != null) {
+        final check = constraints.minItems == 1
+            ? '$name.isEmpty'
+            : '$name.length < ${constraints.minItems}';
+        buffer.writeln(
+          '$indent'
+          'if ($check) {',
+        );
+        buffer.writeln(
+          '$indent'
+          '  throw ArgumentError.value('
+          '$name, ${_quote(name)}, '
+          '${_quote('must have length >= ${constraints.minItems}')});',
+        );
+        buffer.writeln('$indent}');
+      }
+      if (constraints.maxItems != null) {
+        buffer.writeln(
+          '$indent'
+          'if ($name.length > ${constraints.maxItems}) {',
+        );
+        buffer.writeln(
+          '$indent'
+          '  throw ArgumentError.value('
+          '$name, ${_quote(name)}, '
+          '${_quote('must have length <= ${constraints.maxItems}')});',
+        );
+        buffer.writeln('$indent}');
+      }
+    }
+  }
+
+  _Constraints? _constraintsOf(OpenApiSchema? schema) {
+    if (schema == null) {
+      return null;
+    }
+    final resolved = schema.resolve();
+    if (resolved is OpenApiScalar) {
+      final constraints = _Constraints(
+        minimum: resolved.minimum,
+        maximum: resolved.maximum,
+        minLength: resolved.minLength,
+        maxLength: resolved.maxLength,
+        pattern: resolved.pattern,
+      );
+      return constraints.isEmpty ? null : constraints;
+    }
+    if (resolved is OpenApiArray) {
+      final constraints = _Constraints(
+        minItems: resolved.minItems,
+        maxItems: resolved.maxItems,
+      );
+      return constraints.isEmpty ? null : constraints;
+    }
+    return null;
   }
 
   void _writeQuery(StringBuffer buffer, _Param param) {
@@ -784,6 +958,7 @@ class ClientGenerator {
               location: _Location.multipartField,
               documentation: schemaDocumentation(property.schema),
               generated: type.generated,
+              constraints: _constraintsOf(property.schema),
             ),
           );
         }
@@ -820,6 +995,7 @@ class ClientGenerator {
           documentation: _parameterDoc(parameter),
           deprecated: parameter.deprecated,
           generated: type.generated,
+          constraints: _constraintsOf(parameter.schema),
         ),
       );
     }
@@ -2181,6 +2357,7 @@ class _Param {
     this.generated,
     this.fileName,
     this.contentTypeName,
+    this.constraints,
   });
 
   final String name;
@@ -2193,6 +2370,36 @@ class _Param {
   final GeneratedType? generated;
   final String? fileName;
   final String? contentTypeName;
+  final _Constraints? constraints;
+}
+
+class _Constraints {
+  const _Constraints({
+    this.minimum,
+    this.maximum,
+    this.minLength,
+    this.maxLength,
+    this.pattern,
+    this.minItems,
+    this.maxItems,
+  });
+
+  final num? minimum;
+  final num? maximum;
+  final int? minLength;
+  final int? maxLength;
+  final String? pattern;
+  final int? minItems;
+  final int? maxItems;
+
+  bool get isEmpty =>
+      minimum == null &&
+      maximum == null &&
+      minLength == null &&
+      maxLength == null &&
+      pattern == null &&
+      minItems == null &&
+      maxItems == null;
 }
 
 enum _Location {

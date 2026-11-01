@@ -69,6 +69,19 @@ class PresetsResource {
     int? limit,
     OpenRouterCallOptions? options,
   }) async {
+    if (offset != null) {
+      if (offset < 0) {
+        throw ArgumentError.value(offset, 'offset', 'must be >= 0');
+      }
+    }
+    if (limit != null) {
+      if (limit < 1) {
+        throw ArgumentError.value(limit, 'limit', 'must be >= 1');
+      }
+      if (limit > 100) {
+        throw ArgumentError.value(limit, 'limit', 'must be <= 100');
+      }
+    }
     final query = OpenRouterQuery();
     query.add('offset', offset);
     query.add('limit', limit);
@@ -108,6 +121,14 @@ class PresetsResource {
     int? limit,
     OpenRouterCallOptions? options,
   }) {
+    if (limit != null) {
+      if (limit < 1) {
+        throw ArgumentError.value(limit, 'limit', 'must be >= 1');
+      }
+      if (limit > 100) {
+        throw ArgumentError.value(limit, 'limit', 'must be <= 100');
+      }
+    }
     return OpenRouterPagination.offset<Preset, ListPresetsResponse>(
       load: (offset) => list(offset: offset, limit: limit, options: options),
       items: (page) => page.data,
@@ -145,6 +166,9 @@ class PresetsResource {
     required String slug,
     OpenRouterCallOptions? options,
   }) async {
+    if (slug.isEmpty) {
+      throw ArgumentError.value(slug, 'slug', 'must have length >= 1');
+    }
     return _client.send<GetPresetResponse>(
       method: 'GET',
       path: '/presets/${Uri.encodeComponent(slug.toString())}',
@@ -235,6 +259,9 @@ class PresetsResource {
     required String slug,
     OpenRouterCallOptions? options,
   }) async {
+    if (slug.isEmpty) {
+      throw ArgumentError.value(slug, 'slug', 'must have length >= 1');
+    }
     return _client.send<CreatePresetFromInferenceResponse>(
       method: 'POST',
       path: '/presets/${Uri.encodeComponent(slug.toString())}/chat/completions',
@@ -320,6 +347,9 @@ class PresetsResource {
     required String slug,
     OpenRouterCallOptions? options,
   }) async {
+    if (slug.isEmpty) {
+      throw ArgumentError.value(slug, 'slug', 'must have length >= 1');
+    }
     return _client.send<CreatePresetFromInferenceResponse>(
       method: 'POST',
       path: '/presets/${Uri.encodeComponent(slug.toString())}/messages',
@@ -415,6 +445,9 @@ class PresetsResource {
     required String slug,
     OpenRouterCallOptions? options,
   }) async {
+    if (slug.isEmpty) {
+      throw ArgumentError.value(slug, 'slug', 'must have length >= 1');
+    }
     return _client.send<CreatePresetFromInferenceResponse>(
       method: 'POST',
       path: '/presets/${Uri.encodeComponent(slug.toString())}/responses',
@@ -491,6 +524,22 @@ class PresetsResource {
     int? limit,
     OpenRouterCallOptions? options,
   }) async {
+    if (slug.isEmpty) {
+      throw ArgumentError.value(slug, 'slug', 'must have length >= 1');
+    }
+    if (offset != null) {
+      if (offset < 0) {
+        throw ArgumentError.value(offset, 'offset', 'must be >= 0');
+      }
+    }
+    if (limit != null) {
+      if (limit < 1) {
+        throw ArgumentError.value(limit, 'limit', 'must be >= 1');
+      }
+      if (limit > 100) {
+        throw ArgumentError.value(limit, 'limit', 'must be <= 100');
+      }
+    }
     final query = OpenRouterQuery();
     query.add('offset', offset);
     query.add('limit', limit);
@@ -542,6 +591,17 @@ class PresetsResource {
     int? limit,
     OpenRouterCallOptions? options,
   }) {
+    if (slug.isEmpty) {
+      throw ArgumentError.value(slug, 'slug', 'must have length >= 1');
+    }
+    if (limit != null) {
+      if (limit < 1) {
+        throw ArgumentError.value(limit, 'limit', 'must be >= 1');
+      }
+      if (limit > 100) {
+        throw ArgumentError.value(limit, 'limit', 'must be <= 100');
+      }
+    }
     return OpenRouterPagination.offset<
       PresetDesignatedVersion?,
       ListPresetVersionsResponse
@@ -597,6 +657,12 @@ class PresetsResource {
     required String version,
     OpenRouterCallOptions? options,
   }) async {
+    if (slug.isEmpty) {
+      throw ArgumentError.value(slug, 'slug', 'must have length >= 1');
+    }
+    if (version.isEmpty) {
+      throw ArgumentError.value(version, 'version', 'must have length >= 1');
+    }
     return _client.send<GetPresetVersionResponse>(
       method: 'GET',
       path:

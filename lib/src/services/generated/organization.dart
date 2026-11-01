@@ -60,6 +60,19 @@ class OrganizationResource {
     int? limit,
     OpenRouterCallOptions? options,
   }) async {
+    if (offset != null) {
+      if (offset < 0) {
+        throw ArgumentError.value(offset, 'offset', 'must be >= 0');
+      }
+    }
+    if (limit != null) {
+      if (limit < 1) {
+        throw ArgumentError.value(limit, 'limit', 'must be >= 1');
+      }
+      if (limit > 100) {
+        throw ArgumentError.value(limit, 'limit', 'must be <= 100');
+      }
+    }
     final query = OpenRouterQuery();
     query.add('offset', offset);
     query.add('limit', limit);
@@ -99,6 +112,14 @@ class OrganizationResource {
     int? limit,
     OpenRouterCallOptions? options,
   }) {
+    if (limit != null) {
+      if (limit < 1) {
+        throw ArgumentError.value(limit, 'limit', 'must be >= 1');
+      }
+      if (limit > 100) {
+        throw ArgumentError.value(limit, 'limit', 'must be <= 100');
+      }
+    }
     return OpenRouterPagination.offset<
       ListOrganizationMembersResponseDataItemValue,
       ListOrganizationMembersResponse

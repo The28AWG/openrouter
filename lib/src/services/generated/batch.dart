@@ -78,6 +78,11 @@ class BatchResource {
     ListBatchesCreatedBefore? createdBefore,
     OpenRouterCallOptions? options,
   }) async {
+    if (after != null) {
+      if (after.isEmpty) {
+        throw ArgumentError.value(after, 'after', 'must have length >= 1');
+      }
+    }
     final query = OpenRouterQuery();
     query.add('limit', limit);
     query.add('after', after);
@@ -237,6 +242,9 @@ class BatchResource {
     required String id,
     OpenRouterCallOptions? options,
   }) async {
+    if (id.isEmpty) {
+      throw ArgumentError.value(id, 'id', 'must have length >= 1');
+    }
     return _client.send<BatchDeletedObject>(
       method: 'DELETE',
       path: '/batches/${Uri.encodeComponent(id.toString())}',
@@ -288,6 +296,9 @@ class BatchResource {
     required String id,
     OpenRouterCallOptions? options,
   }) async {
+    if (id.isEmpty) {
+      throw ArgumentError.value(id, 'id', 'must have length >= 1');
+    }
     return _client.send<BatchObject>(
       method: 'GET',
       path: '/batches/${Uri.encodeComponent(id.toString())}',

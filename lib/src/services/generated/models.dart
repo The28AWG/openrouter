@@ -389,6 +389,148 @@ class ModelsResource {
     num? maxToolSuccessRate,
     OpenRouterCallOptions? options,
   }) async {
+    if (offset != null) {
+      if (offset < 0) {
+        throw ArgumentError.value(offset, 'offset', 'must be >= 0');
+      }
+    }
+    if (limit != null) {
+      if (limit < 1) {
+        throw ArgumentError.value(limit, 'limit', 'must be >= 1');
+      }
+      if (limit > 1000) {
+        throw ArgumentError.value(limit, 'limit', 'must be <= 1000');
+      }
+    }
+    if (context != null) {
+      if (context < 1) {
+        throw ArgumentError.value(context, 'context', 'must be >= 1');
+      }
+    }
+    if (minPrice != null) {
+      if (minPrice < 0) {
+        throw ArgumentError.value(minPrice, 'minPrice', 'must be >= 0');
+      }
+    }
+    if (maxPrice != null) {
+      if (maxPrice < 0) {
+        throw ArgumentError.value(maxPrice, 'maxPrice', 'must be >= 0');
+      }
+    }
+    if (minOutputPrice != null) {
+      if (minOutputPrice < 0) {
+        throw ArgumentError.value(
+          minOutputPrice,
+          'minOutputPrice',
+          'must be >= 0',
+        );
+      }
+    }
+    if (maxOutputPrice != null) {
+      if (maxOutputPrice < 0) {
+        throw ArgumentError.value(
+          maxOutputPrice,
+          'maxOutputPrice',
+          'must be >= 0',
+        );
+      }
+    }
+    if (minAgeDays != null) {
+      if (minAgeDays < 0) {
+        throw ArgumentError.value(minAgeDays, 'minAgeDays', 'must be >= 0');
+      }
+    }
+    if (maxAgeDays != null) {
+      if (maxAgeDays < 0) {
+        throw ArgumentError.value(maxAgeDays, 'maxAgeDays', 'must be >= 0');
+      }
+    }
+    if (minIntelligenceIndex != null) {
+      if (minIntelligenceIndex < 0) {
+        throw ArgumentError.value(
+          minIntelligenceIndex,
+          'minIntelligenceIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (maxIntelligenceIndex != null) {
+      if (maxIntelligenceIndex < 0) {
+        throw ArgumentError.value(
+          maxIntelligenceIndex,
+          'maxIntelligenceIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (minCodingIndex != null) {
+      if (minCodingIndex < 0) {
+        throw ArgumentError.value(
+          minCodingIndex,
+          'minCodingIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (maxCodingIndex != null) {
+      if (maxCodingIndex < 0) {
+        throw ArgumentError.value(
+          maxCodingIndex,
+          'maxCodingIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (minAgenticIndex != null) {
+      if (minAgenticIndex < 0) {
+        throw ArgumentError.value(
+          minAgenticIndex,
+          'minAgenticIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (maxAgenticIndex != null) {
+      if (maxAgenticIndex < 0) {
+        throw ArgumentError.value(
+          maxAgenticIndex,
+          'maxAgenticIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (minToolSuccessRate != null) {
+      if (minToolSuccessRate < 0) {
+        throw ArgumentError.value(
+          minToolSuccessRate,
+          'minToolSuccessRate',
+          'must be >= 0',
+        );
+      }
+      if (minToolSuccessRate > 1) {
+        throw ArgumentError.value(
+          minToolSuccessRate,
+          'minToolSuccessRate',
+          'must be <= 1',
+        );
+      }
+    }
+    if (maxToolSuccessRate != null) {
+      if (maxToolSuccessRate < 0) {
+        throw ArgumentError.value(
+          maxToolSuccessRate,
+          'maxToolSuccessRate',
+          'must be >= 0',
+        );
+      }
+      if (maxToolSuccessRate > 1) {
+        throw ArgumentError.value(
+          maxToolSuccessRate,
+          'maxToolSuccessRate',
+          'must be <= 1',
+        );
+      }
+    }
     final query = OpenRouterQuery();
     query.add('offset', offset);
     query.add('limit', limit);
@@ -729,6 +871,143 @@ class ModelsResource {
     num? maxToolSuccessRate,
     OpenRouterCallOptions? options,
   }) {
+    if (limit != null) {
+      if (limit < 1) {
+        throw ArgumentError.value(limit, 'limit', 'must be >= 1');
+      }
+      if (limit > 1000) {
+        throw ArgumentError.value(limit, 'limit', 'must be <= 1000');
+      }
+    }
+    if (context != null) {
+      if (context < 1) {
+        throw ArgumentError.value(context, 'context', 'must be >= 1');
+      }
+    }
+    if (minPrice != null) {
+      if (minPrice < 0) {
+        throw ArgumentError.value(minPrice, 'minPrice', 'must be >= 0');
+      }
+    }
+    if (maxPrice != null) {
+      if (maxPrice < 0) {
+        throw ArgumentError.value(maxPrice, 'maxPrice', 'must be >= 0');
+      }
+    }
+    if (minOutputPrice != null) {
+      if (minOutputPrice < 0) {
+        throw ArgumentError.value(
+          minOutputPrice,
+          'minOutputPrice',
+          'must be >= 0',
+        );
+      }
+    }
+    if (maxOutputPrice != null) {
+      if (maxOutputPrice < 0) {
+        throw ArgumentError.value(
+          maxOutputPrice,
+          'maxOutputPrice',
+          'must be >= 0',
+        );
+      }
+    }
+    if (minAgeDays != null) {
+      if (minAgeDays < 0) {
+        throw ArgumentError.value(minAgeDays, 'minAgeDays', 'must be >= 0');
+      }
+    }
+    if (maxAgeDays != null) {
+      if (maxAgeDays < 0) {
+        throw ArgumentError.value(maxAgeDays, 'maxAgeDays', 'must be >= 0');
+      }
+    }
+    if (minIntelligenceIndex != null) {
+      if (minIntelligenceIndex < 0) {
+        throw ArgumentError.value(
+          minIntelligenceIndex,
+          'minIntelligenceIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (maxIntelligenceIndex != null) {
+      if (maxIntelligenceIndex < 0) {
+        throw ArgumentError.value(
+          maxIntelligenceIndex,
+          'maxIntelligenceIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (minCodingIndex != null) {
+      if (minCodingIndex < 0) {
+        throw ArgumentError.value(
+          minCodingIndex,
+          'minCodingIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (maxCodingIndex != null) {
+      if (maxCodingIndex < 0) {
+        throw ArgumentError.value(
+          maxCodingIndex,
+          'maxCodingIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (minAgenticIndex != null) {
+      if (minAgenticIndex < 0) {
+        throw ArgumentError.value(
+          minAgenticIndex,
+          'minAgenticIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (maxAgenticIndex != null) {
+      if (maxAgenticIndex < 0) {
+        throw ArgumentError.value(
+          maxAgenticIndex,
+          'maxAgenticIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (minToolSuccessRate != null) {
+      if (minToolSuccessRate < 0) {
+        throw ArgumentError.value(
+          minToolSuccessRate,
+          'minToolSuccessRate',
+          'must be >= 0',
+        );
+      }
+      if (minToolSuccessRate > 1) {
+        throw ArgumentError.value(
+          minToolSuccessRate,
+          'minToolSuccessRate',
+          'must be <= 1',
+        );
+      }
+    }
+    if (maxToolSuccessRate != null) {
+      if (maxToolSuccessRate < 0) {
+        throw ArgumentError.value(
+          maxToolSuccessRate,
+          'maxToolSuccessRate',
+          'must be >= 0',
+        );
+      }
+      if (maxToolSuccessRate > 1) {
+        throw ArgumentError.value(
+          maxToolSuccessRate,
+          'maxToolSuccessRate',
+          'must be <= 1',
+        );
+      }
+    }
     return OpenRouterPagination.offset<Model, ModelsListResponse>(
       load: (offset) => list(
         offset: offset,
@@ -888,6 +1167,19 @@ class ModelsResource {
     ListModelsUserClient? client,
     OpenRouterCallOptions? options,
   }) async {
+    if (offset != null) {
+      if (offset < 0) {
+        throw ArgumentError.value(offset, 'offset', 'must be >= 0');
+      }
+    }
+    if (limit != null) {
+      if (limit < 1) {
+        throw ArgumentError.value(limit, 'limit', 'must be >= 1');
+      }
+      if (limit > 1000) {
+        throw ArgumentError.value(limit, 'limit', 'must be <= 1000');
+      }
+    }
     final query = OpenRouterQuery();
     query.add('offset', offset);
     query.add('limit', limit);
@@ -968,6 +1260,14 @@ class ModelsResource {
     ListModelsUserClient? client,
     OpenRouterCallOptions? options,
   }) {
+    if (limit != null) {
+      if (limit < 1) {
+        throw ArgumentError.value(limit, 'limit', 'must be >= 1');
+      }
+      if (limit > 1000) {
+        throw ArgumentError.value(limit, 'limit', 'must be <= 1000');
+      }
+    }
     return OpenRouterPagination.offset<Model, ModelsListResponse>(
       load: (offset) => listForUser(
         offset: offset,

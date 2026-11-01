@@ -125,6 +125,9 @@ class VideoGenerationResource {
     required String jobId,
     OpenRouterCallOptions? options,
   }) async {
+    if (jobId.isEmpty) {
+      throw ArgumentError.value(jobId, 'jobId', 'must have length >= 1');
+    }
     return _client.send<VideoGenerationResponse>(
       method: 'GET',
       path: '/videos/${Uri.encodeComponent(jobId.toString())}',
@@ -184,6 +187,14 @@ class VideoGenerationResource {
     int? index,
     OpenRouterCallOptions? options,
   }) async {
+    if (jobId.isEmpty) {
+      throw ArgumentError.value(jobId, 'jobId', 'must have length >= 1');
+    }
+    if (index != null) {
+      if (index < 0) {
+        throw ArgumentError.value(index, 'index', 'must be >= 0');
+      }
+    }
     final query = OpenRouterQuery();
     query.add('index', index);
     return _client.sendBytes(

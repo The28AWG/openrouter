@@ -114,6 +114,11 @@ class ApiKeysResource {
     String? workspaceId,
     OpenRouterCallOptions? options,
   }) async {
+    if (offset != null) {
+      if (offset < 0) {
+        throw ArgumentError.value(offset, 'offset', 'must be >= 0');
+      }
+    }
     final query = OpenRouterQuery();
     query.add('include_disabled', includeDisabled);
     query.add('include_expired', includeExpired);

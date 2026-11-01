@@ -213,6 +213,46 @@ class SttResource {
     String? user,
     OpenRouterCallOptions? options,
   }) async {
+    if (keyterms != null) {
+      if (keyterms.length > 1000) {
+        throw ArgumentError.value(
+          keyterms,
+          'keyterms',
+          'must have length <= 1000',
+        );
+      }
+    }
+    if (sessionId != null) {
+      if (sessionId.length > 256) {
+        throw ArgumentError.value(
+          sessionId,
+          'sessionId',
+          'must have length <= 256',
+        );
+      }
+    }
+    if (sourceUrl != null) {
+      if (sourceUrl.length > 8000) {
+        throw ArgumentError.value(
+          sourceUrl,
+          'sourceUrl',
+          'must have length <= 8000',
+        );
+      }
+    }
+    if (temperature != null) {
+      if (temperature < 0) {
+        throw ArgumentError.value(temperature, 'temperature', 'must be >= 0');
+      }
+      if (temperature > 1) {
+        throw ArgumentError.value(temperature, 'temperature', 'must be <= 1');
+      }
+    }
+    if (user != null) {
+      if (user.length > 256) {
+        throw ArgumentError.value(user, 'user', 'must have length <= 256');
+      }
+    }
     final fields = <String, String>{};
     final files = <OpenRouterMultipartFile>[];
     final diarizeValue = diarize;

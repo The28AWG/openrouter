@@ -57,6 +57,12 @@ class GenerationsResource {
     required String id,
     OpenRouterCallOptions? options,
   }) async {
+    if (id.length > 128) {
+      throw ArgumentError.value(id, 'id', 'must have length <= 128');
+    }
+    if (!RegExp('^gen-[0-9A-Za-z-]+\$').hasMatch(id)) {
+      throw ArgumentError.value(id, 'id', 'must match ^gen-[0-9A-Za-z-]+\$');
+    }
     final query = OpenRouterQuery();
     query.add('id', id);
     return _client.send<GenerationResponse>(
@@ -115,6 +121,12 @@ class GenerationsResource {
     required String id,
     OpenRouterCallOptions? options,
   }) async {
+    if (id.length > 128) {
+      throw ArgumentError.value(id, 'id', 'must have length <= 128');
+    }
+    if (!RegExp('^gen-[0-9A-Za-z-]+\$').hasMatch(id)) {
+      throw ArgumentError.value(id, 'id', 'must match ^gen-[0-9A-Za-z-]+\$');
+    }
     final query = OpenRouterQuery();
     query.add('id', id);
     return _client.send<GenerationContentResponse>(

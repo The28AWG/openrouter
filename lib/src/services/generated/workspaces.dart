@@ -76,6 +76,19 @@ class WorkspacesResource {
     int? limit,
     OpenRouterCallOptions? options,
   }) async {
+    if (offset != null) {
+      if (offset < 0) {
+        throw ArgumentError.value(offset, 'offset', 'must be >= 0');
+      }
+    }
+    if (limit != null) {
+      if (limit < 1) {
+        throw ArgumentError.value(limit, 'limit', 'must be >= 1');
+      }
+      if (limit > 100) {
+        throw ArgumentError.value(limit, 'limit', 'must be <= 100');
+      }
+    }
     final query = OpenRouterQuery();
     query.add('offset', offset);
     query.add('limit', limit);
@@ -114,6 +127,14 @@ class WorkspacesResource {
     int? limit,
     OpenRouterCallOptions? options,
   }) {
+    if (limit != null) {
+      if (limit < 1) {
+        throw ArgumentError.value(limit, 'limit', 'must be >= 1');
+      }
+      if (limit > 100) {
+        throw ArgumentError.value(limit, 'limit', 'must be <= 100');
+      }
+    }
     return OpenRouterPagination.offset<Workspace, ListWorkspacesResponse>(
       load: (offset) => list(offset: offset, limit: limit, options: options),
       items: (page) => page.data,
@@ -226,6 +247,9 @@ class WorkspacesResource {
     confirmDefaultWorkspaceDeletion,
     OpenRouterCallOptions? options,
   }) async {
+    if (id.isEmpty) {
+      throw ArgumentError.value(id, 'id', 'must have length >= 1');
+    }
     final query = OpenRouterQuery();
     query.add(
       'confirm_default_workspace_deletion',
@@ -284,6 +308,9 @@ class WorkspacesResource {
     required String id,
     OpenRouterCallOptions? options,
   }) async {
+    if (id.isEmpty) {
+      throw ArgumentError.value(id, 'id', 'must have length >= 1');
+    }
     return _client.send<GetWorkspaceResponse>(
       method: 'GET',
       path: '/workspaces/${Uri.encodeComponent(id.toString())}',
@@ -348,6 +375,9 @@ class WorkspacesResource {
     required String id,
     OpenRouterCallOptions? options,
   }) async {
+    if (id.isEmpty) {
+      throw ArgumentError.value(id, 'id', 'must have length >= 1');
+    }
     return _client.send<UpdateWorkspaceResponse>(
       method: 'PATCH',
       path: '/workspaces/${Uri.encodeComponent(id.toString())}',
@@ -421,6 +451,22 @@ class WorkspacesResource {
     int? limit,
     OpenRouterCallOptions? options,
   }) async {
+    if (id.isEmpty) {
+      throw ArgumentError.value(id, 'id', 'must have length >= 1');
+    }
+    if (offset != null) {
+      if (offset < 0) {
+        throw ArgumentError.value(offset, 'offset', 'must be >= 0');
+      }
+    }
+    if (limit != null) {
+      if (limit < 1) {
+        throw ArgumentError.value(limit, 'limit', 'must be >= 1');
+      }
+      if (limit > 100) {
+        throw ArgumentError.value(limit, 'limit', 'must be <= 100');
+      }
+    }
     final query = OpenRouterQuery();
     query.add('offset', offset);
     query.add('limit', limit);
@@ -470,6 +516,17 @@ class WorkspacesResource {
     int? limit,
     OpenRouterCallOptions? options,
   }) {
+    if (id.isEmpty) {
+      throw ArgumentError.value(id, 'id', 'must have length >= 1');
+    }
+    if (limit != null) {
+      if (limit < 1) {
+        throw ArgumentError.value(limit, 'limit', 'must be >= 1');
+      }
+      if (limit > 100) {
+        throw ArgumentError.value(limit, 'limit', 'must be <= 100');
+      }
+    }
     return OpenRouterPagination.offset<
       WorkspaceMember,
       ListWorkspaceMembersResponse
@@ -531,6 +588,9 @@ class WorkspacesResource {
     required String id,
     OpenRouterCallOptions? options,
   }) async {
+    if (id.isEmpty) {
+      throw ArgumentError.value(id, 'id', 'must have length >= 1');
+    }
     return _client.send<BulkAddWorkspaceMembersResponse>(
       method: 'POST',
       path: '/workspaces/${Uri.encodeComponent(id.toString())}/members/add',
@@ -602,6 +662,9 @@ class WorkspacesResource {
     required String id,
     OpenRouterCallOptions? options,
   }) async {
+    if (id.isEmpty) {
+      throw ArgumentError.value(id, 'id', 'must have length >= 1');
+    }
     return _client.send<BulkRemoveWorkspaceMembersResponse>(
       method: 'POST',
       path: '/workspaces/${Uri.encodeComponent(id.toString())}/members/remove',
@@ -651,6 +714,13 @@ class WorkspacesResource {
     required String workspaceRef,
     OpenRouterCallOptions? options,
   }) async {
+    if (workspaceRef.isEmpty) {
+      throw ArgumentError.value(
+        workspaceRef,
+        'workspaceRef',
+        'must have length >= 1',
+      );
+    }
     return _client.send<ListWorkspaceBudgetsResponse>(
       method: 'GET',
       path:
@@ -717,6 +787,13 @@ class WorkspacesResource {
     required WorkspaceBudgetInterval interval,
     OpenRouterCallOptions? options,
   }) async {
+    if (workspaceRef.isEmpty) {
+      throw ArgumentError.value(
+        workspaceRef,
+        'workspaceRef',
+        'must have length >= 1',
+      );
+    }
     return _client.send<DeleteWorkspaceBudgetResponse>(
       method: 'DELETE',
       path:
@@ -784,6 +861,13 @@ class WorkspacesResource {
     required WorkspaceBudgetInterval interval,
     OpenRouterCallOptions? options,
   }) async {
+    if (workspaceRef.isEmpty) {
+      throw ArgumentError.value(
+        workspaceRef,
+        'workspaceRef',
+        'must have length >= 1',
+      );
+    }
     return _client.send<GetWorkspaceBudgetResponse>(
       method: 'GET',
       path:
@@ -868,6 +952,13 @@ class WorkspacesResource {
     required WorkspaceBudgetInterval interval,
     OpenRouterCallOptions? options,
   }) async {
+    if (workspaceRef.isEmpty) {
+      throw ArgumentError.value(
+        workspaceRef,
+        'workspaceRef',
+        'must have length >= 1',
+      );
+    }
     return _client.send<UpsertWorkspaceBudgetResponse>(
       method: 'PUT',
       path:

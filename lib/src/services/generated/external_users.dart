@@ -83,6 +83,34 @@ class ExternalUsersResource {
     bool? includeInactive,
     OpenRouterCallOptions? options,
   }) async {
+    if (offset != null) {
+      if (offset < 0) {
+        throw ArgumentError.value(offset, 'offset', 'must be >= 0');
+      }
+    }
+    if (limit != null) {
+      if (limit < 1) {
+        throw ArgumentError.value(limit, 'limit', 'must be >= 1');
+      }
+      if (limit > 100) {
+        throw ArgumentError.value(limit, 'limit', 'must be <= 100');
+      }
+    }
+    if (user != null) {
+      if (user.isEmpty) {
+        throw ArgumentError.value(user, 'user', 'must have length >= 1');
+      }
+      if (user.length > 512) {
+        throw ArgumentError.value(user, 'user', 'must have length <= 512');
+      }
+      if (!RegExp('^(?!\\s)(?![\\s\\S]*\\s\$)[^\\u0000]+\$').hasMatch(user)) {
+        throw ArgumentError.value(
+          user,
+          'user',
+          'must match ^(?!\\s)(?![\\s\\S]*\\s\$)[^\\u0000]+\$',
+        );
+      }
+    }
     final query = OpenRouterQuery();
     query.add('offset', offset);
     query.add('limit', limit);
@@ -145,6 +173,29 @@ class ExternalUsersResource {
     bool? includeInactive,
     OpenRouterCallOptions? options,
   }) {
+    if (limit != null) {
+      if (limit < 1) {
+        throw ArgumentError.value(limit, 'limit', 'must be >= 1');
+      }
+      if (limit > 100) {
+        throw ArgumentError.value(limit, 'limit', 'must be <= 100');
+      }
+    }
+    if (user != null) {
+      if (user.isEmpty) {
+        throw ArgumentError.value(user, 'user', 'must have length >= 1');
+      }
+      if (user.length > 512) {
+        throw ArgumentError.value(user, 'user', 'must have length <= 512');
+      }
+      if (!RegExp('^(?!\\s)(?![\\s\\S]*\\s\$)[^\\u0000]+\$').hasMatch(user)) {
+        throw ArgumentError.value(
+          user,
+          'user',
+          'must match ^(?!\\s)(?![\\s\\S]*\\s\$)[^\\u0000]+\$',
+        );
+      }
+    }
     return OpenRouterPagination.offset<ExternalUser, ListExternalUsersResponse>(
       load: (offset) => list(
         offset: offset,
@@ -240,6 +291,19 @@ class ExternalUsersResource {
     required String user,
     OpenRouterCallOptions? options,
   }) async {
+    if (user.isEmpty) {
+      throw ArgumentError.value(user, 'user', 'must have length >= 1');
+    }
+    if (user.length > 512) {
+      throw ArgumentError.value(user, 'user', 'must have length <= 512');
+    }
+    if (!RegExp('^(?!\\s)(?![\\s\\S]*\\s\$)[^\\u0000]+\$').hasMatch(user)) {
+      throw ArgumentError.value(
+        user,
+        'user',
+        'must match ^(?!\\s)(?![\\s\\S]*\\s\$)[^\\u0000]+\$',
+      );
+    }
     await _client.send<Object?>(
       method: 'DELETE',
       path: '/external-users/${Uri.encodeComponent(user.toString())}',
@@ -286,6 +350,19 @@ class ExternalUsersResource {
     required String user,
     OpenRouterCallOptions? options,
   }) async {
+    if (user.isEmpty) {
+      throw ArgumentError.value(user, 'user', 'must have length >= 1');
+    }
+    if (user.length > 512) {
+      throw ArgumentError.value(user, 'user', 'must have length <= 512');
+    }
+    if (!RegExp('^(?!\\s)(?![\\s\\S]*\\s\$)[^\\u0000]+\$').hasMatch(user)) {
+      throw ArgumentError.value(
+        user,
+        'user',
+        'must match ^(?!\\s)(?![\\s\\S]*\\s\$)[^\\u0000]+\$',
+      );
+    }
     return _client.send<ExternalUserResponse>(
       method: 'GET',
       path: '/external-users/${Uri.encodeComponent(user.toString())}',
@@ -348,6 +425,19 @@ class ExternalUsersResource {
     required String user,
     OpenRouterCallOptions? options,
   }) async {
+    if (user.isEmpty) {
+      throw ArgumentError.value(user, 'user', 'must have length >= 1');
+    }
+    if (user.length > 512) {
+      throw ArgumentError.value(user, 'user', 'must have length <= 512');
+    }
+    if (!RegExp('^(?!\\s)(?![\\s\\S]*\\s\$)[^\\u0000]+\$').hasMatch(user)) {
+      throw ArgumentError.value(
+        user,
+        'user',
+        'must match ^(?!\\s)(?![\\s\\S]*\\s\$)[^\\u0000]+\$',
+      );
+    }
     return _client.send<ExternalUserResponse>(
       method: 'PATCH',
       path: '/external-users/${Uri.encodeComponent(user.toString())}',

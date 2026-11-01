@@ -46,6 +46,23 @@ void main() {
     expect(client, contains('API key as bearer token'));
   });
 
+  test('parameter constraints become ArgumentError checks', () {
+    final presets = _source(sources, 'src/services/generated/presets.dart');
+    expect(presets, contains('if (limit != null) {'));
+    expect(presets, contains('if (limit < 1)'));
+    expect(presets, contains('if (limit > 100)'));
+    expect(presets, contains("throw ArgumentError.value(limit, 'limit'"));
+
+    final datasets = _source(sources, 'src/services/generated/datasets.dart');
+    expect(datasets, contains('hasMatch(startDate)'));
+    expect(datasets, contains(r"RegExp('^\\d{4}-\\d{2}-\\d{2}\$')"));
+
+    final stt = _source(sources, 'src/services/generated/stt.dart');
+    expect(stt, contains('if (temperature < 0)'));
+    expect(stt, contains('if (temperature > 1)'));
+    expect(stt, contains('if (keyterms.length > 1000)'));
+  });
+
   test('runtime keeps servers, auth description and transports', () {
     final runtime = _source(sources, 'src/runtime/openrouter_client.dart');
     expect(

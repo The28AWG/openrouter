@@ -107,6 +107,22 @@ class PrivateEndpointsResource {
     String? idempotencyKey,
     OpenRouterCallOptions? options,
   }) async {
+    if (idempotencyKey != null) {
+      if (idempotencyKey.isEmpty) {
+        throw ArgumentError.value(
+          idempotencyKey,
+          'idempotencyKey',
+          'must have length >= 1',
+        );
+      }
+      if (idempotencyKey.length > 255) {
+        throw ArgumentError.value(
+          idempotencyKey,
+          'idempotencyKey',
+          'must have length <= 255',
+        );
+      }
+    }
     final headers = <String, String>{};
     final idempotencyKeyValue = idempotencyKey;
     if (idempotencyKeyValue != null) {

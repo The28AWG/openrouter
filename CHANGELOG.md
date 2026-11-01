@@ -1,3 +1,8 @@
+## 1.0.1
+
+- Validate path, query, header, and multipart parameters against OpenAPI constraints (`minimum`, `maximum`, `minLength`, `maxLength`, `pattern`, `minItems`, `maxItems`) before sending the request.
+- Invalid values now fail fast with `ArgumentError` instead of a remote `400`.
+
 ## 1.0.0
 
 - Initial release of a typed OpenRouter Dart client generated from the official OpenAPI schema.

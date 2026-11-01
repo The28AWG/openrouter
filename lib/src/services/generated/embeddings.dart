@@ -212,6 +212,19 @@ class EmbeddingsResource {
     int? limit,
     OpenRouterCallOptions? options,
   }) async {
+    if (offset != null) {
+      if (offset < 0) {
+        throw ArgumentError.value(offset, 'offset', 'must be >= 0');
+      }
+    }
+    if (limit != null) {
+      if (limit < 1) {
+        throw ArgumentError.value(limit, 'limit', 'must be >= 1');
+      }
+      if (limit > 1000) {
+        throw ArgumentError.value(limit, 'limit', 'must be <= 1000');
+      }
+    }
     final query = OpenRouterQuery();
     query.add('offset', offset);
     query.add('limit', limit);
@@ -248,6 +261,14 @@ class EmbeddingsResource {
     int? limit,
     OpenRouterCallOptions? options,
   }) {
+    if (limit != null) {
+      if (limit < 1) {
+        throw ArgumentError.value(limit, 'limit', 'must be >= 1');
+      }
+      if (limit > 1000) {
+        throw ArgumentError.value(limit, 'limit', 'must be <= 1000');
+      }
+    }
     return OpenRouterPagination.offset<Model, ModelsListResponse>(
       load: (offset) =>
           listModels(offset: offset, limit: limit, options: options),
