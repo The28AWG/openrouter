@@ -14,7 +14,30 @@ Typed Dart client for the [OpenRouter](https://openrouter.ai) API. Models and se
 
 ## Getting started
 
-Add the package to your `pubspec.yaml` (path or published dependency), then:
+Depend on a dist tag. CI pushes it when a GitHub Release is published. The tag contains Freezed and `json_serializable` sources (`*.freezed.dart`, `*.g.dart`); those files are not on the default branch.
+
+```yaml
+dependencies:
+  openrouter:
+    git:
+      url: https://github.com/The28AWG/openrouter.git
+      tag_pattern: dist-v{{version}}
+    version: ^1.0.1
+```
+
+`tag_pattern` needs Dart 3.9 or newer in the app. This package already requires `^3.12.2`. To pin one release:
+
+```yaml
+dependencies:
+  openrouter:
+    git:
+      url: https://github.com/The28AWG/openrouter.git
+      ref: dist-v1.0.1
+```
+
+A path dependency works for a local checkout after `dart run build_runner build`.
+
+Then:
 
 ```dart
 import 'package:openrouter/openrouter.dart';
@@ -85,6 +108,16 @@ dart format .                      # format generated file
 ```
 
 Do not edit files under `lib/src/models/generated`, `lib/src/services`, or `lib/src/runtime` by hand — they are overwritten by `generate.dart`.
+
+## Releasing a new version
+
+Part files stay off the default branch. Apps resolve them from a dist tag that [`.github/workflows/dist.yml`](.github/workflows/dist.yml) pushes after a GitHub Release. Leave the source tag on the commit without part files.
+
+1. Set `version` in `pubspec.yaml` and describe that version in `CHANGELOG.md`.
+2. Merge that commit into the default branch and wait until CI is green.
+3. Publish a GitHub Release. The tag is `v` plus the pubspec version, on that commit: `version: 1.0.1` means tag `v1.0.1`. The workflow rejects any other tag name. This tag has no `*.g.dart` or `*.freezed.dart` files.
+4. Wait until the Dist tag workflow finishes. It runs `build_runner`, checks `dart analyze`, and pushes `dist-v1.0.1`.
+5. Point the app at that dist tag. See Getting started. `version` there is a normal constraint (`^1.0.1` for the current release). The number inside `dist-v…` must match `version` in this package's `pubspec.yaml`.
 
 ## Additional information
 

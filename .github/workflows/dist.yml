@@ -1,0 +1,62 @@
+name: Dist tag
+
+# Source tags (v1.0.2) stay free of *.g.dart / *.freezed.dart.
+# A published GitHub Release triggers this workflow, which pushes dist-v1.0.2
+# for git dependencies. See README "Releasing a new version".
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  dist:
+    name: Generate and push dist tag
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # release events set GITHUB_SHA to the default branch tip, not the tag.
+          ref: ${{ github.event.release.tag_name }}
+
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: Require tag v<pubspec version>
+        run: |
+          version=$(awk '/^version:/{print $2; exit}' pubspec.yaml)
+          tag="${{ github.event.release.tag_name }}"
+          if [ "$tag" != "v$version" ]; then
+            echo "::error::Release tag must be v${version} to match pubspec.yaml, got ${tag}."
+            exit 1
+          fi
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Generate Freezed / json_serializable
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Analyze
+        run: dart analyze --fatal-infos
+
+      - name: Push dist tag
+        run: |
+          version=$(awk '/^version:/{print $2; exit}' pubspec.yaml)
+          dist_tag="dist-v${version}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          find lib -type f \( -name '*.g.dart' -o -name '*.freezed.dart' \) -print0 \
+            | xargs -0 -r git add -f
+          if git diff --cached --quiet; then
+            echo "::error::build_runner produced no part files to publish."
+            exit 1
+          fi
+
+          git commit -m "chore(dist): generated sources for ${dist_tag}"
+          git tag "$dist_tag"
+          git push origin "$dist_tag"

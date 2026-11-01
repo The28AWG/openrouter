@@ -1,5 +1,5 @@
 name: openrouter
-description: A starting point for Dart libraries or applications.
+description: Typed Dart client for the OpenRouter API. Models and service methods are generated from the official OpenAPI document.
 version: 1.0.1
 repository: https://github.com/The28AWG/openrouter
 
