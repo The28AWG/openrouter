@@ -167,6 +167,7 @@ class EmbeddingsResource {
         529: ProviderOverloadedResponse.fromJson,
       },
       options: options,
+      sentinel: '[DONE]',
       decode: (data) => data,
     );
   }

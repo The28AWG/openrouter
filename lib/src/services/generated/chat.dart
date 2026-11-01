@@ -277,8 +277,9 @@ class ChatResource {
         529: ProviderOverloadedResponse.fromJson,
       },
       options: options,
-      decode: (json) => ChatStreamingResponse.fromJson(
-        Map<String, dynamic>.from(json as Map),
+      sentinel: '[DONE]',
+      decode: (event) => ChatStreamingResponse.fromJson(
+        Map<String, dynamic>.from(openRouterSseEventJson(event) as Map),
       ),
     );
   }

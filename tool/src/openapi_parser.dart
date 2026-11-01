@@ -389,6 +389,7 @@ class OpenApiDocument {
           'content ${entry.key} at $context must be an object',
         );
       }
+      final sentinel = body['x-speakeasy-sse-sentinel'];
       result.add(
         OpenApiMediaType(
           contentType: entry.key,
@@ -397,6 +398,9 @@ class OpenApiDocument {
             '$context ${entry.key}',
           ),
           example: body.containsKey('example') ? body['example'] : null,
+          sseSentinel: sentinel is String && sentinel.isNotEmpty
+              ? sentinel
+              : null,
           raw: body,
         ),
       );
@@ -846,12 +850,16 @@ class OpenApiMediaType {
     required this.raw,
     this.schema,
     this.example,
+    this.sseSentinel,
   });
 
   final String contentType;
   final OpenApiSchema? schema;
   final Object? example;
   final Map<String, dynamic> raw;
+
+  /// Value of `x-speakeasy-sse-sentinel`, when the media type declares one.
+  final String? sseSentinel;
 
   String? get schemaRef {
     final current = schema;

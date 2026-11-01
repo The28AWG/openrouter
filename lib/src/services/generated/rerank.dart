@@ -157,6 +157,7 @@ class RerankResource {
         529: ProviderOverloadedResponse.fromJson,
       },
       options: options,
+      sentinel: '[DONE]',
       decode: (data) => data,
     );
   }

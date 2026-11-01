@@ -2,6 +2,8 @@
 
 - Validate path, query, header, and multipart parameters against OpenAPI constraints (`minimum`, `maximum`, `minLength`, `maxLength`, `pattern`, `minItems`, `maxItems`) before sending the request.
 - Invalid values now fail fast with `ArgumentError` instead of a remote `400`.
+- Decode SSE JSON events from the frame: the `data:` payload becomes `data`, and `event:` fills `event` when the schema has it. Fixes chat, image, responses, and messages streams that previously crashed with `type 'Null' is not a subtype of type 'Map<String, dynamic>'`.
+- Stop a stream on the OpenAPI sentinel (`x-speakeasy-sse-sentinel`, `[DONE]` where declared).
 - Add MIT `LICENSE`.
 - Add GitHub Actions CI: analyze/test (with `build_runner`) and codegen drift check against the vendored OpenAPI document.
 

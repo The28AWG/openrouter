@@ -4,6 +4,92 @@ import 'package:openrouter/openrouter.dart';
 import 'package:test/test.dart';
 
 void main() {
+  test('sse json wraps a raw chat chunk into the event schema', () {
+    final event = ServerSentEvent(
+      data: jsonEncode({
+        'id': 'chatcmpl-123',
+        'object': 'chat.completion.chunk',
+        'created': 1677652288,
+        'model': 'openai/gpt-4',
+        'choices': [
+          {
+            'index': 0,
+            'delta': {'role': 'assistant', 'content': 'Hello'},
+            'finish_reason': null,
+          },
+        ],
+      }),
+    );
+    final parsed = ChatStreamingResponse.fromJson(
+      openRouterSseEventJson(event),
+    );
+    expect(parsed.data.id, 'chatcmpl-123');
+    expect(parsed.data.choices.single.delta.content, 'Hello');
+  });
+
+  test('sse json keeps an envelope and fills a missing event name', () {
+    final event = ServerSentEvent(
+      event: 'content_block_delta',
+      data: jsonEncode({
+        'data': {
+          'type': 'content_block_delta',
+          'index': 0,
+          'delta': {'type': 'text_delta', 'text': 'Hello'},
+        },
+      }),
+    );
+    final parsed = MessagesStreamingResponse.fromJson(
+      openRouterSseEventJson(event),
+    );
+    expect(parsed.event, 'content_block_delta');
+    expect(
+      parsed.data.whenOrNull(
+        contentBlockDelta: (block) =>
+            block.delta.whenOrNull(textDelta: (delta) => delta.text),
+      ),
+      'Hello',
+    );
+  });
+
+  test('sse json maps the event name onto a bare payload', () {
+    final event = ServerSentEvent(
+      event: 'content_block_delta',
+      id: 'evt-1',
+      data: jsonEncode({
+        'type': 'content_block_delta',
+        'index': 0,
+        'delta': {'type': 'text_delta', 'text': 'Hello'},
+      }),
+    );
+    final json = openRouterSseEventJson(event);
+    expect(json['event'], 'content_block_delta');
+    expect(json['id'], 'evt-1');
+    expect((json['data'] as Map)['index'], 0);
+    expect(
+      MessagesStreamingResponse.fromJson(
+        json,
+      ).data.whenOrNull(contentBlockDelta: (block) => block.indexValue),
+      0,
+    );
+  });
+
+  test(
+    'sse json does not treat a payload that merely contains data as an envelope',
+    () {
+      final event = ServerSentEvent(
+        data: jsonEncode({
+          'type': 'image_generation.partial_image',
+          'data': 'partial',
+          'partial_image_index': 0,
+        }),
+      );
+      final json = openRouterSseEventJson(event);
+      final payload = json['data'] as Map;
+      expect(payload['type'], 'image_generation.partial_image');
+      expect(payload['data'], 'partial');
+    },
+  );
+
   test('sse parser stops on DONE and joins data lines', () async {
     final bytes = Stream<List<int>>.value(
       utf8.encode('data: hello\ndata: world\n\ndata: [DONE]\n\n'),

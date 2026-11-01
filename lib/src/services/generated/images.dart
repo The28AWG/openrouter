@@ -162,8 +162,9 @@ class ImagesResource {
         529: ProviderOverloadedResponse.fromJson,
       },
       options: options,
-      decode: (json) => ImageStreamingResponse.fromJson(
-        Map<String, dynamic>.from(json as Map),
+      sentinel: '[DONE]',
+      decode: (event) => ImageStreamingResponse.fromJson(
+        Map<String, dynamic>.from(openRouterSseEventJson(event) as Map),
       ),
     );
   }

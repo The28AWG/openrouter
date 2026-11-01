@@ -226,8 +226,8 @@ class AnthropicMessagesResource {
         529: AnthropicMessagesErrorResponse.fromJson,
       },
       options: options,
-      decode: (json) => MessagesStreamingResponse.fromJson(
-        Map<String, dynamic>.from(json as Map),
+      decode: (event) => MessagesStreamingResponse.fromJson(
+        Map<String, dynamic>.from(openRouterSseEventJson(event) as Map),
       ),
     );
   }

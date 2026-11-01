@@ -92,6 +92,7 @@ void main() {
       '#/components/schemas/ChatStreamingResponse',
     );
     expect(chatOk.isStream, isTrue);
+    expect(chatOk.streamMedia!.sseSentinel, '[DONE]');
     expect(chat.streamRequestField, 'stream');
     expect(chat.nameOverride, 'send');
     expect(chat.headerParameters, hasLength(4));
@@ -181,6 +182,7 @@ void main() {
     final messages = _find(document, 'createMessages');
     expect(messages.ignored, isTrue);
     expect(messages.successResponse!.streamMedia, isNotNull);
+    expect(messages.successResponse!.streamMedia!.sseSentinel, isNull);
 
     expect(
       _find(

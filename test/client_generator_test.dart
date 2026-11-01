@@ -25,6 +25,31 @@ void main() {
     expect(source, contains('X-OpenRouter-Metadata'));
     expect(source, contains('MetadataLevel'));
     expect(source, isNot(contains('HTTP-Referer')));
+    expect(source, contains('openRouterSseEventJson(event)'));
+    expect(source, contains("sentinel: '[DONE]'"));
+  });
+
+  test('sse envelopes stay on json streams and text streams stay raw', () {
+    final messages = _source(
+      sources,
+      'src/services/generated/anthropic_messages.dart',
+    );
+    expect(messages, contains('openRouterSseEventJson(event)'));
+    expect(messages, isNot(contains('sentinel:')));
+
+    final images = _source(sources, 'src/services/generated/images.dart');
+    expect(images, contains('openRouterSseEventJson(event)'));
+
+    final responses = _source(sources, 'src/services/generated/responses.dart');
+    expect(responses, contains('openRouterSseEventJson(event)'));
+
+    final embeddings = _source(
+      sources,
+      'src/services/generated/embeddings.dart',
+    );
+    expect(embeddings, contains('sendTextEvents('));
+    expect(embeddings, isNot(contains('openRouterSseEventJson')));
+    expect(embeddings, contains("sentinel: '[DONE]'"));
   });
 
   test('pagination, multipart, binary and public calls', () {

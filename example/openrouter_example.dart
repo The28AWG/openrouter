@@ -13,10 +13,7 @@ Future<void> main() async {
     return;
   }
 
-  final client = OpenRouter(
-    apiKey: apiKey,
-    xOpenrouterTitle: 'Test',
-  );
+  final client = OpenRouter(apiKey: apiKey, xOpenrouterTitle: 'Test');
   try {
     final result = await client.chat.send(
       body: ChatRequest(

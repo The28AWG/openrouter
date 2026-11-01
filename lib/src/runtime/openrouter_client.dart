@@ -176,7 +176,8 @@ class OpenRouterClient {
     String? baseUrl,
     Map<int, Object Function(Map<String, dynamic> json)> errors = const {},
     OpenRouterCallOptions? options,
-    required T Function(Object? json) decode,
+    required T Function(ServerSentEvent event) decode,
+    String sentinel = '[DONE]',
   }) async* {
     final result = await _dispatch(
       method: method,
@@ -199,10 +200,10 @@ class OpenRouterClient {
       if (data.isEmpty) {
         continue;
       }
-      if (data == '[DONE]') {
+      if (data == sentinel) {
         return;
       }
-      yield decode(jsonDecode(data));
+      yield decode(event);
     }
   }
 
@@ -219,6 +220,7 @@ class OpenRouterClient {
     Map<int, Object Function(Map<String, dynamic> json)> errors = const {},
     OpenRouterCallOptions? options,
     required String Function(String data) decode,
+    String sentinel = '[DONE]',
   }) async* {
     final result = await _dispatch(
       method: method,
@@ -241,7 +243,7 @@ class OpenRouterClient {
       if (data.isEmpty) {
         continue;
       }
-      if (data == '[DONE]') {
+      if (data == sentinel) {
         return;
       }
       yield decode(data);
@@ -385,6 +387,59 @@ Map<String, dynamic> openRouterJsonObject(
     json[field] = flag;
   }
   return json;
+}
+
+/// JSON value of an SSE `data:` field.
+Object? openRouterSseData(ServerSentEvent event) => jsonDecode(event.data);
+
+/// JSON object for an SSE response schema.
+///
+/// Speakeasy describes each frame as an object with `data` and an optional
+/// `event`. On the wire the payload is the `data:` field and the name is the
+/// `event:` field. A payload that is already that envelope is kept, and a
+/// missing `event` is filled from the frame or from a `type` field.
+Map<String, dynamic> openRouterSseEventJson(ServerSentEvent event) {
+  final decoded = jsonDecode(event.data);
+  if (decoded is Map && _isSseEnvelopeMap(decoded)) {
+    final json = Map<String, dynamic>.from(decoded);
+    final name = event.event;
+    if (name != null && name.isNotEmpty && !json.containsKey('event')) {
+      json['event'] = name;
+    }
+    final id = event.id;
+    if (id != null && id.isNotEmpty && !json.containsKey('id')) {
+      json['id'] = id;
+    }
+    return json;
+  }
+  final json = <String, dynamic>{'data': decoded};
+  final name = event.event;
+  if (name != null && name.isNotEmpty) {
+    json['event'] = name;
+  } else if (decoded is Map) {
+    final type = decoded['type'];
+    if (type is String && type.isNotEmpty) {
+      json['event'] = type;
+    }
+  }
+  final id = event.id;
+  if (id != null && id.isNotEmpty) {
+    json['id'] = id;
+  }
+  return json;
+}
+
+bool _isSseEnvelopeMap(Map<dynamic, dynamic> json) {
+  if (!json.containsKey('data')) {
+    return false;
+  }
+  for (final key in json.keys) {
+    final name = key.toString();
+    if (name != 'data' && name != 'event' && name != 'id' && name != 'retry') {
+      return false;
+    }
+  }
+  return true;
 }
 
 Map<String, dynamic> _withoutNulls(Map<dynamic, dynamic> source) {
