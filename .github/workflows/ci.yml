@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Analyze & test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: Install dependencies
+        run: dart pub get
+
+      # *.g.dart / *.freezed.dart are gitignored — required before analyze/test.
+      - name: Generate Freezed / json_serializable
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Analyze
+        run: dart analyze --fatal-infos
+
+      - name: Test
+        run: dart test
+
+  # Ensures committed generated Dart sources match tool/generate.dart +
+  # the vendored OpenAPI document. Does not fetch a live openapi.json.
+  codegen:
+    name: Codegen drift
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Regenerate client from vendored OpenAPI
+        run: dart run tool/generate.dart
+
+      - name: Format generated sources
+        run: dart format .
+
+      - name: Fail if generated sources drifted
+        run: |
+          if ! git diff --exit-code -- lib tool; then
+            echo '::error::Generated sources do not match openapi/openrouter.json. Run: dart run tool/generate.dart && dart format .'
+            exit 1
+          fi

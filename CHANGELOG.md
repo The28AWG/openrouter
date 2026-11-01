@@ -2,6 +2,8 @@
 
 - Validate path, query, header, and multipart parameters against OpenAPI constraints (`minimum`, `maximum`, `minLength`, `maxLength`, `pattern`, `minItems`, `maxItems`) before sending the request.
 - Invalid values now fail fast with `ArgumentError` instead of a remote `400`.
+- Add MIT `LICENSE`.
+- Add GitHub Actions CI: analyze/test (with `build_runner`) and codegen drift check against the vendored OpenAPI document.
 
 ## 1.0.0
 
