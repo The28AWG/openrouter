@@ -40,6 +40,9 @@ sealed class ExtractionDateField with _$ExtractionDateField {
 
     /// Allowed: `date`
     required ExtractionDateFieldTypeValue type,
+
+    /// Unit label for the value.
+    String? unit,
   }) = _ExtractionDateField;
 
   factory ExtractionDateField.fromJson(Map<String, dynamic> json) =>

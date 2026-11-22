@@ -6,7 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'decisions_box_question.freezed.dart';
 part 'decisions_box_question.g.dart';
 
-/// A plain string, or a JSON object or array of structured guidance.
+/// A description of the target to find, naming the image in `state` it is in; not a command, and no `criteria`.
 @Freezed(fromJson: false, toJson: false)
 sealed class DecisionsBoxQuestionInstructionsValue
     with _$DecisionsBoxQuestionInstructionsValue {
@@ -74,10 +74,11 @@ Object? decisionsBoxQuestionTypeValueToJson(
   DecisionsBoxQuestionTypeValue value,
 ) => _$DecisionsBoxQuestionTypeValueEnumMap[value];
 
+/// Finds one target in an image in `state` and answers with one bounding box (`top`, `bottom`, `left`, `right` as fractions of the image). Served by TypeSafe Jev endpoints only; every other provider rejects a box question with `400` before anything is sent upstream.
 @freezed
 sealed class DecisionsBoxQuestion with _$DecisionsBoxQuestion {
   const factory DecisionsBoxQuestion({
-    /// A plain string, or a JSON object or array of structured guidance.
+    /// A description of the target to find, naming the image in `state` it is in; not a command, and no `criteria`.
     required DecisionsBoxQuestionInstructionsValue instructions,
 
     /// Allowed: `box`

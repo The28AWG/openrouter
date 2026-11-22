@@ -10,6 +10,16 @@ import 'speech_input_reference_text.dart';
 part 'speech_input_reference.freezed.dart';
 
 /// Reference content part for stateless voice cloning or voice design
+///
+/// Example:
+/// ```
+/// {
+///   "input_audio": {
+///     "data": "data:audio/wav;base64,UklGRuQXDABXQVZF..."
+///   },
+///   "type": "input_audio"
+/// }
+/// ```
 @Freezed(fromJson: false, toJson: false)
 sealed class SpeechInputReference with _$SpeechInputReference {
   const SpeechInputReference._();

@@ -40,6 +40,9 @@ sealed class ExtractionTextField with _$ExtractionTextField {
 
     /// Allowed: `text`
     required ExtractionTextFieldTypeValue type,
+
+    /// Unit label for the value.
+    String? unit,
   }) = _ExtractionTextField;
 
   factory ExtractionTextField.fromJson(Map<String, dynamic> json) =>

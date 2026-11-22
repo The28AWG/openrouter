@@ -36,7 +36,7 @@ Object? imagegenerationservertoolOpenrouterTypeValueToJson(
 /// ```
 /// {
 ///   "parameters": {
-///     "model": "openai/gpt-5-image",
+///     "model": "openai/gpt-image-2.6-flare",
 ///     "quality": "high",
 ///     "size": "1024x1024"
 ///   },
@@ -53,7 +53,7 @@ sealed class ImagegenerationservertoolOpenrouter
     /// ```
     /// {
     ///   "aspect_ratio": "16:9",
-    ///   "model": "openai/gpt-5-image",
+    ///   "model": "openai/gpt-image-2.6-flare",
     ///   "quality": "high"
     /// }
     /// ```

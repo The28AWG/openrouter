@@ -3,6 +3,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'provider_name.dart';
 import 'provider_options.dart';
 import 'speech_input.dart';
 import 'speech_input_reference.dart';
@@ -57,10 +58,123 @@ Object? speechRequestProviderValueDataCollectionValueToJson(
   SpeechRequestProviderValueDataCollectionValue value,
 ) => _$SpeechRequestProviderValueDataCollectionValueEnumMap[value];
 
-/// Provider configuration: data policy routing preferences (`zdr`, `data_collection`) and provider-specific passthrough options
+@Freezed(fromJson: false, toJson: false)
+sealed class SpeechRequestProviderValueIgnoreItemValue
+    with _$SpeechRequestProviderValueIgnoreItemValue {
+  const SpeechRequestProviderValueIgnoreItemValue._();
+
+  const factory SpeechRequestProviderValueIgnoreItemValue.providername({
+    required ProviderName value,
+  }) = _SpeechRequestProviderValueIgnoreItemValueProvidername;
+
+  const factory SpeechRequestProviderValueIgnoreItemValue.string({
+    required String value,
+  }) = _SpeechRequestProviderValueIgnoreItemValueString;
+
+  factory SpeechRequestProviderValueIgnoreItemValue.fromJson(Object? json) {
+    if (json is String) {
+      final providernameValue = _tryDecode(() => providerNameFromJson(json));
+      if (providernameValue != null) {
+        return SpeechRequestProviderValueIgnoreItemValue.providername(
+          value: providernameValue,
+        );
+      }
+      return SpeechRequestProviderValueIgnoreItemValue.string(value: json);
+    }
+    throw FormatException('SpeechRequestProviderValueIgnoreItemValue: $json');
+  }
+
+  Object? toJson() {
+    switch (this) {
+      case _SpeechRequestProviderValueIgnoreItemValueProvidername(:final value):
+        return providerNameToJson(value);
+      case _SpeechRequestProviderValueIgnoreItemValueString(:final value):
+        return value;
+    }
+  }
+}
+
+@Freezed(fromJson: false, toJson: false)
+sealed class SpeechRequestProviderValueOnlyItemValue
+    with _$SpeechRequestProviderValueOnlyItemValue {
+  const SpeechRequestProviderValueOnlyItemValue._();
+
+  const factory SpeechRequestProviderValueOnlyItemValue.providername({
+    required ProviderName value,
+  }) = _SpeechRequestProviderValueOnlyItemValueProvidername;
+
+  const factory SpeechRequestProviderValueOnlyItemValue.string({
+    required String value,
+  }) = _SpeechRequestProviderValueOnlyItemValueString;
+
+  factory SpeechRequestProviderValueOnlyItemValue.fromJson(Object? json) {
+    if (json is String) {
+      final providernameValue = _tryDecode(() => providerNameFromJson(json));
+      if (providernameValue != null) {
+        return SpeechRequestProviderValueOnlyItemValue.providername(
+          value: providernameValue,
+        );
+      }
+      return SpeechRequestProviderValueOnlyItemValue.string(value: json);
+    }
+    throw FormatException('SpeechRequestProviderValueOnlyItemValue: $json');
+  }
+
+  Object? toJson() {
+    switch (this) {
+      case _SpeechRequestProviderValueOnlyItemValueProvidername(:final value):
+        return providerNameToJson(value);
+      case _SpeechRequestProviderValueOnlyItemValueString(:final value):
+        return value;
+    }
+  }
+}
+
+@Freezed(fromJson: false, toJson: false)
+sealed class SpeechRequestProviderValueOrderItemValue
+    with _$SpeechRequestProviderValueOrderItemValue {
+  const SpeechRequestProviderValueOrderItemValue._();
+
+  const factory SpeechRequestProviderValueOrderItemValue.providername({
+    required ProviderName value,
+  }) = _SpeechRequestProviderValueOrderItemValueProvidername;
+
+  const factory SpeechRequestProviderValueOrderItemValue.string({
+    required String value,
+  }) = _SpeechRequestProviderValueOrderItemValueString;
+
+  factory SpeechRequestProviderValueOrderItemValue.fromJson(Object? json) {
+    if (json is String) {
+      final providernameValue = _tryDecode(() => providerNameFromJson(json));
+      if (providernameValue != null) {
+        return SpeechRequestProviderValueOrderItemValue.providername(
+          value: providernameValue,
+        );
+      }
+      return SpeechRequestProviderValueOrderItemValue.string(value: json);
+    }
+    throw FormatException('SpeechRequestProviderValueOrderItemValue: $json');
+  }
+
+  Object? toJson() {
+    switch (this) {
+      case _SpeechRequestProviderValueOrderItemValueProvidername(:final value):
+        return providerNameToJson(value);
+      case _SpeechRequestProviderValueOrderItemValueString(:final value):
+        return value;
+    }
+  }
+}
+
+/// Provider configuration: provider routing preferences (`order`, `only`, `ignore`, `allow_fallbacks`), data policy routing preferences (`zdr`, `data_collection`) and provider-specific passthrough options
 @freezed
 sealed class SpeechRequestProviderValue with _$SpeechRequestProviderValue {
   const factory SpeechRequestProviderValue({
+    /// Whether to allow backup providers to serve requests
+    /// - true: (default) when the primary provider (or your custom providers in "order") is unavailable, use the next best provider.
+    /// - false: use only the primary/custom provider, and return the upstream error if it's unavailable.
+    @JsonKey(name: 'allow_fallbacks') bool? allowFallbacks,
+
     /// Data collection setting. If no available model provider meets the requirement, your request will return an error.
     /// - allow: (default) allow providers which store user data non-transiently and may train on it
     ///
@@ -82,6 +196,28 @@ sealed class SpeechRequestProviderValue with _$SpeechRequestProviderValue {
     )
     SpeechRequestProviderValueDataCollectionValue? dataCollection,
 
+    /// List of provider slugs to ignore. If provided, this list is merged with your account-wide ignored provider settings for this request.
+    ///
+    /// Example:
+    /// ```
+    /// [
+    ///   "openai",
+    ///   "anthropic"
+    /// ]
+    /// ```
+    List<SpeechRequestProviderValueIgnoreItemValue>? ignore,
+
+    /// List of provider slugs to allow. If provided, this list is merged with your account-wide allowed provider settings for this request.
+    ///
+    /// Example:
+    /// ```
+    /// [
+    ///   "openai",
+    ///   "anthropic"
+    /// ]
+    /// ```
+    List<SpeechRequestProviderValueOnlyItemValue>? only,
+
     /// Provider-specific options keyed by provider slug. The provider segment is case-insensitive; an endpoint tag after `/` must match the endpoint slug exactly. Only options for the matched provider are forwarded; the rest are ignored. Unrecognized keys are silently dropped.
     ///
     /// Example:
@@ -93,6 +229,17 @@ sealed class SpeechRequestProviderValue with _$SpeechRequestProviderValue {
     /// }
     /// ```
     ProviderOptions? options,
+
+    /// An ordered list of provider slugs. The router will attempt to use the first provider in the subset of this list that supports your requested model, and fall back to the next if it is unavailable. If no providers are available, the request will fail with an error message.
+    ///
+    /// Example:
+    /// ```
+    /// [
+    ///   "openai",
+    ///   "anthropic"
+    /// ]
+    /// ```
+    List<SpeechRequestProviderValueOrderItemValue>? order,
 
     /// Whether to restrict routing to only ZDR (Zero Data Retention) endpoints. When true, only endpoints that do not retain prompts will be used.
     ///
@@ -165,7 +312,7 @@ Object? speechRequestResponseFormatValueToJson(
 @freezed
 sealed class SpeechRequest with _$SpeechRequest {
   const factory SpeechRequest({
-    /// Text to synthesize, or a list of turns for multi-speaker input. Each turn has its own text, voice, and instructions. Multi-speaker input is supported by Gemini TTS models and by Fish Audio models other than S1.
+    /// Text to synthesize, or a list of turns for multi-speaker input. Each turn has its own text, voice, and instructions. Multi-speaker input is supported by Gemini TTS models, by Fish Audio models other than S1, and by Speechify dialogue models.
     ///
     /// Example:
     /// ```
@@ -209,7 +356,7 @@ sealed class SpeechRequest with _$SpeechRequest {
     /// ```
     required String model,
 
-    /// Provider configuration: data policy routing preferences (`zdr`, `data_collection`) and provider-specific passthrough options
+    /// Provider configuration: provider routing preferences (`order`, `only`, `ignore`, `allow_fallbacks`), data policy routing preferences (`zdr`, `data_collection`) and provider-specific passthrough options
     SpeechRequestProviderValue? provider,
 
     /// Audio output format
@@ -271,7 +418,7 @@ sealed class SpeechRequest with _$SpeechRequest {
     /// ```
     String? user,
 
-    /// Voice identifier (provider-specific).
+    /// Voice identifier (provider-specific). Required by most providers; only Seed Audio, HeyGen, Fish Audio, AssemblyAI, Speechify accept requests without it.
     ///
     /// minLength: 1
     ///
@@ -284,4 +431,12 @@ sealed class SpeechRequest with _$SpeechRequest {
 
   factory SpeechRequest.fromJson(Map<String, dynamic> json) =>
       _$SpeechRequestFromJson(json);
+}
+
+T? _tryDecode<T>(T Function() decode) {
+  try {
+    return decode();
+  } on Object {
+    return null;
+  }
 }

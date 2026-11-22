@@ -16,6 +16,7 @@ import 'open_responses_error_field.dart';
 import 'open_router_metadata.dart';
 import 'output_items.dart';
 import 'prompt_cache_options.dart';
+import 'responses_input_transformation.dart';
 import 'stored_prompt_template.dart';
 import 'text_extended_config.dart';
 import 'truncation.dart';
@@ -372,6 +373,15 @@ sealed class OpenResponsesResult with _$OpenResponsesResult {
     /// ```
     @JsonKey(name: 'error_type', unknownEnumValue: ApiErrorType.unknown_)
     ApiErrorType? errorType,
+
+    /// Input items the upstream provider changed before inference (OpenAI `input_transformations`). Present only when the provider reported the field; empty when it changed nothing.
+    ///
+    /// Example:
+    /// ```
+    /// []
+    /// ```
+    @JsonKey(name: 'input_transformations')
+    List<ResponsesInputTransformation>? inputTransformations,
 
     /// Example:
     /// ```

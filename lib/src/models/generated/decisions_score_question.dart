@@ -130,7 +130,7 @@ sealed class DecisionsScoreQuestion with _$DecisionsScoreQuestion {
     required List<DecisionsScoreQuestionCriteriaItemValue> criteria,
 
     /// A plain string, or a JSON object or array of structured guidance.
-    required DecisionsScoreQuestionInstructionsValue instructions,
+    DecisionsScoreQuestionInstructionsValue? instructions,
 
     /// Allowed: `score`
     required DecisionsScoreQuestionTypeValue type,

@@ -226,7 +226,7 @@ sealed class ExtractionForecastField with _$ExtractionForecastField {
     required ExtractionForecastFieldMaxValue max,
     required ExtractionForecastFieldMinValue min,
 
-    /// Probability of null above which `value` is null. Default 0.5.
+    /// Not read on this field type: no model takes a null threshold here, and a request that sets it fails with a 400.
     ///
     /// minimum: 0, maximum: 1
     ///
@@ -242,6 +242,8 @@ sealed class ExtractionForecastField with _$ExtractionForecastField {
 
     /// Allowed: `forecast`
     required ExtractionForecastFieldTypeValue type,
+
+    /// Unit label for the value.
     String? unit,
   }) = _ExtractionForecastField;
 

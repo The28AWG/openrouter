@@ -3,6 +3,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'image_generation_layer.dart';
 import 'image_generation_usage.dart';
 
 part 'image_generation_response.freezed.dart';
@@ -12,8 +13,35 @@ part 'image_generation_response.g.dart';
 sealed class ImageGenerationResponseDataItemValue
     with _$ImageGenerationResponseDataItemValue {
   const factory ImageGenerationResponseDataItemValue({
-    /// Base64-encoded image bytes
-    @JsonKey(name: 'b64_json') required String b64Json,
+    /// Base64-encoded image bytes. Present unless the request asked for `response_format: "url"` and `url` was issued.
+    @JsonKey(name: 'b64_json') String? b64Json,
+
+    /// Layer metadata, present when the request asked the provider to split the image into layers (Seedream: `provider.options.seed.layer_decomposition: true` with the required `layer_decomposition_options.max_images`, 2 to 16). Decomposition requires `n` to be 1 or omitted; the response returns up to `max_images` images (the base image plus its layers).
+    ///
+    /// Example:
+    /// ```
+    /// {
+    ///   "background": "transparent",
+    ///   "bounding_box": {
+    ///     "absolute": [
+    ///       238,
+    ///       124,
+    ///       786,
+    ///       673
+    ///     ],
+    ///     "normalized": [
+    ///       232,
+    ///       121,
+    ///       768,
+    ///       657
+    ///     ]
+    ///   },
+    ///   "description": "A solid red circle",
+    ///   "name": "Red circle",
+    ///   "z_index": 1
+    /// }
+    /// ```
+    ImageGenerationLayer? layer,
 
     /// Media type (MIME type) of the image, e.g. `image/png`, `image/jpeg`, `image/webp`, `image/svg+xml`. May be omitted if the format could not be determined.
     ///
@@ -22,6 +50,14 @@ sealed class ImageGenerationResponseDataItemValue
     /// "image/png"
     /// ```
     @JsonKey(name: 'media_type') String? mediaType,
+
+    /// Signed download URL for the image bytes, issued for `response_format: "url"` requests. Valid until `expires_at`. Absent when the response fell back to `b64_json`.
+    ///
+    /// Example:
+    /// ```
+    /// "https://storage.googleapis.com/openrouter-generated-media-us/v1/..."
+    /// ```
+    String? url,
   }) = _ImageGenerationResponseDataItemValue;
 
   factory ImageGenerationResponseDataItemValue.fromJson(
@@ -61,6 +97,14 @@ sealed class ImageGenerationResponse with _$ImageGenerationResponse {
 
     /// Generated images
     required List<ImageGenerationResponseDataItemValue> data,
+
+    /// Unix timestamp (seconds) of the earliest expiry among the `url`s in `data`; treat every URL as expired after it. Present only when URLs were issued.
+    ///
+    /// Example:
+    /// ```
+    /// 1748458800
+    /// ```
+    @JsonKey(name: 'expires_at') int? expiresAt,
 
     /// Token and cost usage for the image generation request, when available
     ///

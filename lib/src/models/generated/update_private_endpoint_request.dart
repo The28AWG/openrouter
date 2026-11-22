@@ -53,7 +53,7 @@ Object? updatePrivateEndpointRequestDeclaredRegionValueToJson(
   UpdatePrivateEndpointRequestDeclaredRegionValue value,
 ) => _$UpdatePrivateEndpointRequestDeclaredRegionValueEnumMap[value];
 
-/// Only the fields present change. `base_url`, `upstream_model_id`, `declared_zdr` and `declared_region` are accepted on a draft only; `pricing` and `declared_parameters` replace their value; `settings` is itself a partial update where `null` clears a limit or restores the provider default.
+/// Only the fields present change. `base_url` and `upstream_model_id` are accepted on a draft only; `declared_zdr` and `declared_region` on drafts and active endpoints; `pricing` and `declared_parameters` replace their value; `settings` is itself a partial update where `null` clears a limit or restores the provider default.
 ///
 /// Example:
 /// ```
@@ -81,7 +81,7 @@ sealed class UpdatePrivateEndpointRequest with _$UpdatePrivateEndpointRequest {
 
     /// Parameters the upstream supports beyond the tested ones. Replaces the earlier declaration; tested parameters stay. Order and repeated names are ignored, but the list holds at most as many entries as there are declarable parameters, repeats included. `tool_choice` requires `tools` to be tested or declared.
     ///
-    /// maxItems: 25
+    /// maxItems: 26
     ///
     /// Example:
     /// ```

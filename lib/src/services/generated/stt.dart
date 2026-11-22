@@ -173,6 +173,9 @@ class SttResource {
     /// The language of the input audio (ISO-639-1).
     String? language,
 
+    /// Context to guide transcription on providers that support contextual prompting. Takes precedence over provider-specific prompt options, including when empty.
+    String? prompt,
+
     /// JSON-encoded provider preferences object, the same shape as the JSON body field: { "zdr": true, "data_collection": "deny", "options": { "&lt;provider-slug&gt;": { ... } } }. Only options for the matched provider are forwarded. Must decode to a JSON object.
     String? provider,
 
@@ -268,6 +271,10 @@ class SttResource {
       fields['language'] = languageValue.toString();
     }
     fields['model'] = (model).toString();
+    final promptValue = prompt;
+    if (promptValue != null) {
+      fields['prompt'] = promptValue.toString();
+    }
     final providerValue = provider;
     if (providerValue != null) {
       fields['provider'] = providerValue.toString();

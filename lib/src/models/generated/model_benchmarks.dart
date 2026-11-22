@@ -15,9 +15,19 @@ part 'model_benchmarks.g.dart';
 /// ```
 /// {
 ///   "artificial_analysis": {
-///     "agentic_index": 55.8,
-///     "coding_index": 63.2,
-///     "intelligence_index": 71.4
+///     "agentic_index": null,
+///     "coding_index": null,
+///     "cyber_index": 36.4,
+///     "decision_index": 75.7,
+///     "economics_index": 57.2,
+///     "engineering_index": 60.4,
+///     "finance_and_accounting_index": 58.1,
+///     "healthcare_and_medical_index": 56.9,
+///     "intelligence_index": 71.4,
+///     "legal_index": 52.3,
+///     "multilingual_index": 0.82,
+///     "openness_index": 33.3,
+///     "strategy_and_ops_index": 61.7
 ///   },
 ///   "design_arena": [
 ///     {
@@ -33,14 +43,24 @@ part 'model_benchmarks.g.dart';
 @freezed
 sealed class ModelBenchmarks with _$ModelBenchmarks {
   const factory ModelBenchmarks({
-    /// Artificial Analysis benchmark index scores.
+    /// Benchmark index scores published by Artificial Analysis (artificialanalysis.ai), one field per index. Each score is the model's best on that index across the configurations Artificial Analysis evaluated (for example reasoning levels), so two indexes of one model can come from different configurations. The deprecated Coding Index and Agentic Index fields are null for every model: Artificial Analysis has retired those indexes. Attribute Artificial Analysis when you republish them. Omitted when Artificial Analysis has scored the model on none of them.
     ///
     /// Example:
     /// ```
     /// {
-    ///   "agentic_index": 55.8,
-    ///   "coding_index": 63.2,
-    ///   "intelligence_index": 71.4
+    ///   "agentic_index": null,
+    ///   "coding_index": null,
+    ///   "cyber_index": 36.4,
+    ///   "decision_index": 75.7,
+    ///   "economics_index": 57.2,
+    ///   "engineering_index": 60.4,
+    ///   "finance_and_accounting_index": 58.1,
+    ///   "healthcare_and_medical_index": 56.9,
+    ///   "intelligence_index": 71.4,
+    ///   "legal_index": 52.3,
+    ///   "multilingual_index": 0.82,
+    ///   "openness_index": 33.3,
+    ///   "strategy_and_ops_index": 61.7
     /// }
     /// ```
     @JsonKey(name: 'artificial_analysis') AABenchmarkEntry? artificialAnalysis,

@@ -6,7 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'extraction_asset.freezed.dart';
 part 'extraction_asset.g.dart';
 
-/// Allowed: `png`, `jpg`, `jpeg`, `pdf`
+/// Allowed: `png`, `jpg`, `jpeg`, `webp`, `pdf`
 ///
 /// Unknown values are allowed by the specification.
 @JsonEnum(alwaysCreate: true)
@@ -17,6 +17,8 @@ enum ExtractionAssetFormatValue {
   jpg,
   @JsonValue('jpeg')
   jpeg,
+  @JsonValue('webp')
+  webp,
   @JsonValue('pdf')
   pdf,
 
@@ -74,14 +76,14 @@ ExtractionAssetTypeValue? extractionAssetTypeValueFromJsonNullable(
 Object? extractionAssetTypeValueToJson(ExtractionAssetTypeValue value) =>
     _$ExtractionAssetTypeValueEnumMap[value];
 
-/// An image or PDF sent once and referenced by its key in the `assets` map. `data_base64` is the file in standard base64 with no `data:` prefix. PDF is read by document models only.
+/// An image or PDF sent once and referenced by its key in the `assets` map. `data_base64` is the file in standard base64 with no `data:` prefix. Which formats are read is model-specific: a format the model cannot read fails with a 400.
 @freezed
 sealed class ExtractionAsset with _$ExtractionAsset {
   const factory ExtractionAsset({
     /// pattern: `^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$`, minLength: 1
     @JsonKey(name: 'data_base64') required String dataBase64,
 
-    /// Allowed: `png`, `jpg`, `jpeg`, `pdf`
+    /// Allowed: `png`, `jpg`, `jpeg`, `webp`, `pdf`
     ///
     /// Unknown values are allowed by the specification.
     @JsonKey(unknownEnumValue: ExtractionAssetFormatValue.unknown_)

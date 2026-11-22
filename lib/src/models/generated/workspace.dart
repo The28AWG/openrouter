@@ -6,6 +6,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'workspace.freezed.dart';
 part 'workspace.g.dart';
 
+/// Workspace metadata. Configuration fields are omitted without permission to view workspace settings.
+///
 /// Example:
 /// ```
 /// {
@@ -103,7 +105,7 @@ sealed class Workspace with _$Workspace {
     /// ```
     required String id,
 
-    /// Whether BYOK (bring-your-own-key) spend counts toward this workspace's budgets. Set it via the workspace budget endpoints.
+    /// Whether BYOK (bring-your-own-key) spend counts toward this workspace's budgets. Omitted without settings and budget visibility. Set it via the workspace budget endpoints.
     ///
     /// Example:
     /// ```
@@ -111,7 +113,7 @@ sealed class Workspace with _$Workspace {
     /// ```
     @JsonKey(name: 'include_byok_in_budgets') bool? includeByokInBudgets,
 
-    /// Optional array of API key IDs to filter I/O logging. Null means all keys are logged.
+    /// API key IDs used to filter I/O logging. Null means all keys are logged. Omitted without access to workspace settings and API key identifiers.
     @JsonKey(name: 'io_logging_api_key_ids') List<int>? ioLoggingApiKeyIds,
 
     /// Sampling rate for I/O logging (0.0001-1). 1 means 100% of requests are logged.
@@ -122,8 +124,7 @@ sealed class Workspace with _$Workspace {
     /// ```
     /// 1
     /// ```
-    @JsonKey(name: 'io_logging_sampling_rate')
-    required num ioLoggingSamplingRate,
+    @JsonKey(name: 'io_logging_sampling_rate') num? ioLoggingSamplingRate,
 
     /// Whether data discount logging is enabled for this workspace
     ///
@@ -132,7 +133,7 @@ sealed class Workspace with _$Workspace {
     /// true
     /// ```
     @JsonKey(name: 'is_data_discount_logging_enabled')
-    required bool isDataDiscountLoggingEnabled,
+    bool? isDataDiscountLoggingEnabled,
 
     /// Whether broadcast is enabled for this workspace
     ///
@@ -141,7 +142,7 @@ sealed class Workspace with _$Workspace {
     /// false
     /// ```
     @JsonKey(name: 'is_observability_broadcast_enabled')
-    required bool isObservabilityBroadcastEnabled,
+    bool? isObservabilityBroadcastEnabled,
 
     /// Whether private logging is enabled for this workspace
     ///
@@ -150,7 +151,7 @@ sealed class Workspace with _$Workspace {
     /// false
     /// ```
     @JsonKey(name: 'is_observability_io_logging_enabled')
-    required bool isObservabilityIoLoggingEnabled,
+    bool? isObservabilityIoLoggingEnabled,
 
     /// Name of the workspace
     ///

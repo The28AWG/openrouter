@@ -139,7 +139,7 @@ sealed class WebSearchServerTool with _$WebSearchServerTool {
     /// ```
     @JsonKey(name: 'user_location') WebSearchUserLocation? userLocation,
 
-    /// Enable SpaceXAI X (Twitter) search alongside native web search, with optional filters. Only applies to SpaceXAI endpoints with native search; omit to search the web only. X search is billed separately by SpaceXAI, per post and per user profile fetched.
+    /// Enable SpaceXSI X (Twitter) search alongside native web search, with optional filters. Only applies to SpaceXSI endpoints with native search; omit to search the web only. X search is billed separately by SpaceXSI, per post and per user profile fetched.
     ///
     /// Example:
     /// ```

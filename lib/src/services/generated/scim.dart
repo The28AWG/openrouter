@@ -142,7 +142,7 @@ class ScimResource {
 
   /// Create a SCIM group mapping
   ///
-  /// Create a SCIM group-to-workspace role mapping. Creating a mapping that already exists with the same role succeeds and re-applies the mapping to the group members. Requesting a different role for an existing mapping returns 409. [Management key](/docs/guides/overview/auth/management-api-keys) required.
+  /// Create a SCIM group-to-workspace role mapping. Creating a mapping that already exists with the same role succeeds and re-applies the mapping to the group members. Requesting a different role for an existing mapping returns 409. Assigning the `admin` role is dashboard-only and returns 403 for management keys. [Management key](/docs/guides/overview/auth/management-api-keys) required.
   ///
   /// `POST /scim/group-mappings`
   ///
@@ -186,7 +186,7 @@ class ScimResource {
 
   /// Delete a SCIM group mapping
   ///
-  /// Delete a SCIM group-to-workspace mapping. [Management key](/docs/guides/overview/auth/management-api-keys) required.
+  /// Delete a SCIM group-to-workspace mapping. For an `admin` mapping, `keep_members=true` returns `403` and leaves the mapping in place — preserving members as workspace admins is dashboard-only. [Management key](/docs/guides/overview/auth/management-api-keys) required.
   ///
   /// `DELETE /scim/group-mappings/{id}`
   ///
@@ -206,7 +206,7 @@ class ScimResource {
     /// Format: uuid
     required String id,
 
-    /// Required. Whether to keep workspace members after deleting the mapping. `false` **removes** the members this mapping granted access to; `true` deletes the mapping while leaving membership intact as manually-managed. There is deliberately no default — omitting it returns `400` so the destructive path cannot be reached by accident. Mirrors the dashboard, whose `DeleteMappingSchema.keepMembers` is likewise required.
+    /// Required. Whether to keep workspace members after deleting the mapping. `false` **removes** the members this mapping granted access to; `true` deletes the mapping while leaving membership intact as manually-managed. Exception: for an `admin` mapping, `keep_members=true` returns `403` and leaves the mapping in place — management keys cannot preserve members as workspace admins, so do not plan an admin mapping rotation around preserving members through this endpoint (use the dashboard instead). There is deliberately no default — omitting it returns `400` so the destructive path cannot be reached by accident. Mirrors the dashboard, whose `DeleteMappingSchema.keepMembers` is likewise required.
     ///
     /// Example:
     /// ```
@@ -279,7 +279,7 @@ class ScimResource {
 
   /// Update a SCIM group mapping
   ///
-  /// Update a SCIM group mapping role. [Management key](/docs/guides/overview/auth/management-api-keys) required.
+  /// Update a SCIM group mapping role. Assigning the `admin` role is dashboard-only and returns 403 for management keys. [Management key](/docs/guides/overview/auth/management-api-keys) required.
   ///
   /// `PATCH /scim/group-mappings/{id}`
   ///

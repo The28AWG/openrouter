@@ -89,7 +89,7 @@ sealed class ExchangeAuthCodeForAPIKeyRequest
     ExchangeAuthCodeForAPIKeyRequestCodeChallengeMethodValue?
     codeChallengeMethod,
 
-    /// The code verifier if code_challenge was used in the authorization request
+    /// The `code_verifier` whose SHA-256 hash was sent as `code_challenge` in the authorization request.
     ///
     /// Example:
     /// ```

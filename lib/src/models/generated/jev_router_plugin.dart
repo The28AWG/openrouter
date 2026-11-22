@@ -50,7 +50,7 @@ sealed class JevRouterPlugin with _$JevRouterPlugin {
     /// ```
     @JsonKey(name: 'allowed_models') List<String>? allowedModels,
 
-    /// Select low, medium, high, or a cost tier configured by the operator. Overrides the live-config tier and replaces the shared routing policy with that tier. Omit to use the live configuration. Model exclusions and the router kill switch still apply.
+    /// Select low, medium, high, or a cost tier configured by the operator. Overrides the live-config tier and replaces the shared routing policy with that tier. Omit to use the live configuration. On openrouter/auto-code, low and high (or auto-code-low and auto-code-high) pick a cheaper or stronger version of the Auto Code policy (xhigh and max count as high), and every other value, or a version that is not available, runs on the default Auto Code policy. Model exclusions and the router kill switch still apply.
     ///
     /// pattern: `^[a-z][a-z0-9_-]{0,31}$`
     ///

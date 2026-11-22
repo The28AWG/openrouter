@@ -5,15 +5,16 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'frame_image.dart';
 import 'input_reference.dart';
+import 'provider_name.dart';
 import 'provider_options.dart';
 import 'trace_config.dart';
 
 part 'video_generation_request.freezed.dart';
 part 'video_generation_request.g.dart';
 
-/// Aspect ratio of the generated video
+/// Aspect ratio of the generated video. Omit it to use the model default, which on models with adaptive aspect ratio (e.g. BytePlus Seedance) follows the input image or video.
 ///
-/// Allowed: `16:9`, `9:16`, `1:1`, `4:3`, `3:4`, `3:2`, `2:3`, `21:9`, `9:21`
+/// Allowed: `16:9`, `9:16`, `1:1`, `4:3`, `3:4`, `3:2`, `2:3`, `21:9`, `9:21`, `2:1`, `5:2`
 ///
 /// Unknown values are allowed by the specification.
 ///
@@ -41,6 +42,10 @@ enum VideoGenerationRequestAspectRatioValue {
   value219,
   @JsonValue('9:21')
   value921,
+  @JsonValue('2:1')
+  value21,
+  @JsonValue('5:2')
+  value52,
 
   /// Value returned when the API sends a member that is not listed yet.
   unknown_,
@@ -65,12 +70,260 @@ Object? videoGenerationRequestAspectRatioValueToJson(
   VideoGenerationRequestAspectRatioValue value,
 ) => _$VideoGenerationRequestAspectRatioValueEnumMap[value];
 
-/// Provider-specific passthrough configuration
+/// Data collection setting. If no available model provider meets the requirement, your request will return an error.
+/// - allow: (default) allow providers that may train on user data
+///
+/// - deny: use only providers that do not train on user data. Providers may still retain prompts; set `zdr: true` to exclude retention.
+///
+/// Title: VideoGenerationRequestDataCollection
+///
+/// Allowed: `deny`, `allow`
+///
+/// Unknown values are allowed by the specification.
+///
+/// Example:
+/// ```
+/// "allow"
+/// ```
+@JsonEnum(alwaysCreate: true)
+enum VideoGenerationRequestProviderValueDataCollectionValue {
+  @JsonValue('deny')
+  deny,
+  @JsonValue('allow')
+  allow,
+
+  /// Value returned when the API sends a member that is not listed yet.
+  unknown_,
+}
+
+VideoGenerationRequestProviderValueDataCollectionValue
+videoGenerationRequestProviderValueDataCollectionValueFromJson(Object? json) =>
+    $enumDecode(
+      _$VideoGenerationRequestProviderValueDataCollectionValueEnumMap,
+      json,
+      unknownValue:
+          VideoGenerationRequestProviderValueDataCollectionValue.unknown_,
+    );
+
+VideoGenerationRequestProviderValueDataCollectionValue?
+videoGenerationRequestProviderValueDataCollectionValueFromJsonNullable(
+  Object? json,
+) => $enumDecodeNullable(
+  _$VideoGenerationRequestProviderValueDataCollectionValueEnumMap,
+  json,
+  unknownValue: VideoGenerationRequestProviderValueDataCollectionValue.unknown_,
+);
+
+Object? videoGenerationRequestProviderValueDataCollectionValueToJson(
+  VideoGenerationRequestProviderValueDataCollectionValue value,
+) => _$VideoGenerationRequestProviderValueDataCollectionValueEnumMap[value];
+
+@Freezed(fromJson: false, toJson: false)
+sealed class VideoGenerationRequestProviderValueIgnoreItemValue
+    with _$VideoGenerationRequestProviderValueIgnoreItemValue {
+  const VideoGenerationRequestProviderValueIgnoreItemValue._();
+
+  const factory VideoGenerationRequestProviderValueIgnoreItemValue.providername({
+    required ProviderName value,
+  }) = _VideoGenerationRequestProviderValueIgnoreItemValueProvidername;
+
+  const factory VideoGenerationRequestProviderValueIgnoreItemValue.string({
+    required String value,
+  }) = _VideoGenerationRequestProviderValueIgnoreItemValueString;
+
+  factory VideoGenerationRequestProviderValueIgnoreItemValue.fromJson(
+    Object? json,
+  ) {
+    if (json is String) {
+      final providernameValue = _tryDecode(() => providerNameFromJson(json));
+      if (providernameValue != null) {
+        return VideoGenerationRequestProviderValueIgnoreItemValue.providername(
+          value: providernameValue,
+        );
+      }
+      return VideoGenerationRequestProviderValueIgnoreItemValue.string(
+        value: json,
+      );
+    }
+    throw FormatException(
+      'VideoGenerationRequestProviderValueIgnoreItemValue: $json',
+    );
+  }
+
+  Object? toJson() {
+    switch (this) {
+      case _VideoGenerationRequestProviderValueIgnoreItemValueProvidername(
+        :final value,
+      ):
+        return providerNameToJson(value);
+      case _VideoGenerationRequestProviderValueIgnoreItemValueString(
+        :final value,
+      ):
+        return value;
+    }
+  }
+}
+
+@Freezed(fromJson: false, toJson: false)
+sealed class VideoGenerationRequestProviderValueOnlyItemValue
+    with _$VideoGenerationRequestProviderValueOnlyItemValue {
+  const VideoGenerationRequestProviderValueOnlyItemValue._();
+
+  const factory VideoGenerationRequestProviderValueOnlyItemValue.providername({
+    required ProviderName value,
+  }) = _VideoGenerationRequestProviderValueOnlyItemValueProvidername;
+
+  const factory VideoGenerationRequestProviderValueOnlyItemValue.string({
+    required String value,
+  }) = _VideoGenerationRequestProviderValueOnlyItemValueString;
+
+  factory VideoGenerationRequestProviderValueOnlyItemValue.fromJson(
+    Object? json,
+  ) {
+    if (json is String) {
+      final providernameValue = _tryDecode(() => providerNameFromJson(json));
+      if (providernameValue != null) {
+        return VideoGenerationRequestProviderValueOnlyItemValue.providername(
+          value: providernameValue,
+        );
+      }
+      return VideoGenerationRequestProviderValueOnlyItemValue.string(
+        value: json,
+      );
+    }
+    throw FormatException(
+      'VideoGenerationRequestProviderValueOnlyItemValue: $json',
+    );
+  }
+
+  Object? toJson() {
+    switch (this) {
+      case _VideoGenerationRequestProviderValueOnlyItemValueProvidername(
+        :final value,
+      ):
+        return providerNameToJson(value);
+      case _VideoGenerationRequestProviderValueOnlyItemValueString(
+        :final value,
+      ):
+        return value;
+    }
+  }
+}
+
+@Freezed(fromJson: false, toJson: false)
+sealed class VideoGenerationRequestProviderValueOrderItemValue
+    with _$VideoGenerationRequestProviderValueOrderItemValue {
+  const VideoGenerationRequestProviderValueOrderItemValue._();
+
+  const factory VideoGenerationRequestProviderValueOrderItemValue.providername({
+    required ProviderName value,
+  }) = _VideoGenerationRequestProviderValueOrderItemValueProvidername;
+
+  const factory VideoGenerationRequestProviderValueOrderItemValue.string({
+    required String value,
+  }) = _VideoGenerationRequestProviderValueOrderItemValueString;
+
+  factory VideoGenerationRequestProviderValueOrderItemValue.fromJson(
+    Object? json,
+  ) {
+    if (json is String) {
+      final providernameValue = _tryDecode(() => providerNameFromJson(json));
+      if (providernameValue != null) {
+        return VideoGenerationRequestProviderValueOrderItemValue.providername(
+          value: providernameValue,
+        );
+      }
+      return VideoGenerationRequestProviderValueOrderItemValue.string(
+        value: json,
+      );
+    }
+    throw FormatException(
+      'VideoGenerationRequestProviderValueOrderItemValue: $json',
+    );
+  }
+
+  Object? toJson() {
+    switch (this) {
+      case _VideoGenerationRequestProviderValueOrderItemValueProvidername(
+        :final value,
+      ):
+        return providerNameToJson(value);
+      case _VideoGenerationRequestProviderValueOrderItemValueString(
+        :final value,
+      ):
+        return value;
+    }
+  }
+}
+
+/// Provider routing preferences (order, only, ignore), request-level data policy (zdr, data_collection) and provider-specific passthrough configuration. No video endpoint currently offers Zero Data Retention, so `zdr: true` fails routing.
 @freezed
 sealed class VideoGenerationRequestProviderValue
     with _$VideoGenerationRequestProviderValue {
   const factory VideoGenerationRequestProviderValue({
+    /// Data collection setting. If no available model provider meets the requirement, your request will return an error.
+    /// - allow: (default) allow providers that may train on user data
+    ///
+    /// - deny: use only providers that do not train on user data. Providers may still retain prompts; set `zdr: true` to exclude retention.
+    ///
+    /// Title: VideoGenerationRequestDataCollection
+    ///
+    /// Allowed: `deny`, `allow`
+    ///
+    /// Unknown values are allowed by the specification.
+    ///
+    /// Example:
+    /// ```
+    /// "allow"
+    /// ```
+    @JsonKey(
+      name: 'data_collection',
+      unknownEnumValue:
+          VideoGenerationRequestProviderValueDataCollectionValue.unknown_,
+    )
+    VideoGenerationRequestProviderValueDataCollectionValue? dataCollection,
+
+    /// List of provider slugs to ignore. If provided, this list is merged with your account-wide ignored provider settings for this request.
+    ///
+    /// Example:
+    /// ```
+    /// [
+    ///   "openai",
+    ///   "anthropic"
+    /// ]
+    /// ```
+    List<VideoGenerationRequestProviderValueIgnoreItemValue>? ignore,
+
+    /// List of provider slugs to allow. If provided, this list is merged with your account-wide allowed provider settings for this request.
+    ///
+    /// Example:
+    /// ```
+    /// [
+    ///   "openai",
+    ///   "anthropic"
+    /// ]
+    /// ```
+    List<VideoGenerationRequestProviderValueOnlyItemValue>? only,
     ProviderOptions? options,
+
+    /// An ordered list of provider slugs. The router will attempt to use the first provider in the subset of this list that supports your requested model, and fall back to the next if it is unavailable. If no providers are available, the request will fail with an error message.
+    ///
+    /// Example:
+    /// ```
+    /// [
+    ///   "openai",
+    ///   "anthropic"
+    /// ]
+    /// ```
+    List<VideoGenerationRequestProviderValueOrderItemValue>? order,
+
+    /// Whether to restrict routing to only ZDR (Zero Data Retention) endpoints. When true, only endpoints that do not retain prompts will be used.
+    ///
+    /// Example:
+    /// ```
+    /// true
+    /// ```
+    bool? zdr,
   }) = _VideoGenerationRequestProviderValue;
 
   factory VideoGenerationRequestProviderValue.fromJson(
@@ -143,9 +396,9 @@ Object? videoGenerationRequestResolutionValueToJson(
 @freezed
 sealed class VideoGenerationRequest with _$VideoGenerationRequest {
   const factory VideoGenerationRequest({
-    /// Aspect ratio of the generated video
+    /// Aspect ratio of the generated video. Omit it to use the model default, which on models with adaptive aspect ratio (e.g. BytePlus Seedance) follows the input image or video.
     ///
-    /// Allowed: `16:9`, `9:16`, `1:1`, `4:3`, `3:4`, `3:2`, `2:3`, `21:9`, `9:21`
+    /// Allowed: `16:9`, `9:16`, `1:1`, `4:3`, `3:4`, `3:2`, `2:3`, `21:9`, `9:21`, `2:1`, `5:2`
     ///
     /// Unknown values are allowed by the specification.
     ///
@@ -177,9 +430,9 @@ sealed class VideoGenerationRequest with _$VideoGenerationRequest {
     /// ```
     int? creativity,
 
-    /// Duration of the generated video in seconds
+    /// Duration of the generated video in seconds, or -1 to let the provider choose the length (e.g. following an input video). -1 is only accepted by models that list it in supported_durations.
     ///
-    /// minimum: 1
+    /// minimum: -1
     ///
     /// Example:
     /// ```
@@ -190,7 +443,7 @@ sealed class VideoGenerationRequest with _$VideoGenerationRequest {
     /// Images to use as the first and/or last frame of the generated video. Each image must specify a frame_type of first_frame or last_frame.
     @JsonKey(name: 'frame_images') List<FrameImage>? frameImages,
 
-    /// Whether to generate audio alongside the video. Defaults to the endpoint's generate_audio capability flag, false if not set.
+    /// Whether to generate audio alongside the video. Defaults to the endpoint's generate_audio capability flag, false if not set. When neither is set, some providers (such as xAI) apply their own default and generate audio, so send false to request a silent video. Some models always include audio and ignore false.
     ///
     /// Example:
     /// ```
@@ -220,7 +473,7 @@ sealed class VideoGenerationRequest with _$VideoGenerationRequest {
     /// ```
     String? prompt,
 
-    /// Provider-specific passthrough configuration
+    /// Provider routing preferences (order, only, ignore), request-level data policy (zdr, data_collection) and provider-specific passthrough configuration. No video endpoint currently offers Zero Data Retention, so `zdr: true` fails routing.
     VideoGenerationRequestProviderValue? provider,
 
     /// Resolution of the generated video
@@ -272,6 +525,8 @@ sealed class VideoGenerationRequest with _$VideoGenerationRequest {
     ///
     /// minimum: 0
     ///
+    /// Format: double
+    ///
     /// Example:
     /// ```
     /// 2
@@ -291,4 +546,12 @@ sealed class VideoGenerationRequest with _$VideoGenerationRequest {
 
   factory VideoGenerationRequest.fromJson(Map<String, dynamic> json) =>
       _$VideoGenerationRequestFromJson(json);
+}
+
+T? _tryDecode<T>(T Function() decode) {
+  try {
+    return decode();
+  } on Object {
+    return null;
+  }
 }

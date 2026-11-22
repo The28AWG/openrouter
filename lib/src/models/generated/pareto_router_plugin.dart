@@ -89,7 +89,7 @@ sealed class ParetoRouterPlugin with _$ParetoRouterPlugin {
     /// ```
     @JsonKey(name: 'max_price') num? maxPrice,
 
-    /// Minimum coding quality score between 0 and 1. Maps to internal quality tiers: &gt;= 0.66 → high (top coding models), &gt;= 0.33 → medium (strong modern flagships), &lt; 0.33 → low (capable coders above the median). Omit to default to the highest tier (equivalent to &gt;= 0.66). Not used when max_price is set (price-based selection takes over).
+    /// Selects one of three tiers of coding models with a number between 0 and 1. It is not a threshold on a model score: the tiers are groups of the current shortlist of top coding models. &gt;= 0.66 → high (the strongest group), &gt;= 0.33 → medium (the two strongest groups), &lt; 0.33 → low (the whole shortlist). Omit to use the high tier. Not used when max_price is set (price-based selection takes over).
     ///
     /// minimum: 0, maximum: 1
     ///
@@ -97,7 +97,7 @@ sealed class ParetoRouterPlugin with _$ParetoRouterPlugin {
     ///
     /// Example:
     /// ```
-    /// 0.8
+    /// 0.4
     /// ```
     @JsonKey(name: 'min_coding_score') num? minCodingScore,
 

@@ -7,6 +7,13 @@ part 'speech_input_reference_image_input.freezed.dart';
 part 'speech_input_reference_image_input.g.dart';
 
 /// Reference image input object
+///
+/// Example:
+/// ```
+/// {
+///   "url": "data:image/png;base64,iVBORw0KGgo..."
+/// }
+/// ```
 @freezed
 sealed class SpeechInputReferenceImageInput
     with _$SpeechInputReferenceImageInput {

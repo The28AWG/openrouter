@@ -43,6 +43,9 @@ sealed class URLCitation with _$URLCitation {
 
     /// Allowed: `url_citation`
     required URLCitationTypeValue type,
+
+    /// constant: `true`
+    bool? uncited,
     required String url,
   }) = _URLCitation;
 

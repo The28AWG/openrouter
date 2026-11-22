@@ -87,7 +87,7 @@ Object? createKeysRequestLimitResetValueToJson(
 @freezed
 sealed class CreateKeysRequest with _$CreateKeysRequest {
   const factory CreateKeysRequest({
-    /// Optional user ID of the key creator. Only meaningful for organization-owned keys where a specific member is creating the key.
+    /// Optional user ID of the key creator. Only meaningful for organization-owned keys where a specific member is creating the key. A workspace-scoped management key may only name a member of its own workspace.
     ///
     /// minLength: 1
     ///

@@ -7,6 +7,7 @@ import '../../models/generated/list_endpoints_response_2.dart';
 import '../../models/generated/list_endpoints_zdr_response.dart';
 import '../../models/generated/not_found_response.dart';
 import '../../models/generated/service_unavailable_response.dart';
+import '../../models/generated/unauthorized_response.dart';
 
 /// Endpoint information
 class EndpointsResource {
@@ -25,6 +26,7 @@ class EndpointsResource {
   /// Returns a list of endpoints
   ///
   /// Errors:
+  /// - 401 Unauthorized - Authentication required or invalid credentials
   /// - 403 Forbidden - Authentication successful but insufficient permissions
   /// - 500 Internal Server Error - Unexpected server error
   /// - 503 Service Unavailable - Service temporarily unavailable
@@ -37,6 +39,7 @@ class EndpointsResource {
       authenticated: true,
       accept: 'application/json',
       errors: {
+        401: UnauthorizedResponse.fromJson,
         403: ForbiddenResponse.fromJson,
         500: InternalServerResponse.fromJson,
         503: ServiceUnavailableResponse.fromJson,
@@ -59,6 +62,7 @@ class EndpointsResource {
   /// Returns a list of endpoints
   ///
   /// Errors:
+  /// - 401 Unauthorized - Authentication required or invalid credentials
   /// - 403 Forbidden - Authentication successful but insufficient permissions
   /// - 404 Not Found - Resource does not exist
   /// - 500 Internal Server Error - Unexpected server error
@@ -88,6 +92,7 @@ class EndpointsResource {
       authenticated: true,
       accept: 'application/json',
       errors: {
+        401: UnauthorizedResponse.fromJson,
         403: ForbiddenResponse.fromJson,
         404: NotFoundResponse.fromJson,
         500: InternalServerResponse.fromJson,

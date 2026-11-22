@@ -35,6 +35,8 @@ sealed class ExtractionDurationField with _$ExtractionDurationField {
 
     /// What the field should contain.
     String? instructions,
+
+    /// Whole numbers only.
     bool? integer,
 
     /// Probability of null above which `value` is null. Default 0.5.

@@ -42,6 +42,13 @@ Object? speechInputReferenceAudioTypeValueToJson(
 sealed class SpeechInputReferenceAudio with _$SpeechInputReferenceAudio {
   const factory SpeechInputReferenceAudio({
     /// Reference audio input object
+    ///
+    /// Example:
+    /// ```
+    /// {
+    ///   "data": "data:audio/wav;base64,UklGRuQXDABXQVZF..."
+    /// }
+    /// ```
     @JsonKey(name: 'input_audio')
     required SpeechInputReferenceAudioInput inputAudio,
 

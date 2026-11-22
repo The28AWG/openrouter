@@ -3,6 +3,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'deferred_tools_details.dart';
 import 'open_ai_responses_usage.dart';
 import 'server_tool_use_details.dart';
 
@@ -71,6 +72,20 @@ sealed class Usage with _$Usage {
     /// Format: double
     num? cost,
     @JsonKey(name: 'cost_details') UsageCostDetailsValue? costDetails,
+
+    /// Totals across every upstream model call of a deferred-tools run. The native usage fields report only the final call; cost covers every call.
+    ///
+    /// Example:
+    /// ```
+    /// {
+    ///   "completion_tokens": 180,
+    ///   "prompt_tokens": 2400,
+    ///   "total_tokens": 2580,
+    ///   "turns": 2
+    /// }
+    /// ```
+    @JsonKey(name: 'deferred_tools_details')
+    DeferredToolsDetails? deferredToolsDetails,
 
     /// Whether a request was made using a Bring Your Own Key configuration
     @JsonKey(name: 'is_byok') bool? isByok,

@@ -152,9 +152,9 @@ class ModelsResource {
     /// ```
     String? outputModalities,
 
-    /// Sort the returned models server-side. Prefer this over fetching the full list and sorting client-side. Options: pricing-low-to-high, pricing-high-to-low (average prompt/completion price), context-high-to-low (context length), throughput-high-to-low, latency-low-to-high (recent median performance), most-popular, top-weekly (tokens processed in the last week), newest (creation date), intelligence-high-to-low, coding-high-to-low, agentic-high-to-low (Artificial Analysis indices), design-arena-elo-high-to-low (best Design Arena ELO across arenas). Models without a score for the chosen benchmark are placed last. When omitted, the existing default ordering is preserved.
+    /// Sort the returned models server-side. Prefer this over fetching the full list and sorting client-side. Options: pricing-low-to-high, pricing-high-to-low (average prompt/completion price), context-high-to-low (context length), throughput-high-to-low, latency-low-to-high (recent median performance), most-popular, top-weekly (tokens processed in the last week), newest (creation date), &lt;index&gt;-high-to-low for each Artificial Analysis index (the coding and agentic sorts are deprecated: Artificial Analysis has retired those indexes, so they order by canonical slug and variant alone), design-arena-elo-high-to-low (best Design Arena ELO across arenas). Models without a score for the chosen benchmark are placed last. The decision sort ranks decision models, so pass output_modalities=decisions or all with it. When omitted, the existing default ordering is preserved.
     ///
-    /// Allowed: `most-popular`, `newest`, `top-weekly`, `pricing-low-to-high`, `pricing-high-to-low`, `context-high-to-low`, `throughput-high-to-low`, `latency-low-to-high`, `intelligence-high-to-low`, `coding-high-to-low`, `agentic-high-to-low`, `design-arena-elo-high-to-low`
+    /// Allowed: `most-popular`, `newest`, `top-weekly`, `pricing-low-to-high`, `pricing-high-to-low`, `context-high-to-low`, `throughput-high-to-low`, `latency-low-to-high`, `intelligence-high-to-low`, `coding-high-to-low`, `agentic-high-to-low`, `finance-and-accounting-high-to-low`, `strategy-and-ops-high-to-low`, `legal-high-to-low`, `healthcare-and-medical-high-to-low`, `engineering-high-to-low`, `economics-high-to-low`, `cyber-high-to-low`, `openness-high-to-low`, `multilingual-high-to-low`, `decision-high-to-low`, `design-arena-elo-high-to-low`
     ///
     /// Unknown values are allowed by the specification.
     ///
@@ -179,6 +179,14 @@ class ModelsResource {
     /// "text,image"
     /// ```
     String? inputModalities,
+
+    /// Filter models by the request API paths they serve, as listed in each model's `endpoints` field. Comma-separated; a model must serve every listed path. Valid values: /api/v1/chat/completions, /api/v1/completions, /api/v1/messages, /api/v1/responses, /api/v1/embeddings, /api/v1/rerank, /api/alpha/decisions, /api/alpha/extractions, /api/v1/videos, /api/v1/audio/speech, /api/v1/audio/transcriptions, /api/v1/images, /api/v1/batches. When set without `output_modalities`, models of every output modality are considered (the companion `/api/alpha/extractions` route is served by text and decisions models alike).
+    ///
+    /// Example:
+    /// ```
+    /// "/api/alpha/extractions"
+    /// ```
+    String? endpoints,
 
     /// Minimum context length (tokens). Models with smaller context are excluded.
     ///
@@ -308,7 +316,7 @@ class ModelsResource {
     /// ```
     int? maxAgeDays,
 
-    /// Minimum Artificial Analysis intelligence index.
+    /// Minimum Artificial Analysis Intelligence Index score (0-100); unscored models are excluded.
     ///
     /// minimum: 0
     ///
@@ -318,7 +326,7 @@ class ModelsResource {
     /// ```
     num? minIntelligenceIndex,
 
-    /// Maximum Artificial Analysis intelligence index.
+    /// Maximum Artificial Analysis Intelligence Index score (0-100); unscored models are excluded.
     ///
     /// minimum: 0
     ///
@@ -328,7 +336,7 @@ class ModelsResource {
     /// ```
     num? maxIntelligenceIndex,
 
-    /// Minimum Artificial Analysis coding index.
+    /// Deprecated: Artificial Analysis has retired its Coding Index; no model has a score, so this matches no model.
     ///
     /// minimum: 0
     ///
@@ -336,9 +344,9 @@ class ModelsResource {
     /// ```
     /// 50
     /// ```
-    num? minCodingIndex,
+    @Deprecated('Deprecated') num? minCodingIndex,
 
-    /// Maximum Artificial Analysis coding index.
+    /// Deprecated: Artificial Analysis has retired its Coding Index; no model has a score, so this matches no model.
     ///
     /// minimum: 0
     ///
@@ -346,9 +354,9 @@ class ModelsResource {
     /// ```
     /// 100
     /// ```
-    num? maxCodingIndex,
+    @Deprecated('Deprecated') num? maxCodingIndex,
 
-    /// Minimum Artificial Analysis agentic index.
+    /// Deprecated: Artificial Analysis has retired its Agentic Index; no model has a score, so this matches no model.
     ///
     /// minimum: 0
     ///
@@ -356,9 +364,9 @@ class ModelsResource {
     /// ```
     /// 50
     /// ```
-    num? minAgenticIndex,
+    @Deprecated('Deprecated') num? minAgenticIndex,
 
-    /// Maximum Artificial Analysis agentic index.
+    /// Deprecated: Artificial Analysis has retired its Agentic Index; no model has a score, so this matches no model.
     ///
     /// minimum: 0
     ///
@@ -366,7 +374,207 @@ class ModelsResource {
     /// ```
     /// 100
     /// ```
-    num? maxAgenticIndex,
+    @Deprecated('Deprecated') num? maxAgenticIndex,
+
+    /// Minimum Artificial Analysis Finance &amp; Accounting Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 50
+    /// ```
+    num? minFinanceAndAccountingIndex,
+
+    /// Maximum Artificial Analysis Finance &amp; Accounting Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 100
+    /// ```
+    num? maxFinanceAndAccountingIndex,
+
+    /// Minimum Artificial Analysis Strategy &amp; Ops Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 50
+    /// ```
+    num? minStrategyAndOpsIndex,
+
+    /// Maximum Artificial Analysis Strategy &amp; Ops Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 100
+    /// ```
+    num? maxStrategyAndOpsIndex,
+
+    /// Minimum Artificial Analysis Legal Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 50
+    /// ```
+    num? minLegalIndex,
+
+    /// Maximum Artificial Analysis Legal Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 100
+    /// ```
+    num? maxLegalIndex,
+
+    /// Minimum Artificial Analysis Healthcare &amp; Medical Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 50
+    /// ```
+    num? minHealthcareAndMedicalIndex,
+
+    /// Maximum Artificial Analysis Healthcare &amp; Medical Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 100
+    /// ```
+    num? maxHealthcareAndMedicalIndex,
+
+    /// Minimum Artificial Analysis Engineering Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 50
+    /// ```
+    num? minEngineeringIndex,
+
+    /// Maximum Artificial Analysis Engineering Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 100
+    /// ```
+    num? maxEngineeringIndex,
+
+    /// Minimum Artificial Analysis Economics Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 50
+    /// ```
+    num? minEconomicsIndex,
+
+    /// Maximum Artificial Analysis Economics Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 100
+    /// ```
+    num? maxEconomicsIndex,
+
+    /// Minimum Artificial Analysis Cyber Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 50
+    /// ```
+    num? minCyberIndex,
+
+    /// Maximum Artificial Analysis Cyber Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 100
+    /// ```
+    num? maxCyberIndex,
+
+    /// Minimum Artificial Analysis Openness Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 50
+    /// ```
+    num? minOpennessIndex,
+
+    /// Maximum Artificial Analysis Openness Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 100
+    /// ```
+    num? maxOpennessIndex,
+
+    /// Minimum Artificial Analysis Multilingual Index score (0-1); unscored models are excluded.
+    ///
+    /// minimum: 0, maximum: 1
+    ///
+    /// Example:
+    /// ```
+    /// 0.5
+    /// ```
+    num? minMultilingualIndex,
+
+    /// Maximum Artificial Analysis Multilingual Index score (0-1); unscored models are excluded.
+    ///
+    /// minimum: 0, maximum: 1
+    ///
+    /// Example:
+    /// ```
+    /// 1
+    /// ```
+    num? maxMultilingualIndex,
+
+    /// Minimum Artificial Analysis Decision Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 50
+    /// ```
+    num? minDecisionIndex,
+
+    /// Maximum Artificial Analysis Decision Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 100
+    /// ```
+    num? maxDecisionIndex,
 
     /// Minimum tool-calling success rate, as a fraction in [0, 1] (e.g. 0.9 = 90% of requests finishing with a tool_calls finish reason).
     ///
@@ -499,6 +707,200 @@ class ModelsResource {
         );
       }
     }
+    if (minFinanceAndAccountingIndex != null) {
+      if (minFinanceAndAccountingIndex < 0) {
+        throw ArgumentError.value(
+          minFinanceAndAccountingIndex,
+          'minFinanceAndAccountingIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (maxFinanceAndAccountingIndex != null) {
+      if (maxFinanceAndAccountingIndex < 0) {
+        throw ArgumentError.value(
+          maxFinanceAndAccountingIndex,
+          'maxFinanceAndAccountingIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (minStrategyAndOpsIndex != null) {
+      if (minStrategyAndOpsIndex < 0) {
+        throw ArgumentError.value(
+          minStrategyAndOpsIndex,
+          'minStrategyAndOpsIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (maxStrategyAndOpsIndex != null) {
+      if (maxStrategyAndOpsIndex < 0) {
+        throw ArgumentError.value(
+          maxStrategyAndOpsIndex,
+          'maxStrategyAndOpsIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (minLegalIndex != null) {
+      if (minLegalIndex < 0) {
+        throw ArgumentError.value(
+          minLegalIndex,
+          'minLegalIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (maxLegalIndex != null) {
+      if (maxLegalIndex < 0) {
+        throw ArgumentError.value(
+          maxLegalIndex,
+          'maxLegalIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (minHealthcareAndMedicalIndex != null) {
+      if (minHealthcareAndMedicalIndex < 0) {
+        throw ArgumentError.value(
+          minHealthcareAndMedicalIndex,
+          'minHealthcareAndMedicalIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (maxHealthcareAndMedicalIndex != null) {
+      if (maxHealthcareAndMedicalIndex < 0) {
+        throw ArgumentError.value(
+          maxHealthcareAndMedicalIndex,
+          'maxHealthcareAndMedicalIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (minEngineeringIndex != null) {
+      if (minEngineeringIndex < 0) {
+        throw ArgumentError.value(
+          minEngineeringIndex,
+          'minEngineeringIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (maxEngineeringIndex != null) {
+      if (maxEngineeringIndex < 0) {
+        throw ArgumentError.value(
+          maxEngineeringIndex,
+          'maxEngineeringIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (minEconomicsIndex != null) {
+      if (minEconomicsIndex < 0) {
+        throw ArgumentError.value(
+          minEconomicsIndex,
+          'minEconomicsIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (maxEconomicsIndex != null) {
+      if (maxEconomicsIndex < 0) {
+        throw ArgumentError.value(
+          maxEconomicsIndex,
+          'maxEconomicsIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (minCyberIndex != null) {
+      if (minCyberIndex < 0) {
+        throw ArgumentError.value(
+          minCyberIndex,
+          'minCyberIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (maxCyberIndex != null) {
+      if (maxCyberIndex < 0) {
+        throw ArgumentError.value(
+          maxCyberIndex,
+          'maxCyberIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (minOpennessIndex != null) {
+      if (minOpennessIndex < 0) {
+        throw ArgumentError.value(
+          minOpennessIndex,
+          'minOpennessIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (maxOpennessIndex != null) {
+      if (maxOpennessIndex < 0) {
+        throw ArgumentError.value(
+          maxOpennessIndex,
+          'maxOpennessIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (minMultilingualIndex != null) {
+      if (minMultilingualIndex < 0) {
+        throw ArgumentError.value(
+          minMultilingualIndex,
+          'minMultilingualIndex',
+          'must be >= 0',
+        );
+      }
+      if (minMultilingualIndex > 1) {
+        throw ArgumentError.value(
+          minMultilingualIndex,
+          'minMultilingualIndex',
+          'must be <= 1',
+        );
+      }
+    }
+    if (maxMultilingualIndex != null) {
+      if (maxMultilingualIndex < 0) {
+        throw ArgumentError.value(
+          maxMultilingualIndex,
+          'maxMultilingualIndex',
+          'must be >= 0',
+        );
+      }
+      if (maxMultilingualIndex > 1) {
+        throw ArgumentError.value(
+          maxMultilingualIndex,
+          'maxMultilingualIndex',
+          'must be <= 1',
+        );
+      }
+    }
+    if (minDecisionIndex != null) {
+      if (minDecisionIndex < 0) {
+        throw ArgumentError.value(
+          minDecisionIndex,
+          'minDecisionIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (maxDecisionIndex != null) {
+      if (maxDecisionIndex < 0) {
+        throw ArgumentError.value(
+          maxDecisionIndex,
+          'maxDecisionIndex',
+          'must be >= 0',
+        );
+      }
+    }
     if (minToolSuccessRate != null) {
       if (minToolSuccessRate < 0) {
         throw ArgumentError.value(
@@ -543,6 +945,7 @@ class ModelsResource {
     query.add('sort', sort == null ? null : getModelsSortToJson(sort));
     query.add('q', q);
     query.add('input_modalities', inputModalities);
+    query.add('endpoints', endpoints);
     query.add('context', context);
     query.add('min_price', minPrice);
     query.add('max_price', maxPrice);
@@ -565,6 +968,26 @@ class ModelsResource {
     query.add('max_coding_index', maxCodingIndex);
     query.add('min_agentic_index', minAgenticIndex);
     query.add('max_agentic_index', maxAgenticIndex);
+    query.add('min_finance_and_accounting_index', minFinanceAndAccountingIndex);
+    query.add('max_finance_and_accounting_index', maxFinanceAndAccountingIndex);
+    query.add('min_strategy_and_ops_index', minStrategyAndOpsIndex);
+    query.add('max_strategy_and_ops_index', maxStrategyAndOpsIndex);
+    query.add('min_legal_index', minLegalIndex);
+    query.add('max_legal_index', maxLegalIndex);
+    query.add('min_healthcare_and_medical_index', minHealthcareAndMedicalIndex);
+    query.add('max_healthcare_and_medical_index', maxHealthcareAndMedicalIndex);
+    query.add('min_engineering_index', minEngineeringIndex);
+    query.add('max_engineering_index', maxEngineeringIndex);
+    query.add('min_economics_index', minEconomicsIndex);
+    query.add('max_economics_index', maxEconomicsIndex);
+    query.add('min_cyber_index', minCyberIndex);
+    query.add('max_cyber_index', maxCyberIndex);
+    query.add('min_openness_index', minOpennessIndex);
+    query.add('max_openness_index', maxOpennessIndex);
+    query.add('min_multilingual_index', minMultilingualIndex);
+    query.add('max_multilingual_index', maxMultilingualIndex);
+    query.add('min_decision_index', minDecisionIndex);
+    query.add('max_decision_index', maxDecisionIndex);
     query.add('min_tool_success_rate', minToolSuccessRate);
     query.add('max_tool_success_rate', maxToolSuccessRate);
     return _client.send<ModelsListResponse>(
@@ -634,9 +1057,9 @@ class ModelsResource {
     /// ```
     String? outputModalities,
 
-    /// Sort the returned models server-side. Prefer this over fetching the full list and sorting client-side. Options: pricing-low-to-high, pricing-high-to-low (average prompt/completion price), context-high-to-low (context length), throughput-high-to-low, latency-low-to-high (recent median performance), most-popular, top-weekly (tokens processed in the last week), newest (creation date), intelligence-high-to-low, coding-high-to-low, agentic-high-to-low (Artificial Analysis indices), design-arena-elo-high-to-low (best Design Arena ELO across arenas). Models without a score for the chosen benchmark are placed last. When omitted, the existing default ordering is preserved.
+    /// Sort the returned models server-side. Prefer this over fetching the full list and sorting client-side. Options: pricing-low-to-high, pricing-high-to-low (average prompt/completion price), context-high-to-low (context length), throughput-high-to-low, latency-low-to-high (recent median performance), most-popular, top-weekly (tokens processed in the last week), newest (creation date), &lt;index&gt;-high-to-low for each Artificial Analysis index (the coding and agentic sorts are deprecated: Artificial Analysis has retired those indexes, so they order by canonical slug and variant alone), design-arena-elo-high-to-low (best Design Arena ELO across arenas). Models without a score for the chosen benchmark are placed last. The decision sort ranks decision models, so pass output_modalities=decisions or all with it. When omitted, the existing default ordering is preserved.
     ///
-    /// Allowed: `most-popular`, `newest`, `top-weekly`, `pricing-low-to-high`, `pricing-high-to-low`, `context-high-to-low`, `throughput-high-to-low`, `latency-low-to-high`, `intelligence-high-to-low`, `coding-high-to-low`, `agentic-high-to-low`, `design-arena-elo-high-to-low`
+    /// Allowed: `most-popular`, `newest`, `top-weekly`, `pricing-low-to-high`, `pricing-high-to-low`, `context-high-to-low`, `throughput-high-to-low`, `latency-low-to-high`, `intelligence-high-to-low`, `coding-high-to-low`, `agentic-high-to-low`, `finance-and-accounting-high-to-low`, `strategy-and-ops-high-to-low`, `legal-high-to-low`, `healthcare-and-medical-high-to-low`, `engineering-high-to-low`, `economics-high-to-low`, `cyber-high-to-low`, `openness-high-to-low`, `multilingual-high-to-low`, `decision-high-to-low`, `design-arena-elo-high-to-low`
     ///
     /// Unknown values are allowed by the specification.
     ///
@@ -661,6 +1084,14 @@ class ModelsResource {
     /// "text,image"
     /// ```
     String? inputModalities,
+
+    /// Filter models by the request API paths they serve, as listed in each model's `endpoints` field. Comma-separated; a model must serve every listed path. Valid values: /api/v1/chat/completions, /api/v1/completions, /api/v1/messages, /api/v1/responses, /api/v1/embeddings, /api/v1/rerank, /api/alpha/decisions, /api/alpha/extractions, /api/v1/videos, /api/v1/audio/speech, /api/v1/audio/transcriptions, /api/v1/images, /api/v1/batches. When set without `output_modalities`, models of every output modality are considered (the companion `/api/alpha/extractions` route is served by text and decisions models alike).
+    ///
+    /// Example:
+    /// ```
+    /// "/api/alpha/extractions"
+    /// ```
+    String? endpoints,
 
     /// Minimum context length (tokens). Models with smaller context are excluded.
     ///
@@ -790,7 +1221,7 @@ class ModelsResource {
     /// ```
     int? maxAgeDays,
 
-    /// Minimum Artificial Analysis intelligence index.
+    /// Minimum Artificial Analysis Intelligence Index score (0-100); unscored models are excluded.
     ///
     /// minimum: 0
     ///
@@ -800,7 +1231,7 @@ class ModelsResource {
     /// ```
     num? minIntelligenceIndex,
 
-    /// Maximum Artificial Analysis intelligence index.
+    /// Maximum Artificial Analysis Intelligence Index score (0-100); unscored models are excluded.
     ///
     /// minimum: 0
     ///
@@ -810,7 +1241,7 @@ class ModelsResource {
     /// ```
     num? maxIntelligenceIndex,
 
-    /// Minimum Artificial Analysis coding index.
+    /// Deprecated: Artificial Analysis has retired its Coding Index; no model has a score, so this matches no model.
     ///
     /// minimum: 0
     ///
@@ -818,9 +1249,9 @@ class ModelsResource {
     /// ```
     /// 50
     /// ```
-    num? minCodingIndex,
+    @Deprecated('Deprecated') num? minCodingIndex,
 
-    /// Maximum Artificial Analysis coding index.
+    /// Deprecated: Artificial Analysis has retired its Coding Index; no model has a score, so this matches no model.
     ///
     /// minimum: 0
     ///
@@ -828,9 +1259,9 @@ class ModelsResource {
     /// ```
     /// 100
     /// ```
-    num? maxCodingIndex,
+    @Deprecated('Deprecated') num? maxCodingIndex,
 
-    /// Minimum Artificial Analysis agentic index.
+    /// Deprecated: Artificial Analysis has retired its Agentic Index; no model has a score, so this matches no model.
     ///
     /// minimum: 0
     ///
@@ -838,9 +1269,9 @@ class ModelsResource {
     /// ```
     /// 50
     /// ```
-    num? minAgenticIndex,
+    @Deprecated('Deprecated') num? minAgenticIndex,
 
-    /// Maximum Artificial Analysis agentic index.
+    /// Deprecated: Artificial Analysis has retired its Agentic Index; no model has a score, so this matches no model.
     ///
     /// minimum: 0
     ///
@@ -848,7 +1279,207 @@ class ModelsResource {
     /// ```
     /// 100
     /// ```
-    num? maxAgenticIndex,
+    @Deprecated('Deprecated') num? maxAgenticIndex,
+
+    /// Minimum Artificial Analysis Finance &amp; Accounting Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 50
+    /// ```
+    num? minFinanceAndAccountingIndex,
+
+    /// Maximum Artificial Analysis Finance &amp; Accounting Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 100
+    /// ```
+    num? maxFinanceAndAccountingIndex,
+
+    /// Minimum Artificial Analysis Strategy &amp; Ops Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 50
+    /// ```
+    num? minStrategyAndOpsIndex,
+
+    /// Maximum Artificial Analysis Strategy &amp; Ops Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 100
+    /// ```
+    num? maxStrategyAndOpsIndex,
+
+    /// Minimum Artificial Analysis Legal Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 50
+    /// ```
+    num? minLegalIndex,
+
+    /// Maximum Artificial Analysis Legal Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 100
+    /// ```
+    num? maxLegalIndex,
+
+    /// Minimum Artificial Analysis Healthcare &amp; Medical Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 50
+    /// ```
+    num? minHealthcareAndMedicalIndex,
+
+    /// Maximum Artificial Analysis Healthcare &amp; Medical Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 100
+    /// ```
+    num? maxHealthcareAndMedicalIndex,
+
+    /// Minimum Artificial Analysis Engineering Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 50
+    /// ```
+    num? minEngineeringIndex,
+
+    /// Maximum Artificial Analysis Engineering Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 100
+    /// ```
+    num? maxEngineeringIndex,
+
+    /// Minimum Artificial Analysis Economics Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 50
+    /// ```
+    num? minEconomicsIndex,
+
+    /// Maximum Artificial Analysis Economics Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 100
+    /// ```
+    num? maxEconomicsIndex,
+
+    /// Minimum Artificial Analysis Cyber Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 50
+    /// ```
+    num? minCyberIndex,
+
+    /// Maximum Artificial Analysis Cyber Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 100
+    /// ```
+    num? maxCyberIndex,
+
+    /// Minimum Artificial Analysis Openness Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 50
+    /// ```
+    num? minOpennessIndex,
+
+    /// Maximum Artificial Analysis Openness Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 100
+    /// ```
+    num? maxOpennessIndex,
+
+    /// Minimum Artificial Analysis Multilingual Index score (0-1); unscored models are excluded.
+    ///
+    /// minimum: 0, maximum: 1
+    ///
+    /// Example:
+    /// ```
+    /// 0.5
+    /// ```
+    num? minMultilingualIndex,
+
+    /// Maximum Artificial Analysis Multilingual Index score (0-1); unscored models are excluded.
+    ///
+    /// minimum: 0, maximum: 1
+    ///
+    /// Example:
+    /// ```
+    /// 1
+    /// ```
+    num? maxMultilingualIndex,
+
+    /// Minimum Artificial Analysis Decision Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 50
+    /// ```
+    num? minDecisionIndex,
+
+    /// Maximum Artificial Analysis Decision Index score (0-100); unscored models are excluded.
+    ///
+    /// minimum: 0
+    ///
+    /// Example:
+    /// ```
+    /// 100
+    /// ```
+    num? maxDecisionIndex,
 
     /// Minimum tool-calling success rate, as a fraction in [0, 1] (e.g. 0.9 = 90% of requests finishing with a tool_calls finish reason).
     ///
@@ -976,6 +1607,200 @@ class ModelsResource {
         );
       }
     }
+    if (minFinanceAndAccountingIndex != null) {
+      if (minFinanceAndAccountingIndex < 0) {
+        throw ArgumentError.value(
+          minFinanceAndAccountingIndex,
+          'minFinanceAndAccountingIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (maxFinanceAndAccountingIndex != null) {
+      if (maxFinanceAndAccountingIndex < 0) {
+        throw ArgumentError.value(
+          maxFinanceAndAccountingIndex,
+          'maxFinanceAndAccountingIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (minStrategyAndOpsIndex != null) {
+      if (minStrategyAndOpsIndex < 0) {
+        throw ArgumentError.value(
+          minStrategyAndOpsIndex,
+          'minStrategyAndOpsIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (maxStrategyAndOpsIndex != null) {
+      if (maxStrategyAndOpsIndex < 0) {
+        throw ArgumentError.value(
+          maxStrategyAndOpsIndex,
+          'maxStrategyAndOpsIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (minLegalIndex != null) {
+      if (minLegalIndex < 0) {
+        throw ArgumentError.value(
+          minLegalIndex,
+          'minLegalIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (maxLegalIndex != null) {
+      if (maxLegalIndex < 0) {
+        throw ArgumentError.value(
+          maxLegalIndex,
+          'maxLegalIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (minHealthcareAndMedicalIndex != null) {
+      if (minHealthcareAndMedicalIndex < 0) {
+        throw ArgumentError.value(
+          minHealthcareAndMedicalIndex,
+          'minHealthcareAndMedicalIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (maxHealthcareAndMedicalIndex != null) {
+      if (maxHealthcareAndMedicalIndex < 0) {
+        throw ArgumentError.value(
+          maxHealthcareAndMedicalIndex,
+          'maxHealthcareAndMedicalIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (minEngineeringIndex != null) {
+      if (minEngineeringIndex < 0) {
+        throw ArgumentError.value(
+          minEngineeringIndex,
+          'minEngineeringIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (maxEngineeringIndex != null) {
+      if (maxEngineeringIndex < 0) {
+        throw ArgumentError.value(
+          maxEngineeringIndex,
+          'maxEngineeringIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (minEconomicsIndex != null) {
+      if (minEconomicsIndex < 0) {
+        throw ArgumentError.value(
+          minEconomicsIndex,
+          'minEconomicsIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (maxEconomicsIndex != null) {
+      if (maxEconomicsIndex < 0) {
+        throw ArgumentError.value(
+          maxEconomicsIndex,
+          'maxEconomicsIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (minCyberIndex != null) {
+      if (minCyberIndex < 0) {
+        throw ArgumentError.value(
+          minCyberIndex,
+          'minCyberIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (maxCyberIndex != null) {
+      if (maxCyberIndex < 0) {
+        throw ArgumentError.value(
+          maxCyberIndex,
+          'maxCyberIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (minOpennessIndex != null) {
+      if (minOpennessIndex < 0) {
+        throw ArgumentError.value(
+          minOpennessIndex,
+          'minOpennessIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (maxOpennessIndex != null) {
+      if (maxOpennessIndex < 0) {
+        throw ArgumentError.value(
+          maxOpennessIndex,
+          'maxOpennessIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (minMultilingualIndex != null) {
+      if (minMultilingualIndex < 0) {
+        throw ArgumentError.value(
+          minMultilingualIndex,
+          'minMultilingualIndex',
+          'must be >= 0',
+        );
+      }
+      if (minMultilingualIndex > 1) {
+        throw ArgumentError.value(
+          minMultilingualIndex,
+          'minMultilingualIndex',
+          'must be <= 1',
+        );
+      }
+    }
+    if (maxMultilingualIndex != null) {
+      if (maxMultilingualIndex < 0) {
+        throw ArgumentError.value(
+          maxMultilingualIndex,
+          'maxMultilingualIndex',
+          'must be >= 0',
+        );
+      }
+      if (maxMultilingualIndex > 1) {
+        throw ArgumentError.value(
+          maxMultilingualIndex,
+          'maxMultilingualIndex',
+          'must be <= 1',
+        );
+      }
+    }
+    if (minDecisionIndex != null) {
+      if (minDecisionIndex < 0) {
+        throw ArgumentError.value(
+          minDecisionIndex,
+          'minDecisionIndex',
+          'must be >= 0',
+        );
+      }
+    }
+    if (maxDecisionIndex != null) {
+      if (maxDecisionIndex < 0) {
+        throw ArgumentError.value(
+          maxDecisionIndex,
+          'maxDecisionIndex',
+          'must be >= 0',
+        );
+      }
+    }
     if (minToolSuccessRate != null) {
       if (minToolSuccessRate < 0) {
         throw ArgumentError.value(
@@ -1018,6 +1843,7 @@ class ModelsResource {
         sort: sort,
         q: q,
         inputModalities: inputModalities,
+        endpoints: endpoints,
         context: context,
         minPrice: minPrice,
         maxPrice: maxPrice,
@@ -1037,6 +1863,26 @@ class ModelsResource {
         maxCodingIndex: maxCodingIndex,
         minAgenticIndex: minAgenticIndex,
         maxAgenticIndex: maxAgenticIndex,
+        minFinanceAndAccountingIndex: minFinanceAndAccountingIndex,
+        maxFinanceAndAccountingIndex: maxFinanceAndAccountingIndex,
+        minStrategyAndOpsIndex: minStrategyAndOpsIndex,
+        maxStrategyAndOpsIndex: maxStrategyAndOpsIndex,
+        minLegalIndex: minLegalIndex,
+        maxLegalIndex: maxLegalIndex,
+        minHealthcareAndMedicalIndex: minHealthcareAndMedicalIndex,
+        maxHealthcareAndMedicalIndex: maxHealthcareAndMedicalIndex,
+        minEngineeringIndex: minEngineeringIndex,
+        maxEngineeringIndex: maxEngineeringIndex,
+        minEconomicsIndex: minEconomicsIndex,
+        maxEconomicsIndex: maxEconomicsIndex,
+        minCyberIndex: minCyberIndex,
+        maxCyberIndex: maxCyberIndex,
+        minOpennessIndex: minOpennessIndex,
+        maxOpennessIndex: maxOpennessIndex,
+        minMultilingualIndex: minMultilingualIndex,
+        maxMultilingualIndex: maxMultilingualIndex,
+        minDecisionIndex: minDecisionIndex,
+        maxDecisionIndex: maxDecisionIndex,
         minToolSuccessRate: minToolSuccessRate,
         maxToolSuccessRate: maxToolSuccessRate,
         options: options,
@@ -1142,9 +1988,9 @@ class ModelsResource {
     /// ```
     String? outputModalities,
 
-    /// Sort the returned models server-side. Prefer this over fetching the full list and sorting client-side. Options: pricing-low-to-high, pricing-high-to-low (average prompt/completion price), context-high-to-low (context length), throughput-high-to-low, latency-low-to-high (recent median performance), most-popular, top-weekly (tokens processed in the last week), newest (creation date), intelligence-high-to-low, coding-high-to-low, agentic-high-to-low (Artificial Analysis indices), design-arena-elo-high-to-low (best Design Arena ELO across arenas). Models without a score for the chosen benchmark are placed last. When omitted, the existing default ordering is preserved.
+    /// Sort the returned models server-side. Prefer this over fetching the full list and sorting client-side. Options: pricing-low-to-high, pricing-high-to-low (average prompt/completion price), context-high-to-low (context length), throughput-high-to-low, latency-low-to-high (recent median performance), most-popular, top-weekly (tokens processed in the last week), newest (creation date), &lt;index&gt;-high-to-low for each Artificial Analysis index (the coding and agentic sorts are deprecated: Artificial Analysis has retired those indexes, so they order by canonical slug and variant alone), design-arena-elo-high-to-low (best Design Arena ELO across arenas). Models without a score for the chosen benchmark are placed last. The decision sort ranks decision models, so pass output_modalities=decisions or all with it. When omitted, the existing default ordering is preserved.
     ///
-    /// Allowed: `most-popular`, `newest`, `top-weekly`, `pricing-low-to-high`, `pricing-high-to-low`, `context-high-to-low`, `throughput-high-to-low`, `latency-low-to-high`, `intelligence-high-to-low`, `coding-high-to-low`, `agentic-high-to-low`, `design-arena-elo-high-to-low`
+    /// Allowed: `most-popular`, `newest`, `top-weekly`, `pricing-low-to-high`, `pricing-high-to-low`, `context-high-to-low`, `throughput-high-to-low`, `latency-low-to-high`, `intelligence-high-to-low`, `coding-high-to-low`, `agentic-high-to-low`, `finance-and-accounting-high-to-low`, `strategy-and-ops-high-to-low`, `legal-high-to-low`, `healthcare-and-medical-high-to-low`, `engineering-high-to-low`, `economics-high-to-low`, `cyber-high-to-low`, `openness-high-to-low`, `multilingual-high-to-low`, `decision-high-to-low`, `design-arena-elo-high-to-low`
     ///
     /// Unknown values are allowed by the specification.
     ///
@@ -1235,9 +2081,9 @@ class ModelsResource {
     /// ```
     String? outputModalities,
 
-    /// Sort the returned models server-side. Prefer this over fetching the full list and sorting client-side. Options: pricing-low-to-high, pricing-high-to-low (average prompt/completion price), context-high-to-low (context length), throughput-high-to-low, latency-low-to-high (recent median performance), most-popular, top-weekly (tokens processed in the last week), newest (creation date), intelligence-high-to-low, coding-high-to-low, agentic-high-to-low (Artificial Analysis indices), design-arena-elo-high-to-low (best Design Arena ELO across arenas). Models without a score for the chosen benchmark are placed last. When omitted, the existing default ordering is preserved.
+    /// Sort the returned models server-side. Prefer this over fetching the full list and sorting client-side. Options: pricing-low-to-high, pricing-high-to-low (average prompt/completion price), context-high-to-low (context length), throughput-high-to-low, latency-low-to-high (recent median performance), most-popular, top-weekly (tokens processed in the last week), newest (creation date), &lt;index&gt;-high-to-low for each Artificial Analysis index (the coding and agentic sorts are deprecated: Artificial Analysis has retired those indexes, so they order by canonical slug and variant alone), design-arena-elo-high-to-low (best Design Arena ELO across arenas). Models without a score for the chosen benchmark are placed last. The decision sort ranks decision models, so pass output_modalities=decisions or all with it. When omitted, the existing default ordering is preserved.
     ///
-    /// Allowed: `most-popular`, `newest`, `top-weekly`, `pricing-low-to-high`, `pricing-high-to-low`, `context-high-to-low`, `throughput-high-to-low`, `latency-low-to-high`, `intelligence-high-to-low`, `coding-high-to-low`, `agentic-high-to-low`, `design-arena-elo-high-to-low`
+    /// Allowed: `most-popular`, `newest`, `top-weekly`, `pricing-low-to-high`, `pricing-high-to-low`, `context-high-to-low`, `throughput-high-to-low`, `latency-low-to-high`, `intelligence-high-to-low`, `coding-high-to-low`, `agentic-high-to-low`, `finance-and-accounting-high-to-low`, `strategy-and-ops-high-to-low`, `legal-high-to-low`, `healthcare-and-medical-high-to-low`, `engineering-high-to-low`, `economics-high-to-low`, `cyber-high-to-low`, `openness-high-to-low`, `multilingual-high-to-low`, `decision-high-to-low`, `design-arena-elo-high-to-low`
     ///
     /// Unknown values are allowed by the specification.
     ///

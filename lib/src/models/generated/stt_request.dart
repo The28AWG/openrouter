@@ -3,6 +3,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'provider_name.dart';
 import 'provider_options.dart';
 import 'stt_input_audio.dart';
 import 'stt_timestamp_granularity.dart';
@@ -56,10 +57,123 @@ Object? sTTRequestProviderValueDataCollectionValueToJson(
   STTRequestProviderValueDataCollectionValue value,
 ) => _$STTRequestProviderValueDataCollectionValueEnumMap[value];
 
-/// Provider configuration: data policy routing preferences (`zdr`, `data_collection`) and provider-specific passthrough options
+@Freezed(fromJson: false, toJson: false)
+sealed class STTRequestProviderValueIgnoreItemValue
+    with _$STTRequestProviderValueIgnoreItemValue {
+  const STTRequestProviderValueIgnoreItemValue._();
+
+  const factory STTRequestProviderValueIgnoreItemValue.providername({
+    required ProviderName value,
+  }) = _STTRequestProviderValueIgnoreItemValueProvidername;
+
+  const factory STTRequestProviderValueIgnoreItemValue.string({
+    required String value,
+  }) = _STTRequestProviderValueIgnoreItemValueString;
+
+  factory STTRequestProviderValueIgnoreItemValue.fromJson(Object? json) {
+    if (json is String) {
+      final providernameValue = _tryDecode(() => providerNameFromJson(json));
+      if (providernameValue != null) {
+        return STTRequestProviderValueIgnoreItemValue.providername(
+          value: providernameValue,
+        );
+      }
+      return STTRequestProviderValueIgnoreItemValue.string(value: json);
+    }
+    throw FormatException('STTRequestProviderValueIgnoreItemValue: $json');
+  }
+
+  Object? toJson() {
+    switch (this) {
+      case _STTRequestProviderValueIgnoreItemValueProvidername(:final value):
+        return providerNameToJson(value);
+      case _STTRequestProviderValueIgnoreItemValueString(:final value):
+        return value;
+    }
+  }
+}
+
+@Freezed(fromJson: false, toJson: false)
+sealed class STTRequestProviderValueOnlyItemValue
+    with _$STTRequestProviderValueOnlyItemValue {
+  const STTRequestProviderValueOnlyItemValue._();
+
+  const factory STTRequestProviderValueOnlyItemValue.providername({
+    required ProviderName value,
+  }) = _STTRequestProviderValueOnlyItemValueProvidername;
+
+  const factory STTRequestProviderValueOnlyItemValue.string({
+    required String value,
+  }) = _STTRequestProviderValueOnlyItemValueString;
+
+  factory STTRequestProviderValueOnlyItemValue.fromJson(Object? json) {
+    if (json is String) {
+      final providernameValue = _tryDecode(() => providerNameFromJson(json));
+      if (providernameValue != null) {
+        return STTRequestProviderValueOnlyItemValue.providername(
+          value: providernameValue,
+        );
+      }
+      return STTRequestProviderValueOnlyItemValue.string(value: json);
+    }
+    throw FormatException('STTRequestProviderValueOnlyItemValue: $json');
+  }
+
+  Object? toJson() {
+    switch (this) {
+      case _STTRequestProviderValueOnlyItemValueProvidername(:final value):
+        return providerNameToJson(value);
+      case _STTRequestProviderValueOnlyItemValueString(:final value):
+        return value;
+    }
+  }
+}
+
+@Freezed(fromJson: false, toJson: false)
+sealed class STTRequestProviderValueOrderItemValue
+    with _$STTRequestProviderValueOrderItemValue {
+  const STTRequestProviderValueOrderItemValue._();
+
+  const factory STTRequestProviderValueOrderItemValue.providername({
+    required ProviderName value,
+  }) = _STTRequestProviderValueOrderItemValueProvidername;
+
+  const factory STTRequestProviderValueOrderItemValue.string({
+    required String value,
+  }) = _STTRequestProviderValueOrderItemValueString;
+
+  factory STTRequestProviderValueOrderItemValue.fromJson(Object? json) {
+    if (json is String) {
+      final providernameValue = _tryDecode(() => providerNameFromJson(json));
+      if (providernameValue != null) {
+        return STTRequestProviderValueOrderItemValue.providername(
+          value: providernameValue,
+        );
+      }
+      return STTRequestProviderValueOrderItemValue.string(value: json);
+    }
+    throw FormatException('STTRequestProviderValueOrderItemValue: $json');
+  }
+
+  Object? toJson() {
+    switch (this) {
+      case _STTRequestProviderValueOrderItemValueProvidername(:final value):
+        return providerNameToJson(value);
+      case _STTRequestProviderValueOrderItemValueString(:final value):
+        return value;
+    }
+  }
+}
+
+/// Provider configuration: provider routing preferences (`order`, `only`, `ignore`, `allow_fallbacks`), data policy routing preferences (`zdr`, `data_collection`) and provider-specific passthrough options
 @freezed
 sealed class STTRequestProviderValue with _$STTRequestProviderValue {
   const factory STTRequestProviderValue({
+    /// Whether to allow backup providers to serve requests
+    /// - true: (default) when the primary provider (or your custom providers in "order") is unavailable, use the next best provider.
+    /// - false: use only the primary/custom provider, and return the upstream error if it's unavailable.
+    @JsonKey(name: 'allow_fallbacks') bool? allowFallbacks,
+
     /// Data collection setting. If no available model provider meets the requirement, your request will return an error.
     /// - allow: (default) allow providers which store user data non-transiently and may train on it
     ///
@@ -81,6 +195,28 @@ sealed class STTRequestProviderValue with _$STTRequestProviderValue {
     )
     STTRequestProviderValueDataCollectionValue? dataCollection,
 
+    /// List of provider slugs to ignore. If provided, this list is merged with your account-wide ignored provider settings for this request.
+    ///
+    /// Example:
+    /// ```
+    /// [
+    ///   "openai",
+    ///   "anthropic"
+    /// ]
+    /// ```
+    List<STTRequestProviderValueIgnoreItemValue>? ignore,
+
+    /// List of provider slugs to allow. If provided, this list is merged with your account-wide allowed provider settings for this request.
+    ///
+    /// Example:
+    /// ```
+    /// [
+    ///   "openai",
+    ///   "anthropic"
+    /// ]
+    /// ```
+    List<STTRequestProviderValueOnlyItemValue>? only,
+
     /// Provider-specific options keyed by provider slug. The provider segment is case-insensitive; an endpoint tag after `/` must match the endpoint slug exactly. Only options for the matched provider are forwarded; the rest are ignored. Unrecognized keys are silently dropped.
     ///
     /// Example:
@@ -92,6 +228,17 @@ sealed class STTRequestProviderValue with _$STTRequestProviderValue {
     /// }
     /// ```
     ProviderOptions? options,
+
+    /// An ordered list of provider slugs. The router will attempt to use the first provider in the subset of this list that supports your requested model, and fall back to the next if it is unavailable. If no providers are available, the request will fail with an error message.
+    ///
+    /// Example:
+    /// ```
+    /// [
+    ///   "openai",
+    ///   "anthropic"
+    /// ]
+    /// ```
+    List<STTRequestProviderValueOrderItemValue>? order,
 
     /// Whether to restrict routing to only ZDR (Zero Data Retention) endpoints. When true, only endpoints that do not retain prompts will be used.
     ///
@@ -203,7 +350,15 @@ sealed class STTRequest with _$STTRequest {
     /// ```
     required String model,
 
-    /// Provider configuration: data policy routing preferences (`zdr`, `data_collection`) and provider-specific passthrough options
+    /// Context to guide transcription, such as domain vocabulary or a previous segment. Honored by OpenAI (except gpt-4o-transcribe-diarize), Azure OpenAI, Groq, Together, Alibaba, and AssemblyAI endpoints with prompted pricing configured. Other providers ignore it; use keyterms for supported keyword boosting. Takes precedence over provider-specific prompt options, including when empty.
+    ///
+    /// Example:
+    /// ```
+    /// "A discussion about OpenRouter and speech recognition."
+    /// ```
+    String? prompt,
+
+    /// Provider configuration: provider routing preferences (`order`, `only`, `ignore`, `allow_fallbacks`), data policy routing preferences (`zdr`, `data_collection`) and provider-specific passthrough options
     STTRequestProviderValue? provider,
 
     /// Output format. "json" (default) returns { text, usage }. "verbose_json" additionally returns task, language, duration, and segment-level timestamps; only supported by OpenAI-compatible providers.
@@ -280,4 +435,12 @@ sealed class STTRequest with _$STTRequest {
 
   factory STTRequest.fromJson(Map<String, dynamic> json) =>
       _$STTRequestFromJson(json);
+}
+
+T? _tryDecode<T>(T Function() decode) {
+  try {
+    return decode();
+  } on Object {
+    return null;
+  }
 }

@@ -2,7 +2,6 @@
 
 import '../../runtime/openrouter_runtime.dart';
 import '../../models/generated/bad_gateway_response.dart';
-import '../../models/generated/bad_request_response.dart';
 import '../../models/generated/edge_network_timeout_response.dart';
 import '../../models/generated/forbidden_response.dart';
 import '../../models/generated/internal_server_response.dart';
@@ -13,6 +12,7 @@ import '../../models/generated/payload_too_large_response.dart';
 import '../../models/generated/payment_required_response.dart';
 import '../../models/generated/provider_overloaded_response.dart';
 import '../../models/generated/request_timeout_response.dart';
+import '../../models/generated/responses_bad_request_response.dart';
 import '../../models/generated/responses_request.dart';
 import '../../models/generated/responses_streaming_response.dart';
 import '../../models/generated/service_unavailable_response.dart';
@@ -49,7 +49,7 @@ class ResponsesResource {
   /// Successful response
   ///
   /// Errors:
-  /// - 400 Bad Request - Invalid request parameters or malformed input
+  /// - 400 Bad Request - Invalid request parameters or malformed input. Request-shape validation failures carry a Responses API string code (e.g. `invalid_prompt`) with details in the top-level `metadata`; all other failures carry the integer HTTP status.
   /// - 401 Unauthorized - Authentication required or invalid credentials
   /// - 402 Payment Required - Insufficient credits or quota to complete request
   /// - 403 Forbidden - Authentication successful but insufficient permissions, or a guardrail blocked the request. When guardrails block and the `X-OpenRouter-Metadata: enabled` header is present, the response includes `openrouter_metadata` with full routing context and a `pipeline` array containing guardrail stage details.
@@ -133,7 +133,7 @@ class ResponsesResource {
       authenticated: true,
       accept: 'application/json',
       errors: {
-        400: BadRequestResponse.fromJson,
+        400: ResponsesBadRequestResponse.fromJson,
         401: UnauthorizedResponse.fromJson,
         402: PaymentRequiredResponse.fromJson,
         403: ForbiddenResponse.fromJson,
@@ -179,7 +179,7 @@ class ResponsesResource {
   /// Successful response
   ///
   /// Errors:
-  /// - 400 Bad Request - Invalid request parameters or malformed input
+  /// - 400 Bad Request - Invalid request parameters or malformed input. Request-shape validation failures carry a Responses API string code (e.g. `invalid_prompt`) with details in the top-level `metadata`; all other failures carry the integer HTTP status.
   /// - 401 Unauthorized - Authentication required or invalid credentials
   /// - 402 Payment Required - Insufficient credits or quota to complete request
   /// - 403 Forbidden - Authentication successful but insufficient permissions, or a guardrail blocked the request. When guardrails block and the `X-OpenRouter-Metadata: enabled` header is present, the response includes `openrouter_metadata` with full routing context and a `pipeline` array containing guardrail stage details.
@@ -263,7 +263,7 @@ class ResponsesResource {
       authenticated: true,
       accept: 'text/event-stream',
       errors: {
-        400: BadRequestResponse.fromJson,
+        400: ResponsesBadRequestResponse.fromJson,
         401: UnauthorizedResponse.fromJson,
         402: PaymentRequiredResponse.fromJson,
         403: ForbiddenResponse.fromJson,

@@ -22,10 +22,14 @@ import 'open_ai_responses_tool_choice.dart';
 import 'open_ai_responses_usage.dart';
 import 'output_item_apply_patch_call.dart';
 import 'output_item_code_interpreter_call.dart';
+import 'output_item_compaction.dart';
 import 'output_item_custom_tool_call.dart';
 import 'output_item_file_search_call.dart';
 import 'output_item_function_call.dart';
 import 'output_item_image_generation_call.dart';
+import 'output_item_mcp_approval_request.dart';
+import 'output_item_mcp_call.dart';
+import 'output_item_mcp_list_tools.dart';
 import 'output_item_reasoning.dart';
 import 'output_item_web_search_call.dart';
 import 'output_message.dart';
@@ -75,6 +79,10 @@ sealed class BaseResponsesResultOutputItemValue
     required OutputItemCodeInterpreterCall value,
   }) = _BaseResponsesResultOutputItemValueCodeinterpretercall;
 
+  const factory BaseResponsesResultOutputItemValue.compaction({
+    required OutputItemCompaction value,
+  }) = _BaseResponsesResultOutputItemValueCompaction;
+
   const factory BaseResponsesResultOutputItemValue.customToolCall({
     required OutputItemCustomToolCall value,
   }) = _BaseResponsesResultOutputItemValueCustomtoolcall;
@@ -90,6 +98,18 @@ sealed class BaseResponsesResultOutputItemValue
   const factory BaseResponsesResultOutputItemValue.imageGenerationCall({
     required OutputItemImageGenerationCall value,
   }) = _BaseResponsesResultOutputItemValueImagegenerationcall;
+
+  const factory BaseResponsesResultOutputItemValue.mcpApprovalRequest({
+    required OutputItemMcpApprovalRequest value,
+  }) = _BaseResponsesResultOutputItemValueMcpapprovalrequest;
+
+  const factory BaseResponsesResultOutputItemValue.mcpCall({
+    required OutputItemMcpCall value,
+  }) = _BaseResponsesResultOutputItemValueMcpcall;
+
+  const factory BaseResponsesResultOutputItemValue.mcpListTools({
+    required OutputItemMcpListTools value,
+  }) = _BaseResponsesResultOutputItemValueMcplisttools;
 
   const factory BaseResponsesResultOutputItemValue.message({
     required OutputMessage value,
@@ -116,6 +136,10 @@ sealed class BaseResponsesResultOutputItemValue
         return BaseResponsesResultOutputItemValue.codeInterpreterCall(
           value: OutputItemCodeInterpreterCall.fromJson(json),
         );
+      case 'compaction':
+        return BaseResponsesResultOutputItemValue.compaction(
+          value: OutputItemCompaction.fromJson(json),
+        );
       case 'custom_tool_call':
         return BaseResponsesResultOutputItemValue.customToolCall(
           value: OutputItemCustomToolCall.fromJson(json),
@@ -131,6 +155,18 @@ sealed class BaseResponsesResultOutputItemValue
       case 'image_generation_call':
         return BaseResponsesResultOutputItemValue.imageGenerationCall(
           value: OutputItemImageGenerationCall.fromJson(json),
+        );
+      case 'mcp_approval_request':
+        return BaseResponsesResultOutputItemValue.mcpApprovalRequest(
+          value: OutputItemMcpApprovalRequest.fromJson(json),
+        );
+      case 'mcp_call':
+        return BaseResponsesResultOutputItemValue.mcpCall(
+          value: OutputItemMcpCall.fromJson(json),
+        );
+      case 'mcp_list_tools':
+        return BaseResponsesResultOutputItemValue.mcpListTools(
+          value: OutputItemMcpListTools.fromJson(json),
         );
       case 'message':
         return BaseResponsesResultOutputItemValue.message(
@@ -155,6 +191,8 @@ sealed class BaseResponsesResultOutputItemValue
         return value.toJson();
       case _BaseResponsesResultOutputItemValueCodeinterpretercall(:final value):
         return value.toJson();
+      case _BaseResponsesResultOutputItemValueCompaction(:final value):
+        return value.toJson();
       case _BaseResponsesResultOutputItemValueCustomtoolcall(:final value):
         return value.toJson();
       case _BaseResponsesResultOutputItemValueFilesearchcall(:final value):
@@ -162,6 +200,12 @@ sealed class BaseResponsesResultOutputItemValue
       case _BaseResponsesResultOutputItemValueFunctioncall(:final value):
         return value.toJson();
       case _BaseResponsesResultOutputItemValueImagegenerationcall(:final value):
+        return value.toJson();
+      case _BaseResponsesResultOutputItemValueMcpapprovalrequest(:final value):
+        return value.toJson();
+      case _BaseResponsesResultOutputItemValueMcpcall(:final value):
+        return value.toJson();
+      case _BaseResponsesResultOutputItemValueMcplisttools(:final value):
         return value.toJson();
       case _BaseResponsesResultOutputItemValueMessage(:final value):
         return value.toJson();

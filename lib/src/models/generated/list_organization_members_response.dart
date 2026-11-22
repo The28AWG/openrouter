@@ -6,9 +6,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'list_organization_members_response.freezed.dart';
 part 'list_organization_members_response.g.dart';
 
-/// Role of the member in the organization
+/// Role of the member in the organization. `org:viewer` is coming soon and not yet available. Once launched, it has read-only organization access: it can view organization settings, billing and workspaces but not change them. Workspace roles can still grant write access in specific workspaces.
 ///
-/// Allowed: `org:admin`, `org:member`
+/// Allowed: `org:admin`, `org:member`, `org:viewer`
 ///
 /// Unknown values are allowed by the specification.
 ///
@@ -22,6 +22,8 @@ enum ListOrganizationMembersResponseDataItemValueRoleValue {
   orgAdmin,
   @JsonValue('org:member')
   orgMember,
+  @JsonValue('org:viewer')
+  orgViewer,
 
   /// Value returned when the API sends a member that is not listed yet.
   unknown_,
@@ -85,9 +87,9 @@ sealed class ListOrganizationMembersResponseDataItemValue
     /// ```
     @JsonKey(name: 'last_name') String? lastName,
 
-    /// Role of the member in the organization
+    /// Role of the member in the organization. `org:viewer` is coming soon and not yet available. Once launched, it has read-only organization access: it can view organization settings, billing and workspaces but not change them. Workspace roles can still grant write access in specific workspaces.
     ///
-    /// Allowed: `org:admin`, `org:member`
+    /// Allowed: `org:admin`, `org:member`, `org:viewer`
     ///
     /// Unknown values are allowed by the specification.
     ///

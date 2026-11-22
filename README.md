@@ -4,9 +4,11 @@ Typed Dart client for the [OpenRouter](https://openrouter.ai) API. Models and se
 
 ## Features
 
-- Full coverage of OpenRouter resources (chat, models, embeddings, images, files, keys, workspaces, and more)
+- Full coverage of OpenRouter resources (chat, models, embeddings, images, speech, files, keys, workspaces, guardrail policies, and more)
 - Freezed + `json_serializable` request/response models
 - Streaming chat via SSE (`sendStream`)
+- Speech-to-text and text-to-speech endpoints, including speech model discovery
+- Guardrail policy management (account, budget, model-availability, and moderation) with API-key and member assignments
 - Cursor/offset pagination helpers (`*All` methods where the spec defines pagination)
 - Multipart uploads and binary downloads
 - Global headers (`HTTP-Referer`, `X-OpenRouter-Title`, `X-OpenRouter-Categories`) plus per-call overrides
@@ -22,7 +24,7 @@ dependencies:
     git:
       url: https://github.com/The28AWG/openrouter.git
       tag_pattern: dist-v{{version}}
-    version: ^1.0.1
+    version: ^1.0.2
 ```
 
 `tag_pattern` needs Dart 3.9 or newer in the app. This package already requires `^3.12.2`. To pin one release:
@@ -32,7 +34,7 @@ dependencies:
   openrouter:
     git:
       url: https://github.com/The28AWG/openrouter.git
-      ref: dist-v1.0.1
+      ref: dist-v1.0.2
 ```
 
 A path dependency works for a local checkout after `dart run build_runner build`.
@@ -45,7 +47,7 @@ import 'package:openrouter/openrouter.dart';
 final client = OpenRouter(
   apiKey: Platform.environment['OPENROUTER_API_KEY'],
   httpReferer: 'https://example.com',
-  xOpenrouterTitle: 'My App',
+  appTitle: 'My App',
 );
 ```
 
@@ -115,9 +117,9 @@ Part files stay off the default branch. Apps resolve them from a dist tag that [
 
 1. Set `version` in `pubspec.yaml` and describe that version in `CHANGELOG.md`.
 2. Merge that commit into the default branch and wait until CI is green.
-3. Publish a GitHub Release. The tag is `v` plus the pubspec version, on that commit: `version: 1.0.1` means tag `v1.0.1`. The workflow rejects any other tag name. This tag has no `*.g.dart` or `*.freezed.dart` files.
-4. Wait until the Dist tag workflow finishes. It runs `build_runner`, checks `dart analyze`, and pushes `dist-v1.0.1`.
-5. Point the app at that dist tag. See Getting started. `version` there is a normal constraint (`^1.0.1` for the current release). The number inside `dist-v…` must match `version` in this package's `pubspec.yaml`.
+3. Publish a GitHub Release. The tag is `v` plus the pubspec version, on that commit: `version: 1.0.2` means tag `v1.0.2`. The workflow rejects any other tag name. This tag has no `*.g.dart` or `*.freezed.dart` files.
+4. Wait until the Dist tag workflow finishes. It runs `build_runner`, checks `dart analyze`, and pushes `dist-v1.0.2`.
+5. Point the app at that dist tag. See Getting started. `version` there is a normal constraint (`^1.0.2` for the current release). The number inside `dist-v…` must match `version` in this package's `pubspec.yaml`.
 
 ## Additional information
 

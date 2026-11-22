@@ -113,7 +113,7 @@ sealed class CreateAuthKeysCodeRequest with _$CreateAuthKeysCodeRequest {
     /// ```
     @JsonKey(name: 'callback_url') required String callbackUrl,
 
-    /// PKCE code challenge for enhanced security
+    /// PKCE code challenge: the base64url-encoded SHA-256 hash of your `code_verifier`. Send it with `code_challenge_method` set to `S256`.
     ///
     /// Example:
     /// ```
@@ -167,22 +167,6 @@ sealed class CreateAuthKeysCodeRequest with _$CreateAuthKeysCodeRequest {
     /// 100
     /// ```
     num? limit,
-
-    /// Agent identifier for spawn telemetry
-    ///
-    /// Example:
-    /// ```
-    /// "my-agent"
-    /// ```
-    @JsonKey(name: 'spawn_agent') String? spawnAgent,
-
-    /// Cloud identifier for spawn telemetry
-    ///
-    /// Example:
-    /// ```
-    /// "aws-us-east-1"
-    /// ```
-    @JsonKey(name: 'spawn_cloud') String? spawnCloud,
 
     /// Optional credit limit reset interval. When set, the credit limit resets on this interval.
     ///

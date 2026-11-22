@@ -15,6 +15,7 @@ import 'anthropic_speed.dart';
 import 'anthropic_usage_iteration.dart';
 import 'api_error_type.dart';
 import 'armor_safeguard_result.dart';
+import 'batch_output_reference.dart';
 import 'cost_details.dart';
 import 'finish_reason.dart';
 import 'open_responses_result.dart';
@@ -532,6 +533,9 @@ sealed class BatchObjectResultsItemValueResponseValueBodyValueVariant1ValueChoic
     @JsonKey(name: 'end_index') required int endIndex,
     @JsonKey(name: 'start_index') required int startIndex,
     required String title,
+
+    /// constant: `true`
+    bool? uncited,
     required String url,
   }) =
       _BatchObjectResultsItemValueResponseValueBodyValueVariant1ValueChoicesItemValueMessageValueAnnotationsItemValueUrlcitationUrlCitationUrlCitationValue;
@@ -1763,6 +1767,14 @@ sealed class BatchObjectResultsItemValueResponseValueBodyValueVariant4ValueDataI
     with
         _$BatchObjectResultsItemValueResponseValueBodyValueVariant4ValueDataItemValue {
   const factory BatchObjectResultsItemValueResponseValueBodyValueVariant4ValueDataItemValue({
+    /// Index of the source document when `input` was a list of documents (contextual embeddings). Absent otherwise.
+    ///
+    /// Example:
+    /// ```
+    /// 0
+    /// ```
+    @JsonKey(name: 'document_index') int? documentIndex,
+
     /// Embedding vector as an array of floats or a base64 string
     ///
     /// Example:
@@ -2028,6 +2040,348 @@ sealed class BatchObjectResultsItemValueResponseValueBodyValueVariant4Value
   );
 }
 
+/// Allowed: `16`
+@JsonEnum(alwaysCreate: true)
+enum BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1ValueBitsPerSampleValue {
+  @JsonValue(16)
+  value16,
+}
+
+BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1ValueBitsPerSampleValue
+batchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1ValueBitsPerSampleValueFromJson(
+  Object? json,
+) => $enumDecode(
+  _$BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1ValueBitsPerSampleValueEnumMap,
+  json,
+);
+
+BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1ValueBitsPerSampleValue?
+batchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1ValueBitsPerSampleValueFromJsonNullable(
+  Object? json,
+) => $enumDecodeNullable(
+  _$BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1ValueBitsPerSampleValueEnumMap,
+  json,
+);
+
+Object?
+batchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1ValueBitsPerSampleValueToJson(
+  BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1ValueBitsPerSampleValue
+  value,
+) =>
+    _$BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1ValueBitsPerSampleValueEnumMap[value];
+
+/// Allowed: `pcm`
+@JsonEnum(alwaysCreate: true)
+enum BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1ValueFormatValue {
+  @JsonValue('pcm')
+  pcm,
+}
+
+BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1ValueFormatValue
+batchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1ValueFormatValueFromJson(
+  Object? json,
+) => $enumDecode(
+  _$BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1ValueFormatValueEnumMap,
+  json,
+);
+
+BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1ValueFormatValue?
+batchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1ValueFormatValueFromJsonNullable(
+  Object? json,
+) => $enumDecodeNullable(
+  _$BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1ValueFormatValueEnumMap,
+  json,
+);
+
+Object?
+batchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1ValueFormatValueToJson(
+  BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1ValueFormatValue
+  value,
+) =>
+    _$BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1ValueFormatValueEnumMap[value];
+
+@freezed
+sealed class BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1Value
+    with
+        _$BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1Value {
+  const factory BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1Value({
+    /// Allowed: `16`
+    @JsonKey(name: 'bits_per_sample')
+    required BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1ValueBitsPerSampleValue
+    bitsPerSample,
+
+    /// minimum: 0
+    required int channels,
+
+    /// Base64-encoded PCM16 audio in the format the sibling fields give.
+    ///
+    /// minLength: 1
+    required String data,
+
+    /// Allowed: `pcm`
+    required BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1ValueFormatValue
+    format,
+
+    /// minimum: 0
+    @JsonKey(name: 'sample_rate') required int sampleRate,
+  }) =
+      _BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1Value;
+
+  factory BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1Value.fromJson(
+    Map<String, dynamic> json,
+  ) =>
+      _$BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1ValueFromJson(
+        json,
+      );
+}
+
+/// Allowed: `16`
+@JsonEnum(alwaysCreate: true)
+enum BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2ValueBitsPerSampleValue {
+  @JsonValue(16)
+  value16,
+}
+
+BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2ValueBitsPerSampleValue
+batchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2ValueBitsPerSampleValueFromJson(
+  Object? json,
+) => $enumDecode(
+  _$BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2ValueBitsPerSampleValueEnumMap,
+  json,
+);
+
+BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2ValueBitsPerSampleValue?
+batchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2ValueBitsPerSampleValueFromJsonNullable(
+  Object? json,
+) => $enumDecodeNullable(
+  _$BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2ValueBitsPerSampleValueEnumMap,
+  json,
+);
+
+Object?
+batchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2ValueBitsPerSampleValueToJson(
+  BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2ValueBitsPerSampleValue
+  value,
+) =>
+    _$BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2ValueBitsPerSampleValueEnumMap[value];
+
+/// Allowed: `pcm`
+@JsonEnum(alwaysCreate: true)
+enum BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2ValueFormatValue {
+  @JsonValue('pcm')
+  pcm,
+}
+
+BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2ValueFormatValue
+batchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2ValueFormatValueFromJson(
+  Object? json,
+) => $enumDecode(
+  _$BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2ValueFormatValueEnumMap,
+  json,
+);
+
+BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2ValueFormatValue?
+batchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2ValueFormatValueFromJsonNullable(
+  Object? json,
+) => $enumDecodeNullable(
+  _$BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2ValueFormatValueEnumMap,
+  json,
+);
+
+Object?
+batchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2ValueFormatValueToJson(
+  BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2ValueFormatValue
+  value,
+) =>
+    _$BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2ValueFormatValueEnumMap[value];
+
+@freezed
+sealed class BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2Value
+    with
+        _$BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2Value {
+  const factory BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2Value({
+    /// Allowed: `16`
+    @JsonKey(name: 'bits_per_sample')
+    required BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2ValueBitsPerSampleValue
+    bitsPerSample,
+
+    /// minimum: 0
+    @JsonKey(name: 'byte_length') required int byteLength,
+
+    /// minimum: 0
+    required int channels,
+
+    /// Allowed: `pcm`
+    required BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2ValueFormatValue
+    format,
+
+    /// minimum: 0
+    @JsonKey(name: 'sample_rate') required int sampleRate,
+
+    /// pattern: `^[0-9a-f]{64}$`
+    required String sha256,
+  }) =
+      _BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2Value;
+
+  factory BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2Value.fromJson(
+    Map<String, dynamic> json,
+  ) =>
+      _$BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2ValueFromJson(
+        json,
+      );
+}
+
+@Freezed(fromJson: false, toJson: false)
+sealed class BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValue
+    with
+        _$BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValue {
+  const BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValue._();
+
+  const factory BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValue.variant1({
+    required BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1Value
+    value,
+  }) =
+      _BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1;
+
+  const factory BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValue.variant2({
+    required BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2Value
+    value,
+  }) =
+      _BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2;
+
+  factory BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValue.fromJson(
+    Map<String, dynamic> json,
+  ) {
+    if (json.containsKey('format') &&
+        json.containsKey('sample_rate') &&
+        json.containsKey('channels') &&
+        json.containsKey('bits_per_sample') &&
+        json.containsKey('byte_length') &&
+        json.containsKey('sha256')) {
+      final decoded = _tryDecode(
+        () =>
+            BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2Value.fromJson(
+              json,
+            ),
+      );
+      if (decoded != null) {
+        return BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValue.variant2(
+          value: decoded,
+        );
+      }
+    }
+    if (json.containsKey('format') &&
+        json.containsKey('sample_rate') &&
+        json.containsKey('channels') &&
+        json.containsKey('bits_per_sample') &&
+        json.containsKey('data')) {
+      final decoded = _tryDecode(
+        () =>
+            BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1Value.fromJson(
+              json,
+            ),
+      );
+      if (decoded != null) {
+        return BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValue.variant1(
+          value: decoded,
+        );
+      }
+    }
+    throw FormatException(
+      'BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValue',
+    );
+  }
+
+  Object? toJson() {
+    switch (this) {
+      case _BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant1(
+        :final value,
+      ):
+        return value.toJson();
+      case _BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValueVariant2(
+        :final value,
+      ):
+        return value.toJson();
+    }
+  }
+}
+
+/// Allowed: `audio.speech`
+@JsonEnum(alwaysCreate: true)
+enum BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueObjectValue {
+  @JsonValue('audio.speech')
+  audioSpeech,
+}
+
+BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueObjectValue
+batchObjectResultsItemValueResponseValueBodyValueVariant5ValueObjectValueFromJson(
+  Object? json,
+) => $enumDecode(
+  _$BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueObjectValueEnumMap,
+  json,
+);
+
+BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueObjectValue?
+batchObjectResultsItemValueResponseValueBodyValueVariant5ValueObjectValueFromJsonNullable(
+  Object? json,
+) => $enumDecodeNullable(
+  _$BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueObjectValueEnumMap,
+  json,
+);
+
+Object?
+batchObjectResultsItemValueResponseValueBodyValueVariant5ValueObjectValueToJson(
+  BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueObjectValue
+  value,
+) =>
+    _$BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueObjectValueEnumMap[value];
+
+@freezed
+sealed class BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueUsageValue
+    with
+        _$BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueUsageValue {
+  const factory BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueUsageValue({
+    /// minimum: 0
+    @JsonKey(name: 'completion_tokens') required int completionTokens,
+
+    /// minimum: 0
+    @JsonKey(name: 'prompt_tokens') required int promptTokens,
+
+    /// minimum: 0
+    @JsonKey(name: 'total_tokens') required int totalTokens,
+  }) =
+      _BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueUsageValue;
+
+  factory BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueUsageValue.fromJson(
+    Map<String, dynamic> json,
+  ) =>
+      _$BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueUsageValueFromJson(
+        json,
+      );
+}
+
+@freezed
+sealed class BatchObjectResultsItemValueResponseValueBodyValueVariant5Value
+    with _$BatchObjectResultsItemValueResponseValueBodyValueVariant5Value {
+  const factory BatchObjectResultsItemValueResponseValueBodyValueVariant5Value({
+    required BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueAudioValue
+    audio,
+    required String model,
+
+    /// Allowed: `audio.speech`
+    required BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueObjectValue
+    object,
+    required BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueUsageValue
+    usage,
+  }) = _BatchObjectResultsItemValueResponseValueBodyValueVariant5Value;
+
+  factory BatchObjectResultsItemValueResponseValueBodyValueVariant5Value.fromJson(
+    Map<String, dynamic> json,
+  ) => _$BatchObjectResultsItemValueResponseValueBodyValueVariant5ValueFromJson(
+    json,
+  );
+}
+
 @Freezed(fromJson: false, toJson: false)
 sealed class BatchObjectResultsItemValueResponseValueBodyValue
     with _$BatchObjectResultsItemValueResponseValueBodyValue {
@@ -2051,6 +2405,11 @@ sealed class BatchObjectResultsItemValueResponseValueBodyValue
     required BatchObjectResultsItemValueResponseValueBodyValueVariant4Value
     value,
   }) = _BatchObjectResultsItemValueResponseValueBodyValueVariant4;
+
+  const factory BatchObjectResultsItemValueResponseValueBodyValue.variant5({
+    required BatchObjectResultsItemValueResponseValueBodyValueVariant5Value
+    value,
+  }) = _BatchObjectResultsItemValueResponseValueBodyValueVariant5;
 
   factory BatchObjectResultsItemValueResponseValueBodyValue.fromJson(
     Map<String, dynamic> json,
@@ -2120,6 +2479,22 @@ sealed class BatchObjectResultsItemValueResponseValueBodyValue
       }
     }
     if (json.containsKey('object') &&
+        json.containsKey('model') &&
+        json.containsKey('audio') &&
+        json.containsKey('usage')) {
+      final decoded = _tryDecode(
+        () =>
+            BatchObjectResultsItemValueResponseValueBodyValueVariant5Value.fromJson(
+              json,
+            ),
+      );
+      if (decoded != null) {
+        return BatchObjectResultsItemValueResponseValueBodyValue.variant5(
+          value: decoded,
+        );
+      }
+    }
+    if (json.containsKey('object') &&
         json.containsKey('data') &&
         json.containsKey('model')) {
       final decoded = _tryDecode(
@@ -2152,6 +2527,10 @@ sealed class BatchObjectResultsItemValueResponseValueBodyValue
       ):
         return value.toJson();
       case _BatchObjectResultsItemValueResponseValueBodyValueVariant4(
+        :final value,
+      ):
+        return value.toJson();
+      case _BatchObjectResultsItemValueResponseValueBodyValueVariant5(
         :final value,
       ):
         return value.toJson();
@@ -2382,6 +2761,9 @@ sealed class BatchObject with _$BatchObject {
 
     /// Allowed: `batch`
     required BatchObjectObjectValue object,
+
+    /// The output location of a batch submitted with `input`, whose `results` are `null`. Returned only by `GET /batches/{id}`, once the batch has ended and the provider reported an output folder or table. Batch lists and responses for a batch with an unpaid charge leave it out.
+    BatchOutputReference? output,
 
     /// Provider OpenRouter assigned to run the batch, using the same name as the `provider` field of sync responses.
     String? provider,

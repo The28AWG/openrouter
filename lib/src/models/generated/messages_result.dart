@@ -21,6 +21,30 @@ import 'or_anthropic_stop_reason.dart';
 part 'messages_result.freezed.dart';
 part 'messages_result.g.dart';
 
+@freezed
+sealed class MessagesResultUsageValueDeferredToolsDetailsValue
+    with _$MessagesResultUsageValueDeferredToolsDetailsValue {
+  const factory MessagesResultUsageValueDeferredToolsDetailsValue({
+    /// Completion tokens summed over every upstream call
+    @JsonKey(name: 'completion_tokens') required int completionTokens,
+
+    /// Prompt tokens summed over every upstream call
+    @JsonKey(name: 'prompt_tokens') required int promptTokens,
+
+    /// Sum of the above two fields
+    @JsonKey(name: 'total_tokens') required int totalTokens,
+
+    /// Upstream model calls the run made
+    ///
+    /// minimum: 0
+    required int turns,
+  }) = _MessagesResultUsageValueDeferredToolsDetailsValue;
+
+  factory MessagesResultUsageValueDeferredToolsDetailsValue.fromJson(
+    Map<String, dynamic> json,
+  ) => _$MessagesResultUsageValueDeferredToolsDetailsValueFromJson(json);
+}
+
 /// Example:
 /// ```
 /// {
@@ -87,6 +111,8 @@ sealed class MessagesResultUsageValue with _$MessagesResultUsageValue {
     /// }
     /// ```
     @JsonKey(name: 'cost_details') CostDetails? costDetails,
+    @JsonKey(name: 'deferred_tools_details')
+    MessagesResultUsageValueDeferredToolsDetailsValue? deferredToolsDetails,
     @JsonKey(name: 'is_byok') bool? isByok,
     List<AnthropicUsageIteration>? iterations,
 

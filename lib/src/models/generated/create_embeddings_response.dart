@@ -118,6 +118,14 @@ Object? createEmbeddingsResponseDataItemValueObjectValueToJson(
 sealed class CreateEmbeddingsResponseDataItemValue
     with _$CreateEmbeddingsResponseDataItemValue {
   const factory CreateEmbeddingsResponseDataItemValue({
+    /// Index of the source document when `input` was a list of documents (contextual embeddings). Absent otherwise.
+    ///
+    /// Example:
+    /// ```
+    /// 0
+    /// ```
+    @JsonKey(name: 'document_index') int? documentIndex,
+
     /// Embedding vector as an array of floats or a base64 string
     ///
     /// Example:

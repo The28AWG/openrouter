@@ -39,6 +39,30 @@ sealed class UnifiedBenchmarksResponseDataItemValue
     if (json.containsKey('source') &&
         json.containsKey('model_permaslug') &&
         json.containsKey('display_name') &&
+        json.containsKey('intelligence_index') &&
+        json.containsKey('coding_index') &&
+        json.containsKey('agentic_index') &&
+        json.containsKey('finance_and_accounting_index') &&
+        json.containsKey('strategy_and_ops_index') &&
+        json.containsKey('legal_index') &&
+        json.containsKey('healthcare_and_medical_index') &&
+        json.containsKey('engineering_index') &&
+        json.containsKey('economics_index') &&
+        json.containsKey('cyber_index') &&
+        json.containsKey('openness_index') &&
+        json.containsKey('multilingual_index') &&
+        json.containsKey('decision_index') &&
+        json.containsKey('pricing')) {
+      final decoded = _tryDecode(() => UnifiedBenchmarksAAItem.fromJson(json));
+      if (decoded != null) {
+        return UnifiedBenchmarksResponseDataItemValue.unifiedbenchmarksaaitem(
+          value: decoded,
+        );
+      }
+    }
+    if (json.containsKey('source') &&
+        json.containsKey('model_permaslug') &&
+        json.containsKey('display_name') &&
         json.containsKey('benchmark_type') &&
         json.containsKey('primary_metric') &&
         json.containsKey('primary_score') &&
@@ -90,20 +114,6 @@ sealed class UnifiedBenchmarksResponseDataItemValue
         );
       }
     }
-    if (json.containsKey('source') &&
-        json.containsKey('model_permaslug') &&
-        json.containsKey('display_name') &&
-        json.containsKey('intelligence_index') &&
-        json.containsKey('coding_index') &&
-        json.containsKey('agentic_index') &&
-        json.containsKey('pricing')) {
-      final decoded = _tryDecode(() => UnifiedBenchmarksAAItem.fromJson(json));
-      if (decoded != null) {
-        return UnifiedBenchmarksResponseDataItemValue.unifiedbenchmarksaaitem(
-          value: decoded,
-        );
-      }
-    }
     throw FormatException('UnifiedBenchmarksResponseDataItemValue');
   }
 
@@ -134,16 +144,26 @@ sealed class UnifiedBenchmarksResponseDataItemValue
 /// {
 ///   "data": [
 ///     {
-///       "agentic_index": 58.3,
-///       "coding_index": 65.8,
+///       "agentic_index": null,
+///       "coding_index": null,
+///       "cyber_index": 36.4,
+///       "decision_index": 75.7,
 ///       "display_name": "GPT-4o",
-///       "intelligence_index": 71.2,
+///       "economics_index": 57.2,
+///       "engineering_index": 60.4,
+///       "finance_and_accounting_index": 58.1,
+///       "healthcare_and_medical_index": 56.9,
+///       "intelligence_index": 71.4,
+///       "legal_index": 52.3,
 ///       "model_permaslug": "openai/gpt-4o",
+///       "multilingual_index": 0.82,
+///       "openness_index": 33.3,
 ///       "pricing": {
 ///         "completion": "0.00001",
 ///         "prompt": "0.0000025"
 ///       },
-///       "source": "artificial-analysis"
+///       "source": "artificial-analysis",
+///       "strategy_and_ops_index": 61.7
 ///     },
 ///     {
 ///       "accuracy": 0.72,

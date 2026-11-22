@@ -11,6 +11,7 @@ import '../../models/generated/forbidden_response.dart';
 import '../../models/generated/internal_server_response.dart';
 import '../../models/generated/o_auth_error_response.dart';
 import '../../models/generated/o_auth_jwks.dart';
+import '../../models/generated/service_unavailable_response.dart';
 import '../../models/generated/token_exchange_response.dart';
 import '../../models/generated/unauthorized_response.dart';
 
@@ -77,7 +78,7 @@ class OAuthResource {
 
   /// Create authorization code
   ///
-  /// Create an authorization code for the PKCE flow to generate a user-controlled API key
+  /// Create an authorization code for the PKCE flow to generate a user-controlled API key. Requires a Clerk session that completed reverification recently (Clerk `lax` level); otherwise the response is `403` with `error.metadata.reverification` set to `lax`, and the caller must reverify the session before retrying.
   ///
   /// `POST /auth/keys/code`
   ///
@@ -103,6 +104,7 @@ class OAuthResource {
   /// - 403 Forbidden - Authentication successful but insufficient permissions
   /// - 409 Conflict - Resource conflict or concurrent modification
   /// - 500 Internal Server Error - Unexpected server error
+  /// - 503 Service Unavailable - Service temporarily unavailable
   Future<CreateAuthKeysCodeResponse> createAuthCode({
     /// Example:
     /// ```
@@ -128,6 +130,7 @@ class OAuthResource {
         403: ForbiddenResponse.fromJson,
         409: ConflictResponse.fromJson,
         500: InternalServerResponse.fromJson,
+        503: ServiceUnavailableResponse.fromJson,
       },
       options: options,
       decode: (json) => CreateAuthKeysCodeResponse.fromJson(

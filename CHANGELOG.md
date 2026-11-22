@@ -1,3 +1,17 @@
+## 1.0.2
+
+- Regenerate the client from the refreshed OpenRouter OpenAPI document: 176 operations and 1071 schemas (previously 146 and 980).
+- New `guardrailPolicies` resource covering account, budget, model-availability, and moderation policies, including API-key and member policy assignments.
+- Credits: add credit purchase setup guide, purchase creation, and purchase lookup.
+- Presets: add `delete` and `restore`.
+- TTS: add `listModels` and `getModel` for speech models.
+- Expand generated models for batch input/output references, image-generation layers and text recognition, MCP call/approval events, response compaction, speech references, and new request options.
+- Rename the global header parameters `xOpenrouterTitle`/`xOpenrouterCategories` to `appTitle`/`appCategories`, following the new `x-speakeasy-name-override` values in the spec. The `X-OpenRouter-Title`/`X-OpenRouter-Categories` headers are unchanged.
+- Breaking: remove `PrivateEndpointsResource.updateParameters` and `updatePricing`, which no longer exist in the spec; `update` covers the remaining settings.
+- Breaking: `BaseResponsesResult.error` is now nullable.
+- Update dev dependencies: `freezed` 4, `build_runner` 2.17, `test` 1.33.
+- Declare `http_parser` as a direct dependency and pin `meta` to a version range so the package passes `dart pub publish --dry-run`.
+
 ## 1.0.1
 
 - Validate path, query, header, and multipart parameters against OpenAPI constraints (`minimum`, `maximum`, `minLength`, `maxLength`, `pattern`, `minItems`, `maxItems`) before sending the request.

@@ -164,7 +164,7 @@ sealed class QueryAnalyticsRequest with _$QueryAnalyticsRequest {
     @JsonKey(name: 'classifier_filters')
     QueryAnalyticsRequestClassifierFiltersValue? classifierFilters,
 
-    /// maxItems: 2
+    /// maxItems: 3
     List<String>? dimensions,
 
     /// maxItems: 20

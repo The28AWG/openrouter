@@ -25,7 +25,7 @@ class ByokResource {
 
   /// List BYOK provider credentials
   ///
-  /// List the bring-your-own-key (BYOK) provider credentials for the authenticated entity's default workspace. Use the `workspace_id` query parameter to scope the result to a different workspace, or the `provider` query parameter to filter by upstream provider. [Management key](/docs/guides/overview/auth/management-api-keys) required.
+  /// List the bring-your-own-key (BYOK) provider credentials for the authenticated entity's default workspace, or a workspace-scoped management key's own workspace. Use the `workspace_id` query parameter to scope the result to a different workspace, or the `provider` query parameter to filter by upstream provider. A workspace-scoped management key can only list its own workspace; any other `workspace_id` returns 403. [Management key](/docs/guides/overview/auth/management-api-keys) required.
   ///
   /// `GET /byok`
   ///
@@ -65,7 +65,7 @@ class ByokResource {
     /// ```
     int? limit,
 
-    /// Optional workspace ID to filter by. When omitted, resolves to the account’s default workspace; if that default has been deleted, the request returns a 400 and you must pass `workspace_id` explicitly.
+    /// Optional workspace ID to filter by. When omitted, a workspace-scoped management key uses its own workspace. An organization management key uses the account’s default workspace; if that default has been deleted, the request returns a 400 and you must pass `workspace_id` explicitly.
     ///
     /// Format: uuid
     ///
@@ -77,7 +77,7 @@ class ByokResource {
 
     /// Optional provider slug to filter by (e.g. `openai`, `anthropic`, `amazon-bedrock`).
     ///
-    /// Allowed: `ai21`, `aion-labs`, `akashml`, `alibaba`, `amazon-bedrock`, `amazon-bedrock/claude-on-aws`, `amazon-nova`, `ambient`, `anthropic`, `anthropic/2`, `arcee-ai`, `assemblyai`, `atlas-cloud`, `avian`, `azure`, `baidu`, `baseten`, `black-forest-labs`, `byteplus`, `cerebras`, `chutes`, `cirrascale`, `clarifai`, `claude-on-aws`, `cloudflare`, `cohere`, `coreweave`, `cosine`, `crusoe`, `darkbloom`, `databricks`, `decart`, `deepgram`, `deepinfra`, `deepseek`, `dekallm`, `digitalocean`, `elevenlabs`, `featherless`, `fireworks`, `fish-audio`, `friendli`, `gmicloud`, `google-ai-studio`, `google-vertex`, `groq`, `heygen`, `inception`, `inceptron`, `inferact-vllm`, `inference-net`, `infermatic`, `inflection`, `io-net`, `ionstream`, `krea`, `kt`, `liquid`, `makora`, `mancer`, `mara`, `meta`, `minimax`, `mistral`, `modal`, `modelrun`, `modular`, `moonshotai`, `morph`, `near-ai`, `nebius`, `nex-agi`, `nextbit`, `novita`, `nvidia`, `ollama`, `open-inference`, `openai`, `parasail`, `pareto-alpha`, `particle-ai`, `perceptron`, `perplexity`, `phala`, `poolside`, `primeintellect`, `quiver`, `recraft`, `recursive`, `reka`, `relace`, `respan`, `runway`, `sail-research`, `sakana`, `sakana-ai`, `sambanova`, `scaledown`, `seed`, `siliconflow`, `sourceful`, `stepfun`, `streamlake`, `switchpoint`, `tencent`, `tenstorrent`, `thinkingmachines`, `together`, `typesafe`, `unbiased`, `upstage`, `venice`, `voyageai`, `wafer`, `wandb`, `wandb-legacy`, `xai`, `xiaomi`, `z-ai`
+    /// Allowed: `ai21`, `aion-labs`, `akashml`, `alibaba`, `amazon-bedrock`, `amazon-bedrock/claude-on-aws`, `amazon-nova`, `ambient`, `antdigital`, `anthropic`, `anthropic/2`, `arcee-ai`, `assemblyai`, `atlas-cloud`, `avian`, `azure`, `baidu`, `baseten`, `black-forest-labs`, `byteplus`, `cerebras`, `chutes`, `cirrascale`, `clarifai`, `claude-on-aws`, `cloudflare`, `cohere`, `coreweave`, `cosine`, `crusoe`, `darkbloom`, `databricks`, `decart`, `deepgram`, `deepinfra`, `deepseek`, `dekallm`, `digitalocean`, `doubleword`, `elevenlabs`, `featherless`, `fireworks`, `fish-audio`, `friendli`, `gmicloud`, `google-ai-studio`, `google-vertex`, `groq`, `heygen`, `inception`, `inceptron`, `inferact-vllm`, `inference-net`, `infermatic`, `inflection`, `io-net`, `ionstream`, `krea`, `kt`, `liquid`, `makora`, `mancer`, `mara`, `meta`, `minimax`, `mistral`, `modal`, `modelrun`, `modular`, `moonshotai`, `morph`, `near-ai`, `nebius`, `nex-agi`, `nextbit`, `novita`, `nvidia`, `ollama`, `open-inference`, `openai`, `parallel`, `parasail`, `pareto-alpha`, `pareto-inference`, `particle-ai`, `pearl-research`, `perceptron`, `perplexity`, `phala`, `poolside`, `primalabs`, `primeintellect`, `quiver`, `recraft`, `recursive`, `reka`, `relace`, `respan`, `river`, `runway`, `sail-research`, `sakana`, `sakana-ai`, `sambanova`, `scaledown`, `seed`, `siliconflow`, `sourceful`, `speechify`, `stepfun`, `streamlake`, `switchpoint`, `tencent`, `tenstorrent`, `thinkingmachines`, `together`, `typesafe`, `unbiased`, `upstage`, `venice`, `voyageai`, `wafer`, `wandb`, `wandb-legacy`, `xai`, `xiaomi`, `z-ai`
     ///
     /// Unknown values are allowed by the specification.
     ///
@@ -143,7 +143,7 @@ class ByokResource {
     /// ```
     int? limit,
 
-    /// Optional workspace ID to filter by. When omitted, resolves to the account’s default workspace; if that default has been deleted, the request returns a 400 and you must pass `workspace_id` explicitly.
+    /// Optional workspace ID to filter by. When omitted, a workspace-scoped management key uses its own workspace. An organization management key uses the account’s default workspace; if that default has been deleted, the request returns a 400 and you must pass `workspace_id` explicitly.
     ///
     /// Format: uuid
     ///
@@ -155,7 +155,7 @@ class ByokResource {
 
     /// Optional provider slug to filter by (e.g. `openai`, `anthropic`, `amazon-bedrock`).
     ///
-    /// Allowed: `ai21`, `aion-labs`, `akashml`, `alibaba`, `amazon-bedrock`, `amazon-bedrock/claude-on-aws`, `amazon-nova`, `ambient`, `anthropic`, `anthropic/2`, `arcee-ai`, `assemblyai`, `atlas-cloud`, `avian`, `azure`, `baidu`, `baseten`, `black-forest-labs`, `byteplus`, `cerebras`, `chutes`, `cirrascale`, `clarifai`, `claude-on-aws`, `cloudflare`, `cohere`, `coreweave`, `cosine`, `crusoe`, `darkbloom`, `databricks`, `decart`, `deepgram`, `deepinfra`, `deepseek`, `dekallm`, `digitalocean`, `elevenlabs`, `featherless`, `fireworks`, `fish-audio`, `friendli`, `gmicloud`, `google-ai-studio`, `google-vertex`, `groq`, `heygen`, `inception`, `inceptron`, `inferact-vllm`, `inference-net`, `infermatic`, `inflection`, `io-net`, `ionstream`, `krea`, `kt`, `liquid`, `makora`, `mancer`, `mara`, `meta`, `minimax`, `mistral`, `modal`, `modelrun`, `modular`, `moonshotai`, `morph`, `near-ai`, `nebius`, `nex-agi`, `nextbit`, `novita`, `nvidia`, `ollama`, `open-inference`, `openai`, `parasail`, `pareto-alpha`, `particle-ai`, `perceptron`, `perplexity`, `phala`, `poolside`, `primeintellect`, `quiver`, `recraft`, `recursive`, `reka`, `relace`, `respan`, `runway`, `sail-research`, `sakana`, `sakana-ai`, `sambanova`, `scaledown`, `seed`, `siliconflow`, `sourceful`, `stepfun`, `streamlake`, `switchpoint`, `tencent`, `tenstorrent`, `thinkingmachines`, `together`, `typesafe`, `unbiased`, `upstage`, `venice`, `voyageai`, `wafer`, `wandb`, `wandb-legacy`, `xai`, `xiaomi`, `z-ai`
+    /// Allowed: `ai21`, `aion-labs`, `akashml`, `alibaba`, `amazon-bedrock`, `amazon-bedrock/claude-on-aws`, `amazon-nova`, `ambient`, `antdigital`, `anthropic`, `anthropic/2`, `arcee-ai`, `assemblyai`, `atlas-cloud`, `avian`, `azure`, `baidu`, `baseten`, `black-forest-labs`, `byteplus`, `cerebras`, `chutes`, `cirrascale`, `clarifai`, `claude-on-aws`, `cloudflare`, `cohere`, `coreweave`, `cosine`, `crusoe`, `darkbloom`, `databricks`, `decart`, `deepgram`, `deepinfra`, `deepseek`, `dekallm`, `digitalocean`, `doubleword`, `elevenlabs`, `featherless`, `fireworks`, `fish-audio`, `friendli`, `gmicloud`, `google-ai-studio`, `google-vertex`, `groq`, `heygen`, `inception`, `inceptron`, `inferact-vllm`, `inference-net`, `infermatic`, `inflection`, `io-net`, `ionstream`, `krea`, `kt`, `liquid`, `makora`, `mancer`, `mara`, `meta`, `minimax`, `mistral`, `modal`, `modelrun`, `modular`, `moonshotai`, `morph`, `near-ai`, `nebius`, `nex-agi`, `nextbit`, `novita`, `nvidia`, `ollama`, `open-inference`, `openai`, `parallel`, `parasail`, `pareto-alpha`, `pareto-inference`, `particle-ai`, `pearl-research`, `perceptron`, `perplexity`, `phala`, `poolside`, `primalabs`, `primeintellect`, `quiver`, `recraft`, `recursive`, `reka`, `relace`, `respan`, `river`, `runway`, `sail-research`, `sakana`, `sakana-ai`, `sambanova`, `scaledown`, `seed`, `siliconflow`, `sourceful`, `speechify`, `stepfun`, `streamlake`, `switchpoint`, `tencent`, `tenstorrent`, `thinkingmachines`, `together`, `typesafe`, `unbiased`, `upstage`, `venice`, `voyageai`, `wafer`, `wandb`, `wandb-legacy`, `xai`, `xiaomi`, `z-ai`
     ///
     /// Unknown values are allowed by the specification.
     ///
@@ -188,7 +188,7 @@ class ByokResource {
 
   /// Create a BYOK provider credential
   ///
-  /// Create a new bring-your-own-key (BYOK) provider credential. The raw key is encrypted at rest and never returned in API responses. When `workspace_id` is omitted, the credential is created in the default workspace; if that default has been deleted, the request returns a 400 and you must pass `workspace_id` explicitly. Treat the raw key as write-only; it is never returned after creation. Use `allowed_api_key_hashes` to restrict the credential to specific OpenRouter API keys. [Management key](/docs/guides/overview/auth/management-api-keys) required.
+  /// Create a new bring-your-own-key (BYOK) provider credential. The raw key is encrypted at rest and never returned in API responses. When `workspace_id` is omitted, the credential is created in the default workspace; if that default has been deleted, the request returns a 400 and you must pass `workspace_id` explicitly. A workspace-scoped management key creates the credential in its own workspace when `workspace_id` is omitted, and any other `workspace_id` returns 403. Treat the raw key as write-only; it is never returned after creation. Use `allowed_api_key_hashes` to restrict the credential to specific OpenRouter API keys. [Management key](/docs/guides/overview/auth/management-api-keys) required.
   ///
   /// `POST /byok`
   ///
@@ -245,7 +245,7 @@ class ByokResource {
 
   /// Delete a BYOK provider credential
   ///
-  /// Delete (soft-delete) a bring-your-own-key (BYOK) provider credential by its `id`. The encrypted key material is wiped and the record is marked as deleted. [Management key](/docs/guides/overview/auth/management-api-keys) required.
+  /// Delete (soft-delete) a bring-your-own-key (BYOK) provider credential by its `id`. The encrypted key material is wiped and the record is marked as deleted. A workspace-scoped management key only reaches credentials in its own workspace; any other `id` returns 404. [Management key](/docs/guides/overview/auth/management-api-keys) required.
   ///
   /// `DELETE /byok/{id}`
   ///
@@ -292,7 +292,7 @@ class ByokResource {
 
   /// Get a BYOK provider credential
   ///
-  /// Get a single bring-your-own-key (BYOK) provider credential by its `id`. [Management key](/docs/guides/overview/auth/management-api-keys) required.
+  /// Get a single bring-your-own-key (BYOK) provider credential by its `id`. A workspace-scoped management key only reaches credentials in its own workspace; any other `id` returns 404. [Management key](/docs/guides/overview/auth/management-api-keys) required.
   ///
   /// `GET /byok/{id}`
   ///
@@ -338,7 +338,7 @@ class ByokResource {
 
   /// Update a BYOK provider credential
   ///
-  /// Update an existing bring-your-own-key (BYOK) provider credential by its `id`. Include the `key` field to rotate the raw provider API key in-place (the previous key material is overwritten). Use `allowed_api_key_hashes` to restrict the credential to specific OpenRouter API keys (`null` clears the restriction). [Management key](/docs/guides/overview/auth/management-api-keys) required.
+  /// Update an existing bring-your-own-key (BYOK) provider credential by its `id`. Include the `key` field to rotate the raw provider API key in-place (the previous key material is overwritten). Use `allowed_api_key_hashes` to restrict the credential to specific OpenRouter API keys (`null` clears the restriction). A workspace-scoped management key only reaches credentials in its own workspace; any other `id` returns 404. [Management key](/docs/guides/overview/auth/management-api-keys) required.
   ///
   /// `PATCH /byok/{id}`
   ///

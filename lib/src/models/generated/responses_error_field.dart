@@ -6,7 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'responses_error_field.freezed.dart';
 part 'responses_error_field.g.dart';
 
-/// Allowed: `server_error`, `rate_limit_exceeded`, `invalid_prompt`, `vector_store_timeout`, `invalid_image`, `invalid_image_format`, `invalid_base64_image`, `invalid_image_url`, `image_too_large`, `image_too_small`, `image_parse_error`, `image_content_policy_violation`, `invalid_image_mode`, `image_file_too_large`, `unsupported_image_media_type`, `empty_image_file`, `failed_to_download_image`, `image_file_not_found`, `bio_policy`, `cyber_policy`, `misalignment_policy_violation`, `data_residency_mismatch`, `permission_denied`
+/// Allowed: `server_error`, `rate_limit_exceeded`, `invalid_prompt`, `vector_store_timeout`, `invalid_image`, `invalid_image_format`, `invalid_base64_image`, `invalid_image_url`, `image_too_large`, `image_too_small`, `image_parse_error`, `image_content_policy_violation`, `invalid_image_mode`, `image_file_too_large`, `unsupported_image_media_type`, `empty_image_file`, `failed_to_download_image`, `image_file_not_found`, `bio_policy`, `cyber_policy`, `misalignment_policy_violation`, `data_residency_mismatch`, `flex_unavailable`, `permission_denied`
 ///
 /// Unknown values are allowed by the specification.
 @JsonEnum(alwaysCreate: true)
@@ -55,6 +55,8 @@ enum ResponsesErrorFieldCodeValue {
   misalignmentPolicyViolation,
   @JsonValue('data_residency_mismatch')
   dataResidencyMismatch,
+  @JsonValue('flex_unavailable')
+  flexUnavailable,
   @JsonValue('permission_denied')
   permissionDenied,
 
@@ -94,7 +96,7 @@ Object? responsesErrorFieldCodeValueToJson(
 @freezed
 sealed class ResponsesErrorField with _$ResponsesErrorField {
   const factory ResponsesErrorField({
-    /// Allowed: `server_error`, `rate_limit_exceeded`, `invalid_prompt`, `vector_store_timeout`, `invalid_image`, `invalid_image_format`, `invalid_base64_image`, `invalid_image_url`, `image_too_large`, `image_too_small`, `image_parse_error`, `image_content_policy_violation`, `invalid_image_mode`, `image_file_too_large`, `unsupported_image_media_type`, `empty_image_file`, `failed_to_download_image`, `image_file_not_found`, `bio_policy`, `cyber_policy`, `misalignment_policy_violation`, `data_residency_mismatch`, `permission_denied`
+    /// Allowed: `server_error`, `rate_limit_exceeded`, `invalid_prompt`, `vector_store_timeout`, `invalid_image`, `invalid_image_format`, `invalid_base64_image`, `invalid_image_url`, `image_too_large`, `image_too_small`, `image_parse_error`, `image_content_policy_violation`, `invalid_image_mode`, `image_file_too_large`, `unsupported_image_media_type`, `empty_image_file`, `failed_to_download_image`, `image_file_not_found`, `bio_policy`, `cyber_policy`, `misalignment_policy_violation`, `data_residency_mismatch`, `flex_unavailable`, `permission_denied`
     ///
     /// Unknown values are allowed by the specification.
     @JsonKey(unknownEnumValue: ResponsesErrorFieldCodeValue.unknown_)

@@ -35,6 +35,8 @@ sealed class ExtractionNumberField with _$ExtractionNumberField {
 
     /// What the field should contain.
     String? instructions,
+
+    /// Whole numbers only.
     bool? integer,
 
     /// Probability of null above which `value` is null. Default 0.5.
@@ -46,6 +48,8 @@ sealed class ExtractionNumberField with _$ExtractionNumberField {
 
     /// Allowed: `number`
     required ExtractionNumberFieldTypeValue type,
+
+    /// Unit label for the value.
     String? unit,
   }) = _ExtractionNumberField;
 

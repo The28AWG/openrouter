@@ -170,7 +170,7 @@ sealed class ExtractionEstimateField with _$ExtractionEstimateField {
     required ExtractionEstimateFieldMaxValue max,
     required ExtractionEstimateFieldMinValue min,
 
-    /// Probability of null above which `value` is null. Default 0.5.
+    /// Not read on this field type: no model takes a null threshold here, and a request that sets it fails with a 400.
     ///
     /// minimum: 0, maximum: 1
     ///
@@ -186,6 +186,8 @@ sealed class ExtractionEstimateField with _$ExtractionEstimateField {
 
     /// Allowed: `estimate`
     required ExtractionEstimateFieldTypeValue type,
+
+    /// Unit label for the value.
     String? unit,
   }) = _ExtractionEstimateField;
 

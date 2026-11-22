@@ -11,6 +11,8 @@ import '../../models/generated/payload_too_large_response.dart';
 import '../../models/generated/payment_required_response.dart';
 import '../../models/generated/provider_overloaded_response.dart';
 import '../../models/generated/service_unavailable_response.dart';
+import '../../models/generated/speech_model_response.dart';
+import '../../models/generated/speech_models_list_response.dart';
 import '../../models/generated/speech_request.dart';
 import '../../models/generated/too_many_requests_response.dart';
 import '../../models/generated/unauthorized_response.dart';
@@ -95,6 +97,95 @@ class TtsResource {
         529: ProviderOverloadedResponse.fromJson,
       },
       options: options,
+    );
+  }
+
+  /// List text-to-speech models
+  ///
+  /// Lists every text-to-speech model with the inputs it accepts and its speech output parameters, merged across its endpoints, plus each endpoint with its own.
+  ///
+  /// `GET /audio/speech/models`
+  ///
+  /// Operation: `listSpeechModels`.
+  ///
+  /// No authorization header is sent.
+  ///
+  /// List of text-to-speech models
+  ///
+  /// Errors:
+  /// - 403 Forbidden - Authentication successful but insufficient permissions
+  /// - 500 Internal Server Error - Unexpected server error
+  /// - 503 Service Unavailable - Service temporarily unavailable
+  Future<SpeechModelsListResponse> listModels({
+    OpenRouterCallOptions? options,
+  }) async {
+    return _client.send<SpeechModelsListResponse>(
+      method: 'GET',
+      path: '/audio/speech/models',
+      authenticated: false,
+      accept: 'application/json',
+      errors: {
+        403: ForbiddenResponse.fromJson,
+        500: InternalServerResponse.fromJson,
+        503: ServiceUnavailableResponse.fromJson,
+      },
+      options: options,
+      decode: (json) => SpeechModelsListResponse.fromJson(
+        Map<String, dynamic>.from(json as Map),
+      ),
+    );
+  }
+
+  /// Get a text-to-speech model
+  ///
+  /// Returns a text-to-speech model with each endpoint's own inputs and speech output parameters.
+  ///
+  /// `GET /audio/speech/models/{author}/{slug}`
+  ///
+  /// Operation: `getSpeechModel`.
+  ///
+  /// No authorization header is sent.
+  ///
+  /// A text-to-speech model and its endpoints
+  ///
+  /// Errors:
+  /// - 403 Forbidden - Authentication successful but insufficient permissions
+  /// - 404 Not Found - Resource does not exist
+  /// - 500 Internal Server Error - Unexpected server error
+  /// - 503 Service Unavailable - Service temporarily unavailable
+  Future<SpeechModelResponse> getModel({
+    /// Model author/organization
+    ///
+    /// Example:
+    /// ```
+    /// "openai"
+    /// ```
+    required String author,
+
+    /// Model slug
+    ///
+    /// Example:
+    /// ```
+    /// "gpt-4o-mini-tts"
+    /// ```
+    required String slug,
+    OpenRouterCallOptions? options,
+  }) async {
+    return _client.send<SpeechModelResponse>(
+      method: 'GET',
+      path:
+          '/audio/speech/models/${Uri.encodeComponent(author.toString())}/${Uri.encodeComponent(slug.toString())}',
+      authenticated: false,
+      accept: 'application/json',
+      errors: {
+        403: ForbiddenResponse.fromJson,
+        404: NotFoundResponse.fromJson,
+        500: InternalServerResponse.fromJson,
+        503: ServiceUnavailableResponse.fromJson,
+      },
+      options: options,
+      decode: (json) =>
+          SpeechModelResponse.fromJson(Map<String, dynamic>.from(json as Map)),
     );
   }
 }

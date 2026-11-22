@@ -12,7 +12,7 @@ part 'image_generation_server_tool_config.g.dart';
 /// ```
 /// {
 ///   "aspect_ratio": "16:9",
-///   "model": "openai/gpt-5-image",
+///   "model": "openai/gpt-image-2.6-flare",
 ///   "quality": "high"
 /// }
 /// ```
@@ -20,11 +20,11 @@ part 'image_generation_server_tool_config.g.dart';
 sealed class ImageGenerationServerToolConfig
     with _$ImageGenerationServerToolConfig {
   const factory ImageGenerationServerToolConfig({
-    /// Which image generation model to use (e.g. "openai/gpt-5-image"). Defaults to "openai/gpt-5-image".
+    /// Which image generation model to use (e.g. "openai/gpt-image-2.6-flare"). Defaults to "openai/gpt-image-2.6-flare".
     ///
     /// Example:
     /// ```
-    /// "openai/gpt-5-image"
+    /// "openai/gpt-image-2.6-flare"
     /// ```
     String? model,
   }) = _ImageGenerationServerToolConfig;

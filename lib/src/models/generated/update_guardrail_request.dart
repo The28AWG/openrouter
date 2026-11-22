@@ -23,7 +23,7 @@ part 'update_guardrail_request.g.dart';
 @freezed
 sealed class UpdateGuardrailRequest with _$UpdateGuardrailRequest {
   const factory UpdateGuardrailRequest({
-    /// Whether ZDR-only requests to google/* models may use endpoints that may retain prompts for safety monitoring. false allows only zero-retention endpoints. A guardrail can only be more restrictive than the account setting. Inherits the account setting when not provided.
+    /// Whether ZDR-only requests to google/* models may also use Safety Retention endpoints, which may retain prompts and responses from any request, only to prevent abuse, and do not use them for training. false allows only ZDR endpoints. A guardrail can only be more restrictive than the account setting. Inherits the account setting when not provided.
     ///
     /// Example:
     /// ```
@@ -32,7 +32,7 @@ sealed class UpdateGuardrailRequest with _$UpdateGuardrailRequest {
     @JsonKey(name: 'allow_safety_retention_google')
     bool? allowSafetyRetentionGoogle,
 
-    /// Whether ZDR-only requests to models outside the named providers (for example open-weight models on Vertex) may use endpoints that may retain prompts for safety monitoring. false allows only zero-retention endpoints. A guardrail can only be more restrictive than the account setting. Inherits the account setting when not provided.
+    /// Whether ZDR-only requests to models outside the named providers (for example open-weight models on Vertex) may also use Safety Retention endpoints, which may retain prompts and responses from any request, only to prevent abuse, and do not use them for training. false allows only ZDR endpoints. A guardrail can only be more restrictive than the account setting. Inherits the account setting when not provided.
     ///
     /// Example:
     /// ```

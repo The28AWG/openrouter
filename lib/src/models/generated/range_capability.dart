@@ -36,7 +36,10 @@ Object? rangeCapabilityTypeValueToJson(RangeCapabilityTypeValue value) =>
 @freezed
 sealed class RangeCapability with _$RangeCapability {
   const factory RangeCapability({
+    /// Format: double
     required num max,
+
+    /// Format: double
     required num min,
 
     /// Allowed: `range`

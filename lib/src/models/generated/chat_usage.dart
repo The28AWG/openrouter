@@ -4,6 +4,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'cost_details.dart';
+import 'deferred_tools_details.dart';
 import 'server_tool_use_details.dart';
 
 part 'chat_usage.freezed.dart';
@@ -108,6 +109,20 @@ sealed class ChatUsage with _$ChatUsage {
     /// }
     /// ```
     @JsonKey(name: 'cost_details') CostDetails? costDetails,
+
+    /// Totals across every upstream model call of a deferred-tools run. The native usage fields report only the final call; cost covers every call.
+    ///
+    /// Example:
+    /// ```
+    /// {
+    ///   "completion_tokens": 180,
+    ///   "prompt_tokens": 2400,
+    ///   "total_tokens": 2580,
+    ///   "turns": 2
+    /// }
+    /// ```
+    @JsonKey(name: 'deferred_tools_details')
+    DeferredToolsDetails? deferredToolsDetails,
 
     /// Whether a request was made using a Bring Your Own Key configuration
     @JsonKey(name: 'is_byok') bool? isByok,

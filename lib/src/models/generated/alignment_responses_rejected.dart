@@ -5,10 +5,14 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'output_item_apply_patch_call.dart';
 import 'output_item_code_interpreter_call.dart';
+import 'output_item_compaction.dart';
 import 'output_item_custom_tool_call.dart';
 import 'output_item_file_search_call.dart';
 import 'output_item_function_call.dart';
 import 'output_item_image_generation_call.dart';
+import 'output_item_mcp_approval_request.dart';
+import 'output_item_mcp_call.dart';
+import 'output_item_mcp_list_tools.dart';
 import 'output_item_reasoning.dart';
 import 'output_item_web_search_call.dart';
 import 'output_message.dart';
@@ -28,6 +32,10 @@ sealed class AlignmentResponsesRejectedItemValue
     required OutputItemCodeInterpreterCall value,
   }) = _AlignmentResponsesRejectedItemValueCodeinterpretercall;
 
+  const factory AlignmentResponsesRejectedItemValue.compaction({
+    required OutputItemCompaction value,
+  }) = _AlignmentResponsesRejectedItemValueCompaction;
+
   const factory AlignmentResponsesRejectedItemValue.customToolCall({
     required OutputItemCustomToolCall value,
   }) = _AlignmentResponsesRejectedItemValueCustomtoolcall;
@@ -43,6 +51,18 @@ sealed class AlignmentResponsesRejectedItemValue
   const factory AlignmentResponsesRejectedItemValue.imageGenerationCall({
     required OutputItemImageGenerationCall value,
   }) = _AlignmentResponsesRejectedItemValueImagegenerationcall;
+
+  const factory AlignmentResponsesRejectedItemValue.mcpApprovalRequest({
+    required OutputItemMcpApprovalRequest value,
+  }) = _AlignmentResponsesRejectedItemValueMcpapprovalrequest;
+
+  const factory AlignmentResponsesRejectedItemValue.mcpCall({
+    required OutputItemMcpCall value,
+  }) = _AlignmentResponsesRejectedItemValueMcpcall;
+
+  const factory AlignmentResponsesRejectedItemValue.mcpListTools({
+    required OutputItemMcpListTools value,
+  }) = _AlignmentResponsesRejectedItemValueMcplisttools;
 
   const factory AlignmentResponsesRejectedItemValue.message({
     required OutputMessage value,
@@ -69,6 +89,10 @@ sealed class AlignmentResponsesRejectedItemValue
         return AlignmentResponsesRejectedItemValue.codeInterpreterCall(
           value: OutputItemCodeInterpreterCall.fromJson(json),
         );
+      case 'compaction':
+        return AlignmentResponsesRejectedItemValue.compaction(
+          value: OutputItemCompaction.fromJson(json),
+        );
       case 'custom_tool_call':
         return AlignmentResponsesRejectedItemValue.customToolCall(
           value: OutputItemCustomToolCall.fromJson(json),
@@ -84,6 +108,18 @@ sealed class AlignmentResponsesRejectedItemValue
       case 'image_generation_call':
         return AlignmentResponsesRejectedItemValue.imageGenerationCall(
           value: OutputItemImageGenerationCall.fromJson(json),
+        );
+      case 'mcp_approval_request':
+        return AlignmentResponsesRejectedItemValue.mcpApprovalRequest(
+          value: OutputItemMcpApprovalRequest.fromJson(json),
+        );
+      case 'mcp_call':
+        return AlignmentResponsesRejectedItemValue.mcpCall(
+          value: OutputItemMcpCall.fromJson(json),
+        );
+      case 'mcp_list_tools':
+        return AlignmentResponsesRejectedItemValue.mcpListTools(
+          value: OutputItemMcpListTools.fromJson(json),
         );
       case 'message':
         return AlignmentResponsesRejectedItemValue.message(
@@ -110,6 +146,8 @@ sealed class AlignmentResponsesRejectedItemValue
         :final value,
       ):
         return value.toJson();
+      case _AlignmentResponsesRejectedItemValueCompaction(:final value):
+        return value.toJson();
       case _AlignmentResponsesRejectedItemValueCustomtoolcall(:final value):
         return value.toJson();
       case _AlignmentResponsesRejectedItemValueFilesearchcall(:final value):
@@ -119,6 +157,12 @@ sealed class AlignmentResponsesRejectedItemValue
       case _AlignmentResponsesRejectedItemValueImagegenerationcall(
         :final value,
       ):
+        return value.toJson();
+      case _AlignmentResponsesRejectedItemValueMcpapprovalrequest(:final value):
+        return value.toJson();
+      case _AlignmentResponsesRejectedItemValueMcpcall(:final value):
+        return value.toJson();
+      case _AlignmentResponsesRejectedItemValueMcplisttools(:final value):
         return value.toJson();
       case _AlignmentResponsesRejectedItemValueMessage(:final value):
         return value.toJson();

@@ -5,6 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'decisions.dart';
 import 'embeddings.dart';
+import 'extractions.dart';
 import 'image_generation.dart';
 import 'rerank.dart';
 import 'stt.dart';
@@ -22,6 +23,7 @@ sealed class PerfLast30mByWorkload with _$PerfLast30mByWorkload {
   const factory PerfLast30mByWorkload({
     Decisions? decisions,
     Embeddings? embeddings,
+    Extractions? extractions,
     @JsonKey(name: 'image_generation') ImageGeneration? imageGeneration,
     Rerank? rerank,
     STT? stt,

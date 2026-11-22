@@ -4,6 +4,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'tool_choice_allowed.dart';
+import 'tool_choice_mcp.dart';
 
 part 'open_ai_responses_tool_choice.freezed.dart';
 part 'open_ai_responses_tool_choice.g.dart';
@@ -207,6 +208,10 @@ sealed class OpenAIResponsesToolChoice with _$OpenAIResponsesToolChoice {
     required OpenAIResponsesToolChoiceShellShell value,
   }) = _OpenAIResponsesToolChoiceShell;
 
+  const factory OpenAIResponsesToolChoice.toolchoicemcp({
+    required ToolChoiceMcp value,
+  }) = _OpenAIResponsesToolChoiceToolchoicemcp;
+
   factory OpenAIResponsesToolChoice.fromJson(Object? json) {
     if (json is Map) {
       final map = Map<String, dynamic>.from(json);
@@ -219,6 +224,16 @@ sealed class OpenAIResponsesToolChoice with _$OpenAIResponsesToolChoice {
         if (toolchoiceallowedValue != null) {
           return OpenAIResponsesToolChoice.toolchoiceallowed(
             value: toolchoiceallowedValue,
+          );
+        }
+      }
+      if (map.containsKey('type') && map.containsKey('server_label')) {
+        final toolchoicemcpValue = _tryDecode(
+          () => ToolChoiceMcp.fromJson(map),
+        );
+        if (toolchoicemcpValue != null) {
+          return OpenAIResponsesToolChoice.toolchoicemcp(
+            value: toolchoicemcpValue,
           );
         }
       }
@@ -284,6 +299,8 @@ sealed class OpenAIResponsesToolChoice with _$OpenAIResponsesToolChoice {
       case _OpenAIResponsesToolChoiceApplypatch(:final value):
         return value.toJson();
       case _OpenAIResponsesToolChoiceShell(:final value):
+        return value.toJson();
+      case _OpenAIResponsesToolChoiceToolchoicemcp(:final value):
         return value.toJson();
     }
   }

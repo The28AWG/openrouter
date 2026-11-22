@@ -144,6 +144,49 @@ class ApiKeysResource {
     );
   }
 
+  /// Requests every page of [list].
+  ///
+  /// Pagination: `offsetLimit`.
+  Stream<ListResponseDataItemValue> listAll({
+    /// Whether to include disabled API keys in the response
+    ///
+    /// Example:
+    /// ```
+    /// "false"
+    /// ```
+    bool? includeDisabled,
+
+    /// Whether to include expired API keys in the response. Expired keys are excluded by default and returned only when this is true.
+    ///
+    /// Example:
+    /// ```
+    /// "false"
+    /// ```
+    bool? includeExpired,
+
+    /// Filter API keys by workspace ID. By default an organization-scoped management key gets the default workspace; a workspace-scoped management key always gets its own workspace and cannot list another.
+    ///
+    /// Format: uuid
+    ///
+    /// Example:
+    /// ```
+    /// "0df9e665-d932-5740-b2c7-b52af166bc11"
+    /// ```
+    String? workspaceId,
+    OpenRouterCallOptions? options,
+  }) {
+    return OpenRouterPagination.offset<ListResponseDataItemValue, ListResponse>(
+      load: (offset) => list(
+        offset: offset,
+        includeDisabled: includeDisabled,
+        includeExpired: includeExpired,
+        workspaceId: workspaceId,
+        options: options,
+      ),
+      items: (page) => page.data,
+    );
+  }
+
   /// Create a new API key
   ///
   /// Create a new API key for the authenticated user. The plaintext `key` is returned only in this response. Treat it as a write-only, sensitive value; it cannot be retrieved later. Authenticate with a [management key](/docs/guides/overview/auth/management-api-keys). The optional `external` object associates the key with a partner-defined user and lookup key.

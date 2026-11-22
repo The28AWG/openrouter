@@ -11,6 +11,54 @@ import 'provider_sort_config.dart';
 part 'image_generation_provider_preferences.freezed.dart';
 part 'image_generation_provider_preferences.g.dart';
 
+/// Data collection setting. If no available model provider meets the requirement, your request will return an error.
+/// - allow: (default) allow providers that may train on user data
+///
+/// - deny: use only providers that do not train on user data. Providers may still retain prompts; set `zdr: true` to exclude retention.
+///
+/// Title: ImageGenerationRequestDataCollection
+///
+/// Allowed: `deny`, `allow`
+///
+/// Unknown values are allowed by the specification.
+///
+/// Example:
+/// ```
+/// "allow"
+/// ```
+@JsonEnum(alwaysCreate: true)
+enum ImageGenerationProviderPreferencesDataCollectionValue {
+  @JsonValue('deny')
+  deny,
+  @JsonValue('allow')
+  allow,
+
+  /// Value returned when the API sends a member that is not listed yet.
+  unknown_,
+}
+
+ImageGenerationProviderPreferencesDataCollectionValue
+imageGenerationProviderPreferencesDataCollectionValueFromJson(Object? json) =>
+    $enumDecode(
+      _$ImageGenerationProviderPreferencesDataCollectionValueEnumMap,
+      json,
+      unknownValue:
+          ImageGenerationProviderPreferencesDataCollectionValue.unknown_,
+    );
+
+ImageGenerationProviderPreferencesDataCollectionValue?
+imageGenerationProviderPreferencesDataCollectionValueFromJsonNullable(
+  Object? json,
+) => $enumDecodeNullable(
+  _$ImageGenerationProviderPreferencesDataCollectionValueEnumMap,
+  json,
+  unknownValue: ImageGenerationProviderPreferencesDataCollectionValue.unknown_,
+);
+
+Object? imageGenerationProviderPreferencesDataCollectionValueToJson(
+  ImageGenerationProviderPreferencesDataCollectionValue value,
+) => _$ImageGenerationProviderPreferencesDataCollectionValueEnumMap[value];
+
 @Freezed(fromJson: false, toJson: false)
 sealed class ImageGenerationProviderPreferencesIgnoreItemValue
     with _$ImageGenerationProviderPreferencesIgnoreItemValue {
@@ -223,6 +271,28 @@ sealed class ImageGenerationProviderPreferences
     /// - false: use only the primary/custom provider, and return the upstream error if it's unavailable.
     @JsonKey(name: 'allow_fallbacks') bool? allowFallbacks,
 
+    /// Data collection setting. If no available model provider meets the requirement, your request will return an error.
+    /// - allow: (default) allow providers that may train on user data
+    ///
+    /// - deny: use only providers that do not train on user data. Providers may still retain prompts; set `zdr: true` to exclude retention.
+    ///
+    /// Title: ImageGenerationRequestDataCollection
+    ///
+    /// Allowed: `deny`, `allow`
+    ///
+    /// Unknown values are allowed by the specification.
+    ///
+    /// Example:
+    /// ```
+    /// "allow"
+    /// ```
+    @JsonKey(
+      name: 'data_collection',
+      unknownEnumValue:
+          ImageGenerationProviderPreferencesDataCollectionValue.unknown_,
+    )
+    ImageGenerationProviderPreferencesDataCollectionValue? dataCollection,
+
     /// List of provider slugs to ignore. If provided, this list is merged with your account-wide ignored provider settings for this request.
     ///
     /// Example:
@@ -264,6 +334,14 @@ sealed class ImageGenerationProviderPreferences
     /// "price"
     /// ```
     ImageGenerationProviderPreferencesSortValue? sort,
+
+    /// Whether to restrict routing to only ZDR (Zero Data Retention) endpoints. When true, only endpoints that do not retain prompts will be used.
+    ///
+    /// Example:
+    /// ```
+    /// true
+    /// ```
+    bool? zdr,
   }) = _ImageGenerationProviderPreferences;
 
   factory ImageGenerationProviderPreferences.fromJson(

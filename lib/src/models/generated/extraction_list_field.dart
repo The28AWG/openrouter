@@ -72,6 +72,9 @@ sealed class ExtractionListField with _$ExtractionListField {
     /// What the field should contain.
     String? instructions,
 
+    /// Whole numbers only. Lists of numbers only.
+    bool? integer,
+
     /// Allowed: `text`, `number`, `date`
     ///
     /// Unknown values are allowed by the specification.
@@ -87,6 +90,9 @@ sealed class ExtractionListField with _$ExtractionListField {
 
     /// Allowed: `list`
     required ExtractionListFieldTypeValue type,
+
+    /// Unit label for the value.
+    String? unit,
   }) = _ExtractionListField;
 
   factory ExtractionListField.fromJson(Map<String, dynamic> json) =>

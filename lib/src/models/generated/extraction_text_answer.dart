@@ -85,7 +85,7 @@ sealed class ExtractionTextAnswer with _$ExtractionTextAnswer {
     @JsonKey(unknownEnumValue: ExtractionTextAnswerSourceValue.unknown_)
     ExtractionTextAnswerSourceValue? source,
 
-    /// Unicode code point offsets [start, end) into the state text: index code points (not UTF-16 code units or UTF-8 bytes), so an emoji or accented letter counts once.
+    /// Unicode code point offsets [start, end) into the state text: index code points (not UTF-16 code units or UTF-8 bytes), so an emoji or accented letter counts once. Absent for an answer that has no offsets in the state text, for example a null answer, one read from an image or a document, or one the provider returned without offsets that delimit it.
     ///
     /// minItems: 2
     ///

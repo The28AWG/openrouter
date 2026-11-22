@@ -10,7 +10,7 @@ part 'generation_response.g.dart';
 
 /// Type of API used for the generation
 ///
-/// Allowed: `completions`, `embeddings`, `rerank`, `decisions`, `extractions`, `video`, `tts`, `stt`, `image`
+/// Allowed: `completions`, `embeddings`, `rerank`, `decisions`, `extractions`, `video`, `tts`, `stt`, `image`, `tools_invoke`
 ///
 /// Unknown values are allowed by the specification.
 @JsonEnum(alwaysCreate: true)
@@ -33,6 +33,8 @@ enum GenerationResponseDataValueApiTypeValue {
   stt,
   @JsonValue('image')
   image,
+  @JsonValue('tools_invoke')
+  toolsInvoke,
 
   /// Value returned when the API sends a member that is not listed yet.
   unknown_,
@@ -105,7 +107,7 @@ sealed class GenerationResponseDataValue with _$GenerationResponseDataValue {
   const factory GenerationResponseDataValue({
     /// Type of API used for the generation
     ///
-    /// Allowed: `completions`, `embeddings`, `rerank`, `decisions`, `extractions`, `video`, `tts`, `stt`, `image`
+    /// Allowed: `completions`, `embeddings`, `rerank`, `decisions`, `extractions`, `video`, `tts`, `stt`, `image`, `tools_invoke`
     ///
     /// Unknown values are allowed by the specification.
     @JsonKey(

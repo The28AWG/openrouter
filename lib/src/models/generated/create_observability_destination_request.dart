@@ -96,7 +96,7 @@ Object? createObservabilityDestinationRequestTypeValueToJson(
 sealed class CreateObservabilityDestinationRequest
     with _$CreateObservabilityDestinationRequest {
   const factory CreateObservabilityDestinationRequest({
-    /// Optional allowlist of OpenRouter API key hashes whose traffic is forwarded. `null` or omitted means all keys. Must contain at least one hash if provided.
+    /// Optional allowlist of OpenRouter API key hashes whose traffic is forwarded. `null` or omitted means all keys. Must contain at least one hash if provided. Every hash must belong to an API key in the destination's workspace; any other hash returns 400.
     ///
     /// minItems: 1
     @JsonKey(name: 'api_key_hashes') List<String>? apiKeyHashes,
@@ -235,7 +235,7 @@ sealed class CreateObservabilityDestinationRequest
     )
     required CreateObservabilityDestinationRequestTypeValue type,
 
-    /// Optional workspace ID. Defaults to the authenticated entity's default workspace.
+    /// Optional workspace ID. Defaults to the authenticated entity's default workspace, or a workspace-scoped management key's own workspace.
     ///
     /// Format: uuid
     ///

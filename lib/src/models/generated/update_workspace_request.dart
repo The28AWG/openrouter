@@ -6,7 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'update_workspace_request.freezed.dart';
 part 'update_workspace_request.g.dart';
 
-/// Allowed: `openrouter:advisor`, `openrouter:apply_patch`, `openrouter:bash`, `openrouter:datetime`, `openrouter:fusion`, `openrouter:image_generation`, `openrouter:experimental__search_models`, `openrouter:shell`, `openrouter:subagent`, `openrouter:tool_search`, `openrouter:web_fetch`, `openrouter:web_search`
+/// Allowed: `openrouter:advisor`, `openrouter:apply_patch`, `openrouter:bash`, `openrouter:datetime`, `openrouter:fusion`, `openrouter:image_generation`, `openrouter:mcp`, `openrouter:experimental__search_models`, `openrouter:shell`, `openrouter:subagent`, `openrouter:tool_search`, `openrouter:web_fetch`, `openrouter:web_search`
 ///
 /// Unknown values are allowed by the specification.
 @JsonEnum(alwaysCreate: true)
@@ -23,6 +23,8 @@ enum UpdateWorkspaceRequestDisabledServerToolsItemValue {
   openrouterFusion,
   @JsonValue('openrouter:image_generation')
   openrouterImageGeneration,
+  @JsonValue('openrouter:mcp')
+  openrouterMcp,
   @JsonValue('openrouter:experimental__search_models')
   openrouterExperimentalSearchModels,
   @JsonValue('openrouter:shell')
@@ -122,10 +124,10 @@ sealed class UpdateWorkspaceRequest with _$UpdateWorkspaceRequest {
     List<UpdateWorkspaceRequestDisabledServerToolsItemValue>?
     disabledServerTools,
 
-    /// Optional array of API key IDs to filter I/O logging
+    /// Optional array of API key IDs to filter I/O logging. Read-only for management keys: any value other than the stored one returns 403. Change it in the OpenRouter dashboard.
     @JsonKey(name: 'io_logging_api_key_ids') List<int>? ioLoggingApiKeyIds,
 
-    /// Sampling rate for I/O logging (0.0001-1)
+    /// Sampling rate for I/O logging (0.0001-1). Read-only for management keys: any value other than the stored one returns 403. Change it in the OpenRouter dashboard.
     ///
     /// Format: double
     ///
@@ -135,11 +137,11 @@ sealed class UpdateWorkspaceRequest with _$UpdateWorkspaceRequest {
     /// ```
     @JsonKey(name: 'io_logging_sampling_rate') num? ioLoggingSamplingRate,
 
-    /// Whether data discount logging is enabled
+    /// Whether data discount logging is enabled. Read-only for management keys: any value other than the stored one returns 403. Change it in the OpenRouter dashboard.
     ///
     /// Example:
     /// ```
-    /// true
+    /// false
     /// ```
     @JsonKey(name: 'is_data_discount_logging_enabled')
     bool? isDataDiscountLoggingEnabled,
@@ -153,7 +155,7 @@ sealed class UpdateWorkspaceRequest with _$UpdateWorkspaceRequest {
     @JsonKey(name: 'is_observability_broadcast_enabled')
     bool? isObservabilityBroadcastEnabled,
 
-    /// Whether private logging is enabled
+    /// Whether private logging is enabled. Read-only for management keys: any value other than the stored one returns 403. Change it in the OpenRouter dashboard.
     ///
     /// Example:
     /// ```

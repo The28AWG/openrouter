@@ -8,6 +8,7 @@ import 'agent_message_item.dart';
 import 'apply_patch_call_item.dart';
 import 'apply_patch_call_output_item.dart';
 import 'compaction_item.dart';
+import 'compaction_trigger_item.dart';
 import 'configuration_update_item.dart';
 import 'context_compaction_item.dart';
 import 'custom_tool_call_item.dart';
@@ -40,7 +41,6 @@ import 'output_fusion_server_tool_item.dart';
 import 'output_image_generation_call_item.dart';
 import 'output_image_generation_server_tool_item.dart';
 import 'output_item_reasoning.dart';
-import 'output_mcp_server_tool_item.dart';
 import 'output_memory_server_tool_item.dart';
 import 'output_message.dart';
 import 'output_search_models_server_tool_item.dart';
@@ -283,7 +283,7 @@ sealed class InputsListItemValueReasoningReasoning
     /// Allowed: `reasoning`
     required OutputItemReasoningTypeValue type,
 
-    /// Allowed: `unknown`, `openai-responses-v1`, `azure-openai-responses-v1`, `bedrock-openai-responses-v1`, `bedrock-xai-responses-v1`, `xai-responses-v1`, `meta-responses-v1`, `anthropic-claude-v1`, `google-gemini-v1`
+    /// Allowed: `unknown`, `openai-responses-v1`, `azure-openai-responses-v1`, `bedrock-openai-responses-v1`, `bedrock-xai-responses-v1`, `xai-responses-v1`, `meta-responses-v1`, `google-vertex-meta-responses-v1`, `google-vertex-xai-responses-v1`, `openrouter-stealth-v1`, `anthropic-claude-v1`, `google-gemini-v1`
     ///
     /// Unknown values are allowed by the specification.
     ///
@@ -420,10 +420,6 @@ sealed class InputsListItemValue with _$InputsListItemValue {
     required OutputArmorBlockedItem value,
   }) = _InputsListItemValueOutputarmorblockeditem;
 
-  const factory InputsListItemValue.outputmcpservertoolitem({
-    required OutputMcpServerToolItem value,
-  }) = _InputsListItemValueOutputmcpservertoolitem;
-
   const factory InputsListItemValue.outputsearchmodelsservertoolitem({
     required OutputSearchModelsServerToolItem value,
   }) = _InputsListItemValueOutputsearchmodelsservertoolitem;
@@ -486,6 +482,10 @@ sealed class InputsListItemValue with _$InputsListItemValue {
   const factory InputsListItemValue.customtoolcalloutputitem({
     required CustomToolCallOutputItem value,
   }) = _InputsListItemValueCustomtoolcalloutputitem;
+
+  const factory InputsListItemValue.compactiontriggeritem({
+    required CompactionTriggerItem value,
+  }) = _InputsListItemValueCompactiontriggeritem;
 
   const factory InputsListItemValue.compactionitem({
     required CompactionItem value,
@@ -778,6 +778,16 @@ sealed class InputsListItemValue with _$InputsListItemValue {
       }
     }
     if (json.containsKey('status') && json.containsKey('type')) {
+      final decoded = _tryDecode(
+        () => OutputToolSearchServerToolItem.fromJson(json),
+      );
+      if (decoded != null) {
+        return InputsListItemValue.outputtoolsearchservertoolitem(
+          value: decoded,
+        );
+      }
+    }
+    if (json.containsKey('status') && json.containsKey('type')) {
       final decoded = _tryDecode(() => OutputBashServerToolItem.fromJson(json));
       if (decoded != null) {
         return InputsListItemValue.outputbashservertoolitem(value: decoded);
@@ -827,6 +837,14 @@ sealed class InputsListItemValue with _$InputsListItemValue {
     }
     if (json.containsKey('status') && json.containsKey('type')) {
       final decoded = _tryDecode(
+        () => OutputWebFetchServerToolItem.fromJson(json),
+      );
+      if (decoded != null) {
+        return InputsListItemValue.outputwebfetchservertoolitem(value: decoded);
+      }
+    }
+    if (json.containsKey('status') && json.containsKey('type')) {
+      final decoded = _tryDecode(
         () => OutputAdvisorServerToolItem.fromJson(json),
       );
       if (decoded != null) {
@@ -841,14 +859,6 @@ sealed class InputsListItemValue with _$InputsListItemValue {
         return InputsListItemValue.outputcodeinterpreterservertoolitem(
           value: decoded,
         );
-      }
-    }
-    if (json.containsKey('status') && json.containsKey('type')) {
-      final decoded = _tryDecode(
-        () => OutputWebFetchServerToolItem.fromJson(json),
-      );
-      if (decoded != null) {
-        return InputsListItemValue.outputwebfetchservertoolitem(value: decoded);
       }
     }
     if (json.containsKey('status') && json.containsKey('type')) {
@@ -881,28 +891,12 @@ sealed class InputsListItemValue with _$InputsListItemValue {
     }
     if (json.containsKey('status') && json.containsKey('type')) {
       final decoded = _tryDecode(
-        () => OutputToolSearchServerToolItem.fromJson(json),
-      );
-      if (decoded != null) {
-        return InputsListItemValue.outputtoolsearchservertoolitem(
-          value: decoded,
-        );
-      }
-    }
-    if (json.containsKey('status') && json.containsKey('type')) {
-      final decoded = _tryDecode(
         () => OutputBrowserUseServerToolItem.fromJson(json),
       );
       if (decoded != null) {
         return InputsListItemValue.outputbrowseruseservertoolitem(
           value: decoded,
         );
-      }
-    }
-    if (json.containsKey('status') && json.containsKey('type')) {
-      final decoded = _tryDecode(() => OutputMcpServerToolItem.fromJson(json));
-      if (decoded != null) {
-        return InputsListItemValue.outputmcpservertoolitem(value: decoded);
       }
     }
     if (json.containsKey('status') && json.containsKey('type')) {
@@ -971,6 +965,12 @@ sealed class InputsListItemValue with _$InputsListItemValue {
         return InputsListItemValue.contextcompactionitem(value: decoded);
       }
     }
+    if (json.containsKey('type')) {
+      final decoded = _tryDecode(() => CompactionTriggerItem.fromJson(json));
+      if (decoded != null) {
+        return InputsListItemValue.compactiontriggeritem(value: decoded);
+      }
+    }
     throw FormatException('InputsListItemValue');
   }
 
@@ -1034,8 +1034,6 @@ sealed class InputsListItemValue with _$InputsListItemValue {
         return value.toJson();
       case _InputsListItemValueOutputarmorblockeditem(:final value):
         return value.toJson();
-      case _InputsListItemValueOutputmcpservertoolitem(:final value):
-        return value.toJson();
       case _InputsListItemValueOutputsearchmodelsservertoolitem(:final value):
         return value.toJson();
       case _InputsListItemValueOutputfusionservertoolitem(:final value):
@@ -1067,6 +1065,8 @@ sealed class InputsListItemValue with _$InputsListItemValue {
       case _InputsListItemValueCustomtoolcallitem(:final value):
         return value.toJson();
       case _InputsListItemValueCustomtoolcalloutputitem(:final value):
+        return value.toJson();
+      case _InputsListItemValueCompactiontriggeritem(:final value):
         return value.toJson();
       case _InputsListItemValueCompactionitem(:final value):
         return value.toJson();

@@ -5,10 +5,14 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'output_item_apply_patch_call.dart';
 import 'output_item_code_interpreter_call.dart';
+import 'output_item_compaction.dart';
 import 'output_item_custom_tool_call.dart';
 import 'output_item_file_search_call.dart';
 import 'output_item_function_call.dart';
 import 'output_item_image_generation_call.dart';
+import 'output_item_mcp_approval_request.dart';
+import 'output_item_mcp_call.dart';
+import 'output_item_mcp_list_tools.dart';
 import 'output_item_reasoning.dart';
 import 'output_item_web_search_call.dart';
 import 'output_message.dart';
@@ -29,6 +33,10 @@ sealed class OutputItemAddedEventItemValue
     required OutputItemCodeInterpreterCall value,
   }) = _OutputItemAddedEventItemValueCodeinterpretercall;
 
+  const factory OutputItemAddedEventItemValue.compaction({
+    required OutputItemCompaction value,
+  }) = _OutputItemAddedEventItemValueCompaction;
+
   const factory OutputItemAddedEventItemValue.customToolCall({
     required OutputItemCustomToolCall value,
   }) = _OutputItemAddedEventItemValueCustomtoolcall;
@@ -44,6 +52,18 @@ sealed class OutputItemAddedEventItemValue
   const factory OutputItemAddedEventItemValue.imageGenerationCall({
     required OutputItemImageGenerationCall value,
   }) = _OutputItemAddedEventItemValueImagegenerationcall;
+
+  const factory OutputItemAddedEventItemValue.mcpApprovalRequest({
+    required OutputItemMcpApprovalRequest value,
+  }) = _OutputItemAddedEventItemValueMcpapprovalrequest;
+
+  const factory OutputItemAddedEventItemValue.mcpCall({
+    required OutputItemMcpCall value,
+  }) = _OutputItemAddedEventItemValueMcpcall;
+
+  const factory OutputItemAddedEventItemValue.mcpListTools({
+    required OutputItemMcpListTools value,
+  }) = _OutputItemAddedEventItemValueMcplisttools;
 
   const factory OutputItemAddedEventItemValue.message({
     required OutputMessage value,
@@ -68,6 +88,10 @@ sealed class OutputItemAddedEventItemValue
         return OutputItemAddedEventItemValue.codeInterpreterCall(
           value: OutputItemCodeInterpreterCall.fromJson(json),
         );
+      case 'compaction':
+        return OutputItemAddedEventItemValue.compaction(
+          value: OutputItemCompaction.fromJson(json),
+        );
       case 'custom_tool_call':
         return OutputItemAddedEventItemValue.customToolCall(
           value: OutputItemCustomToolCall.fromJson(json),
@@ -83,6 +107,18 @@ sealed class OutputItemAddedEventItemValue
       case 'image_generation_call':
         return OutputItemAddedEventItemValue.imageGenerationCall(
           value: OutputItemImageGenerationCall.fromJson(json),
+        );
+      case 'mcp_approval_request':
+        return OutputItemAddedEventItemValue.mcpApprovalRequest(
+          value: OutputItemMcpApprovalRequest.fromJson(json),
+        );
+      case 'mcp_call':
+        return OutputItemAddedEventItemValue.mcpCall(
+          value: OutputItemMcpCall.fromJson(json),
+        );
+      case 'mcp_list_tools':
+        return OutputItemAddedEventItemValue.mcpListTools(
+          value: OutputItemMcpListTools.fromJson(json),
         );
       case 'message':
         return OutputItemAddedEventItemValue.message(
@@ -107,6 +143,8 @@ sealed class OutputItemAddedEventItemValue
         return value.toJson();
       case _OutputItemAddedEventItemValueCodeinterpretercall(:final value):
         return value.toJson();
+      case _OutputItemAddedEventItemValueCompaction(:final value):
+        return value.toJson();
       case _OutputItemAddedEventItemValueCustomtoolcall(:final value):
         return value.toJson();
       case _OutputItemAddedEventItemValueFilesearchcall(:final value):
@@ -114,6 +152,12 @@ sealed class OutputItemAddedEventItemValue
       case _OutputItemAddedEventItemValueFunctioncall(:final value):
         return value.toJson();
       case _OutputItemAddedEventItemValueImagegenerationcall(:final value):
+        return value.toJson();
+      case _OutputItemAddedEventItemValueMcpapprovalrequest(:final value):
+        return value.toJson();
+      case _OutputItemAddedEventItemValueMcpcall(:final value):
+        return value.toJson();
+      case _OutputItemAddedEventItemValueMcplisttools(:final value):
         return value.toJson();
       case _OutputItemAddedEventItemValueMessage(:final value):
         return value.toJson();

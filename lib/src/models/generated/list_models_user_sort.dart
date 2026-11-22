@@ -4,9 +4,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'list_models_user_sort.g.dart';
 
-/// Sort the returned models server-side. Prefer this over fetching the full list and sorting client-side. Options: pricing-low-to-high, pricing-high-to-low (average prompt/completion price), context-high-to-low (context length), throughput-high-to-low, latency-low-to-high (recent median performance), most-popular, top-weekly (tokens processed in the last week), newest (creation date), intelligence-high-to-low, coding-high-to-low, agentic-high-to-low (Artificial Analysis indices), design-arena-elo-high-to-low (best Design Arena ELO across arenas). Models without a score for the chosen benchmark are placed last. When omitted, the existing default ordering is preserved.
+/// Sort the returned models server-side. Prefer this over fetching the full list and sorting client-side. Options: pricing-low-to-high, pricing-high-to-low (average prompt/completion price), context-high-to-low (context length), throughput-high-to-low, latency-low-to-high (recent median performance), most-popular, top-weekly (tokens processed in the last week), newest (creation date), &lt;index&gt;-high-to-low for each Artificial Analysis index (the coding and agentic sorts are deprecated: Artificial Analysis has retired those indexes, so they order by canonical slug and variant alone), design-arena-elo-high-to-low (best Design Arena ELO across arenas). Models without a score for the chosen benchmark are placed last. The decision sort ranks decision models, so pass output_modalities=decisions or all with it. When omitted, the existing default ordering is preserved.
 ///
-/// Allowed: `most-popular`, `newest`, `top-weekly`, `pricing-low-to-high`, `pricing-high-to-low`, `context-high-to-low`, `throughput-high-to-low`, `latency-low-to-high`, `intelligence-high-to-low`, `coding-high-to-low`, `agentic-high-to-low`, `design-arena-elo-high-to-low`
+/// Allowed: `most-popular`, `newest`, `top-weekly`, `pricing-low-to-high`, `pricing-high-to-low`, `context-high-to-low`, `throughput-high-to-low`, `latency-low-to-high`, `intelligence-high-to-low`, `coding-high-to-low`, `agentic-high-to-low`, `finance-and-accounting-high-to-low`, `strategy-and-ops-high-to-low`, `legal-high-to-low`, `healthcare-and-medical-high-to-low`, `engineering-high-to-low`, `economics-high-to-low`, `cyber-high-to-low`, `openness-high-to-low`, `multilingual-high-to-low`, `decision-high-to-low`, `design-arena-elo-high-to-low`
 ///
 /// Unknown values are allowed by the specification.
 ///
@@ -38,6 +38,26 @@ enum ListModelsUserSort {
   codingHighToLow,
   @JsonValue('agentic-high-to-low')
   agenticHighToLow,
+  @JsonValue('finance-and-accounting-high-to-low')
+  financeAndAccountingHighToLow,
+  @JsonValue('strategy-and-ops-high-to-low')
+  strategyAndOpsHighToLow,
+  @JsonValue('legal-high-to-low')
+  legalHighToLow,
+  @JsonValue('healthcare-and-medical-high-to-low')
+  healthcareAndMedicalHighToLow,
+  @JsonValue('engineering-high-to-low')
+  engineeringHighToLow,
+  @JsonValue('economics-high-to-low')
+  economicsHighToLow,
+  @JsonValue('cyber-high-to-low')
+  cyberHighToLow,
+  @JsonValue('openness-high-to-low')
+  opennessHighToLow,
+  @JsonValue('multilingual-high-to-low')
+  multilingualHighToLow,
+  @JsonValue('decision-high-to-low')
+  decisionHighToLow,
   @JsonValue('design-arena-elo-high-to-low')
   designArenaEloHighToLow,
 

@@ -2219,7 +2219,7 @@ sealed class MessagesRequest with _$MessagesRequest {
     @JsonKey(name: 'context_management')
     MessagesRequestContextManagementValue? contextManagement,
 
-    /// Opt-in versioned router-level deferred-tool protocol. Replay assistant reasoning unchanged on continuation; keep the catalog unchanged.
+    /// Opt-in versioned router-level deferred-tool protocol. Replay assistant reasoning unchanged on continuation. The portable profile needs the catalog unchanged across a continuation; the universal profile accepts a changed catalog and, with `announce_catalog_changes`, tells the model about it.
     ///
     /// Example:
     /// ```

@@ -26,8 +26,8 @@ abstract final class OpenRouterSpec {
 class OpenRouterCallOptions {
   const OpenRouterCallOptions({
     this.httpReferer,
-    this.xOpenrouterTitle,
-    this.xOpenrouterCategories,
+    this.appTitle,
+    this.appCategories,
     this.headers = const {},
     this.query = const {},
   });
@@ -39,11 +39,15 @@ class OpenRouterCallOptions {
 
   /// Overrides `X-OpenRouter-Title` for one call.
   /// The app display name allows you to customize how your app appears in OpenRouter's dashboard.
-  final String? xOpenrouterTitle;
+  ///
+  /// Header: `X-OpenRouter-Title`.
+  final String? appTitle;
 
   /// Overrides `X-OpenRouter-Categories` for one call.
   /// Comma-separated list of app categories (e.g. "cli-agent,cloud-agent"). Used for marketplace rankings.
-  final String? xOpenrouterCategories;
+  ///
+  /// Header: `X-OpenRouter-Categories`.
+  final String? appCategories;
 
   /// Extra headers. Names are matched without case sensitivity.
   final Map<String, String> headers;
@@ -59,8 +63,8 @@ class OpenRouterClient {
     String? baseUrl,
     OpenRouterTransport? transport,
     this.httpReferer,
-    this.xOpenrouterTitle,
-    this.xOpenrouterCategories,
+    this.appTitle,
+    this.appCategories,
   }) : baseUrl = _trimTrailingSlash(baseUrl ?? OpenRouterSpec.server),
        transport = transport ?? HttpOpenRouterTransport(),
        ownsTransport = transport == null;
@@ -82,11 +86,15 @@ class OpenRouterClient {
 
   /// X-OpenRouter-Title
   /// The app display name allows you to customize how your app appears in OpenRouter's dashboard.
-  final String? xOpenrouterTitle;
+  ///
+  /// Header: `X-OpenRouter-Title`.
+  final String? appTitle;
 
   /// X-OpenRouter-Categories
   /// Comma-separated list of app categories (e.g. "cli-agent,cloud-agent"). Used for marketplace rankings.
-  final String? xOpenrouterCategories;
+  ///
+  /// Header: `X-OpenRouter-Categories`.
+  final String? appCategories;
 
   void close() {
     if (ownsTransport) {
@@ -268,15 +276,11 @@ class OpenRouterClient {
       requestHeaders['accept'] = accept;
     }
     _set(requestHeaders, 'HTTP-Referer', options?.httpReferer ?? httpReferer);
-    _set(
-      requestHeaders,
-      'X-OpenRouter-Title',
-      options?.xOpenrouterTitle ?? xOpenrouterTitle,
-    );
+    _set(requestHeaders, 'X-OpenRouter-Title', options?.appTitle ?? appTitle);
     _set(
       requestHeaders,
       'X-OpenRouter-Categories',
-      options?.xOpenrouterCategories ?? xOpenrouterCategories,
+      options?.appCategories ?? appCategories,
     );
     if (headers != null) {
       for (final entry in headers.entries) {

@@ -79,7 +79,7 @@ sealed class CreatePrivateEndpointRequest with _$CreatePrivateEndpointRequest {
 
     /// Parameters the upstream supports beyond the tested ones. Replaces the earlier declaration; tested parameters stay. Order and repeated names are ignored, but the list holds at most as many entries as there are declarable parameters, repeats included. `tool_choice` requires `tools` to be tested or declared.
     ///
-    /// maxItems: 25
+    /// maxItems: 26
     ///
     /// Example:
     /// ```
@@ -113,16 +113,6 @@ sealed class CreatePrivateEndpointRequest with _$CreatePrivateEndpointRequest {
 
     /// Attest that this deployment retains no prompt or completion data.
     @JsonKey(name: 'declared_zdr') bool? declaredZdr,
-
-    /// Cap on completion tokens per request. Requests asking for more skip this endpoint, and the default output length stays within it. When omitted, the cap is copied from the public endpoint for the same model and provider, if there is one.
-    ///
-    /// minimum: 1, maximum: 2147483647
-    ///
-    /// Example:
-    /// ```
-    /// 131072
-    /// ```
-    @JsonKey(name: 'max_completion_tokens') int? maxCompletionTokens,
 
     /// Permanent slug of the model this endpoint serves.
     ///

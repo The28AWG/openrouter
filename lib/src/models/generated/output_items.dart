@@ -3,6 +3,9 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'mcp_approval_request_item.dart';
+import 'mcp_call_item.dart';
+import 'mcp_list_tools_item.dart';
 import 'output_advisor_server_tool_item.dart';
 import 'output_apply_patch_call_item.dart';
 import 'output_apply_patch_server_tool_item.dart';
@@ -11,6 +14,7 @@ import 'output_bash_server_tool_item.dart';
 import 'output_browser_use_server_tool_item.dart';
 import 'output_code_interpreter_call_item.dart';
 import 'output_code_interpreter_server_tool_item.dart';
+import 'output_compaction_item.dart';
 import 'output_computer_call_item.dart';
 import 'output_custom_tool_call_item.dart';
 import 'output_datetime_item.dart';
@@ -21,7 +25,6 @@ import 'output_function_call_item.dart';
 import 'output_fusion_server_tool_item.dart';
 import 'output_image_generation_call_item.dart';
 import 'output_image_generation_server_tool_item.dart';
-import 'output_mcp_server_tool_item.dart';
 import 'output_memory_server_tool_item.dart';
 import 'output_message_item.dart';
 import 'output_reasoning_item.dart';
@@ -68,6 +71,9 @@ sealed class OutputItems with _$OutputItems {
     required OutputCodeInterpreterCallItem value,
   }) = _OutputItemsCodeinterpretercall;
 
+  const factory OutputItems.compaction({required OutputCompactionItem value}) =
+      _OutputItemsCompaction;
+
   const factory OutputItems.computerCall({
     required OutputComputerCallItem value,
   }) = _OutputItemsComputercall;
@@ -87,6 +93,16 @@ sealed class OutputItems with _$OutputItems {
   const factory OutputItems.imageGenerationCall({
     required OutputImageGenerationCallItem value,
   }) = _OutputItemsImagegenerationcall;
+
+  const factory OutputItems.mcpApprovalRequest({
+    required McpApprovalRequestItem value,
+  }) = _OutputItemsMcpapprovalrequest;
+
+  const factory OutputItems.mcpCall({required McpCallItem value}) =
+      _OutputItemsMcpcall;
+
+  const factory OutputItems.mcpListTools({required McpListToolsItem value}) =
+      _OutputItemsMcplisttools;
 
   const factory OutputItems.message({required OutputMessageItem value}) =
       _OutputItemsMessage;
@@ -138,10 +154,6 @@ sealed class OutputItems with _$OutputItems {
   const factory OutputItems.openrouterImageGeneration({
     required OutputImageGenerationServerToolItem value,
   }) = _OutputItemsOpenrouterimagegeneration;
-
-  const factory OutputItems.openrouterMcp({
-    required OutputMcpServerToolItem value,
-  }) = _OutputItemsOpenroutermcp;
 
   const factory OutputItems.openrouterMemory({
     required OutputMemoryServerToolItem value,
@@ -200,6 +212,10 @@ sealed class OutputItems with _$OutputItems {
         return OutputItems.codeInterpreterCall(
           value: OutputCodeInterpreterCallItem.fromJson(json),
         );
+      case 'compaction':
+        return OutputItems.compaction(
+          value: OutputCompactionItem.fromJson(json),
+        );
       case 'computer_call':
         return OutputItems.computerCall(
           value: OutputComputerCallItem.fromJson(json),
@@ -220,6 +236,14 @@ sealed class OutputItems with _$OutputItems {
         return OutputItems.imageGenerationCall(
           value: OutputImageGenerationCallItem.fromJson(json),
         );
+      case 'mcp_approval_request':
+        return OutputItems.mcpApprovalRequest(
+          value: McpApprovalRequestItem.fromJson(json),
+        );
+      case 'mcp_call':
+        return OutputItems.mcpCall(value: McpCallItem.fromJson(json));
+      case 'mcp_list_tools':
+        return OutputItems.mcpListTools(value: McpListToolsItem.fromJson(json));
       case 'message':
         return OutputItems.message(value: OutputMessageItem.fromJson(json));
       case 'openrouter:advisor':
@@ -269,10 +293,6 @@ sealed class OutputItems with _$OutputItems {
       case 'openrouter:image_generation':
         return OutputItems.openrouterImageGeneration(
           value: OutputImageGenerationServerToolItem.fromJson(json),
-        );
-      case 'openrouter:mcp':
-        return OutputItems.openrouterMcp(
-          value: OutputMcpServerToolItem.fromJson(json),
         );
       case 'openrouter:memory':
         return OutputItems.openrouterMemory(
@@ -329,6 +349,8 @@ sealed class OutputItems with _$OutputItems {
         return value.toJson();
       case _OutputItemsCodeinterpretercall(:final value):
         return value.toJson();
+      case _OutputItemsCompaction(:final value):
+        return value.toJson();
       case _OutputItemsComputercall(:final value):
         return value.toJson();
       case _OutputItemsCustomtoolcall(:final value):
@@ -338,6 +360,12 @@ sealed class OutputItems with _$OutputItems {
       case _OutputItemsFunctioncall(:final value):
         return value.toJson();
       case _OutputItemsImagegenerationcall(:final value):
+        return value.toJson();
+      case _OutputItemsMcpapprovalrequest(:final value):
+        return value.toJson();
+      case _OutputItemsMcpcall(:final value):
+        return value.toJson();
+      case _OutputItemsMcplisttools(:final value):
         return value.toJson();
       case _OutputItemsMessage(:final value):
         return value.toJson();
@@ -364,8 +392,6 @@ sealed class OutputItems with _$OutputItems {
       case _OutputItemsOpenrouterfusion(:final value):
         return value.toJson();
       case _OutputItemsOpenrouterimagegeneration(:final value):
-        return value.toJson();
-      case _OutputItemsOpenroutermcp(:final value):
         return value.toJson();
       case _OutputItemsOpenroutermemory(:final value):
         return value.toJson();

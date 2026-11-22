@@ -24,7 +24,7 @@ class ObservabilityResource {
 
   /// List observability destinations
   ///
-  /// List the observability destinations configured for the authenticated entity's default workspace. Use the `workspace_id` query parameter to scope the result to a different workspace. Only destinations with stable release status are surfaced — destinations of other types are excluded. [Management key](/docs/guides/overview/auth/management-api-keys) required.
+  /// List the observability destinations configured for the authenticated entity's default workspace, or a workspace-scoped management key's own workspace. Use the `workspace_id` query parameter to scope the result to a different workspace. A workspace-scoped management key can only list its own workspace; any other `workspace_id` returns 403. Only destinations with stable release status are surfaced — destinations of other types are excluded. [Management key](/docs/guides/overview/auth/management-api-keys) required.
   ///
   /// `GET /observability/destinations`
   ///
@@ -64,7 +64,7 @@ class ObservabilityResource {
     /// ```
     int? limit,
 
-    /// Optional workspace ID to filter by. Defaults to the authenticated entity's default workspace.
+    /// Optional workspace ID to filter by. Defaults to the authenticated entity's default workspace, or a workspace-scoped management key's own workspace.
     ///
     /// Format: uuid
     ///
@@ -127,7 +127,7 @@ class ObservabilityResource {
     /// ```
     int? limit,
 
-    /// Optional workspace ID to filter by. Defaults to the authenticated entity's default workspace.
+    /// Optional workspace ID to filter by. Defaults to the authenticated entity's default workspace, or a workspace-scoped management key's own workspace.
     ///
     /// Format: uuid
     ///
@@ -162,7 +162,7 @@ class ObservabilityResource {
 
   /// Create an observability destination
   ///
-  /// Create a new observability destination. A maximum of 5 destinations per type is allowed. Defaults to the authenticated entity's default workspace; use the `workspace_id` body field to scope to a different workspace. [Management key](/docs/guides/overview/auth/management-api-keys) required.
+  /// Create a new observability destination. A maximum of 5 enabled destinations per workspace, across all types, is allowed; disabled destinations do not count. A workspace already above the cap keeps its enabled destinations but cannot create or enable more until fewer than 5 are enabled. Defaults to the authenticated entity's default workspace, or a workspace-scoped management key's own workspace; use the `workspace_id` body field to scope to a different workspace. A workspace-scoped management key can only create in its own workspace; any other `workspace_id` returns 403. [Management key](/docs/guides/overview/auth/management-api-keys) required.
   ///
   /// `POST /observability/destinations`
   ///
@@ -229,7 +229,7 @@ class ObservabilityResource {
 
   /// Delete an observability destination
   ///
-  /// Delete an existing observability destination. This performs a soft delete. [Management key](/docs/guides/overview/auth/management-api-keys) required.
+  /// Delete an existing observability destination. This performs a soft delete. A workspace-scoped management key only reaches destinations in its own workspace; any other `id` returns 404. [Management key](/docs/guides/overview/auth/management-api-keys) required.
   ///
   /// `DELETE /observability/destinations/{id}`
   ///
@@ -276,7 +276,7 @@ class ObservabilityResource {
 
   /// Get an observability destination
   ///
-  /// Fetch a single observability destination by its UUID. [Management key](/docs/guides/overview/auth/management-api-keys) required.
+  /// Fetch a single observability destination by its UUID. A workspace-scoped management key only reaches destinations in its own workspace; any other `id` returns 404. [Management key](/docs/guides/overview/auth/management-api-keys) required.
   ///
   /// `GET /observability/destinations/{id}`
   ///
@@ -323,7 +323,7 @@ class ObservabilityResource {
 
   /// Update an observability destination
   ///
-  /// Update an existing observability destination. Only the fields provided in the request body are updated. [Management key](/docs/guides/overview/auth/management-api-keys) required.
+  /// Update an existing observability destination. Only the fields provided in the request body are updated. Enabling a disabled destination returns 400 while the workspace already has 5 enabled destinations. A workspace-scoped management key only reaches destinations in its own workspace; any other `id` returns 404. [Management key](/docs/guides/overview/auth/management-api-keys) required.
   ///
   /// `PATCH /observability/destinations/{id}`
   ///

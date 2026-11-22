@@ -50,13 +50,53 @@ Object? videoGenerationResponseStatusValueToJson(
   VideoGenerationResponseStatusValue value,
 ) => _$VideoGenerationResponseStatusValueEnumMap[value];
 
+/// The step within `status` for a job that is not finished: `submitting` and `queued_at_provider` under `pending`, `generating` and `finalizing` under `in_progress`. When present, it only moves forward, and steps may be skipped between polls. It is absent once the job is finished and can also be absent mid-job when the step is unknown, so use `status` to tell whether the job is finished.
+///
+/// Allowed: `submitting`, `queued_at_provider`, `generating`, `finalizing`
+///
+/// Unknown values are allowed by the specification.
+@JsonEnum(alwaysCreate: true)
+enum VideoGenerationResponseStatusDetailValue {
+  @JsonValue('submitting')
+  submitting,
+  @JsonValue('queued_at_provider')
+  queuedAtProvider,
+  @JsonValue('generating')
+  generating,
+  @JsonValue('finalizing')
+  finalizing,
+
+  /// Value returned when the API sends a member that is not listed yet.
+  unknown_,
+}
+
+VideoGenerationResponseStatusDetailValue
+videoGenerationResponseStatusDetailValueFromJson(Object? json) => $enumDecode(
+  _$VideoGenerationResponseStatusDetailValueEnumMap,
+  json,
+  unknownValue: VideoGenerationResponseStatusDetailValue.unknown_,
+);
+
+VideoGenerationResponseStatusDetailValue?
+videoGenerationResponseStatusDetailValueFromJsonNullable(Object? json) =>
+    $enumDecodeNullable(
+      _$VideoGenerationResponseStatusDetailValueEnumMap,
+      json,
+      unknownValue: VideoGenerationResponseStatusDetailValue.unknown_,
+    );
+
+Object? videoGenerationResponseStatusDetailValueToJson(
+  VideoGenerationResponseStatusDetailValue value,
+) => _$VideoGenerationResponseStatusDetailValueEnumMap[value];
+
 /// Example:
 /// ```
 /// {
 ///   "generation_id": "gen-vid-1789480874-Ab3dEf9hIjKlMnOpQrSt",
 ///   "id": "gen-vid-1789480874-Ab3dEf9hIjKlMnOpQrSt",
 ///   "polling_url": "/api/v1/videos/gen-vid-1789480874-Ab3dEf9hIjKlMnOpQrSt",
-///   "status": "pending"
+///   "status": "pending",
+///   "status_detail": "queued_at_provider"
 /// }
 /// ```
 @freezed
@@ -74,11 +114,29 @@ sealed class VideoGenerationResponse with _$VideoGenerationResponse {
     required String id,
     @JsonKey(name: 'polling_url') required String pollingUrl,
 
+    /// Percent complete, from 0 to 100 and possibly fractional, reported by the provider while `status_detail` is `generating`. Present only for providers that report it, and absent once the job moves to `finalizing`.
+    ///
+    /// minimum: 0, maximum: 100
+    ///
+    /// Format: double
+    num? progress,
+
     /// Allowed: `pending`, `in_progress`, `completed`, `failed`, `cancelled`, `expired`
     ///
     /// Unknown values are allowed by the specification.
     @JsonKey(unknownEnumValue: VideoGenerationResponseStatusValue.unknown_)
     required VideoGenerationResponseStatusValue status,
+
+    /// The step within `status` for a job that is not finished: `submitting` and `queued_at_provider` under `pending`, `generating` and `finalizing` under `in_progress`. When present, it only moves forward, and steps may be skipped between polls. It is absent once the job is finished and can also be absent mid-job when the step is unknown, so use `status` to tell whether the job is finished.
+    ///
+    /// Allowed: `submitting`, `queued_at_provider`, `generating`, `finalizing`
+    ///
+    /// Unknown values are allowed by the specification.
+    @JsonKey(
+      name: 'status_detail',
+      unknownEnumValue: VideoGenerationResponseStatusDetailValue.unknown_,
+    )
+    VideoGenerationResponseStatusDetailValue? statusDetail,
 
     /// OpenRouter content URLs for each output. They need your API key in the `Authorization` header and keep working for as long as the output is available.
     @JsonKey(name: 'unsigned_urls') List<String>? unsignedUrls,

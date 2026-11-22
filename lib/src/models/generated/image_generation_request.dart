@@ -12,7 +12,7 @@ part 'image_generation_request.g.dart';
 
 /// Normalized aspect ratio of the generated image. Providers clamp to their supported subset.
 ///
-/// Allowed: `1:1`, `1:2`, `1:4`, `1:8`, `2:1`, `2:3`, `2.35:1`, `3:2`, `3:4`, `4:1`, `4:3`, `4:5`, `5:2`, `5:4`, `5:7`, `7:5`, `8:1`, `9:16`, `16:9`, `9:19.5`, `19.5:9`, `9:20`, `20:9`, `9:21`, `21:9`, `auto`
+/// Allowed: `1:1`, `1:2`, `1:3`, `1:4`, `1:8`, `2:1`, `2:3`, `3:1`, `2.35:1`, `3:2`, `3:4`, `4:1`, `4:3`, `4:5`, `5:2`, `5:4`, `5:7`, `7:5`, `8:1`, `9:16`, `16:9`, `9:19.5`, `19.5:9`, `9:20`, `20:9`, `9:21`, `21:9`, `auto`
 ///
 /// Unknown values are allowed by the specification.
 ///
@@ -26,6 +26,8 @@ enum ImageGenerationRequestAspectRatioValue {
   value11,
   @JsonValue('1:2')
   value12,
+  @JsonValue('1:3')
+  value13,
   @JsonValue('1:4')
   value14,
   @JsonValue('1:8')
@@ -34,6 +36,8 @@ enum ImageGenerationRequestAspectRatioValue {
   value21,
   @JsonValue('2:3')
   value23,
+  @JsonValue('3:1')
+  value31,
   @JsonValue('2.35:1')
   value2351,
   @JsonValue('3:2')
@@ -140,9 +144,35 @@ Object? imageGenerationRequestBackgroundValueToJson(
   ImageGenerationRequestBackgroundValue value,
 ) => _$ImageGenerationRequestBackgroundValueEnumMap[value];
 
-/// Encoding of the returned image bytes. Most models produce raster formats (png, jpeg, webp). SVG is supported by vectorization models (e.g. Quiver) — the SVG markup is UTF-8 base64-encoded in `b64_json`.
+/// A transparent PNG overlay (arrows, circles, annotations) with the same dimensions as the first reference image, as a base64 data URL or HTTP(S) URL, guiding where an edit applies. Image-to-image requests only; honored by models with markup-guided editing (OpenAI gpt-image-2.6) and ignored otherwise.
 ///
-/// Allowed: `png`, `jpeg`, `webp`, `svg`
+/// Example:
+/// ```
+/// {
+///   "image_url": {
+///     "url": "https://example.com/image.png"
+///   },
+///   "type": "image_url"
+/// }
+/// ```
+@freezed
+sealed class ImageGenerationRequestMarkupImageUrl
+    with _$ImageGenerationRequestMarkupImageUrl {
+  const factory ImageGenerationRequestMarkupImageUrl({
+    @JsonKey(name: 'image_url') required ContentPartImageImageUrlValue imageUrl,
+
+    /// Allowed: `image_url`
+    required ContentPartImageTypeValue type,
+  }) = _ImageGenerationRequestMarkupImageUrl;
+
+  factory ImageGenerationRequestMarkupImageUrl.fromJson(
+    Map<String, dynamic> json,
+  ) => _$ImageGenerationRequestMarkupImageUrlFromJson(json);
+}
+
+/// Encoding of the returned image bytes. Most models produce raster formats (png, jpeg, webp). SVG is supported by vectorization models (e.g. Quiver) — the SVG markup is UTF-8 base64-encoded in `b64_json`. GIF produces an animation on models that support it (OpenAI gpt-image-2.6; see `frame_count`).
+///
+/// Allowed: `png`, `jpeg`, `webp`, `svg`, `gif`
 ///
 /// Unknown values are allowed by the specification.
 ///
@@ -160,6 +190,8 @@ enum ImageGenerationRequestOutputFormatValue {
   webp,
   @JsonValue('svg')
   svg,
+  @JsonValue('gif')
+  gif,
 
   /// Value returned when the API sends a member that is not listed yet.
   unknown_,
@@ -235,7 +267,7 @@ Object? imageGenerationRequestQualityValueToJson(
 
 /// Normalized resolution tier of the generated image. Concrete pixel dimensions are derived per-provider.
 ///
-/// Allowed: `512`, `768`, `1K`, `1.5K`, `2K`, `4K`
+/// Allowed: `512`, `768`, `1K`, `1.5K`, `2K`, `4K`, `8K`
 ///
 /// Unknown values are allowed by the specification.
 ///
@@ -257,6 +289,8 @@ enum ImageGenerationRequestResolutionValue {
   value2k,
   @JsonValue('4K')
   value4k,
+  @JsonValue('8K')
+  value8k,
 
   /// Value returned when the API sends a member that is not listed yet.
   unknown_,
@@ -281,6 +315,46 @@ Object? imageGenerationRequestResolutionValueToJson(
   ImageGenerationRequestResolutionValue value,
 ) => _$ImageGenerationRequestResolutionValueEnumMap[value];
 
+/// `b64_json` (default) returns the image bytes inline. `url` stores each output in OpenRouter storage and returns a signed download URL in place of the bytes. The URL is a bearer link: anyone holding it can download the image until it expires, up to 24 hours after the image was stored (use `expires_at`); the stored copy is deleted by the storage lifecycle within the following day. The response falls back to `b64_json` when a URL cannot be issued: streaming responses, zero-data-retention requests (account settings, guardrails or `provider.zdr`) or endpoints, or storage being unavailable.
+///
+/// Allowed: `b64_json`, `url`
+///
+/// Unknown values are allowed by the specification.
+///
+/// Example:
+/// ```
+/// "b64_json"
+/// ```
+@JsonEnum(alwaysCreate: true)
+enum ImageGenerationRequestResponseFormatValue {
+  @JsonValue('b64_json')
+  b64Json,
+  @JsonValue('url')
+  url,
+
+  /// Value returned when the API sends a member that is not listed yet.
+  unknown_,
+}
+
+ImageGenerationRequestResponseFormatValue
+imageGenerationRequestResponseFormatValueFromJson(Object? json) => $enumDecode(
+  _$ImageGenerationRequestResponseFormatValueEnumMap,
+  json,
+  unknownValue: ImageGenerationRequestResponseFormatValue.unknown_,
+);
+
+ImageGenerationRequestResponseFormatValue?
+imageGenerationRequestResponseFormatValueFromJsonNullable(Object? json) =>
+    $enumDecodeNullable(
+      _$ImageGenerationRequestResponseFormatValueEnumMap,
+      json,
+      unknownValue: ImageGenerationRequestResponseFormatValue.unknown_,
+    );
+
+Object? imageGenerationRequestResponseFormatValueToJson(
+  ImageGenerationRequestResponseFormatValue value,
+) => _$ImageGenerationRequestResponseFormatValueEnumMap[value];
+
 /// Image generation request input
 ///
 /// Example:
@@ -295,7 +369,7 @@ sealed class ImageGenerationRequest with _$ImageGenerationRequest {
   const factory ImageGenerationRequest({
     /// Normalized aspect ratio of the generated image. Providers clamp to their supported subset.
     ///
-    /// Allowed: `1:1`, `1:2`, `1:4`, `1:8`, `2:1`, `2:3`, `2.35:1`, `3:2`, `3:4`, `4:1`, `4:3`, `4:5`, `5:2`, `5:4`, `5:7`, `7:5`, `8:1`, `9:16`, `16:9`, `9:19.5`, `19.5:9`, `9:20`, `20:9`, `9:21`, `21:9`, `auto`
+    /// Allowed: `1:1`, `1:2`, `1:3`, `1:4`, `1:8`, `2:1`, `2:3`, `3:1`, `2.35:1`, `3:2`, `3:4`, `4:1`, `4:3`, `4:5`, `5:2`, `5:4`, `5:7`, `7:5`, `8:1`, `9:16`, `16:9`, `9:19.5`, `19.5:9`, `9:20`, `20:9`, `9:21`, `21:9`, `auto`
     ///
     /// Unknown values are allowed by the specification.
     ///
@@ -322,10 +396,39 @@ sealed class ImageGenerationRequest with _$ImageGenerationRequest {
     @JsonKey(unknownEnumValue: ImageGenerationRequestBackgroundValue.unknown_)
     ImageGenerationRequestBackgroundValue? background,
 
+    /// Number of animation frames (2-64) when `output_format` is `gif`. Only honored by models that produce animations; each accepts its own range and rejects values outside it. Ignored otherwise.
+    ///
+    /// Example:
+    /// ```
+    /// 8
+    /// ```
+    @JsonKey(name: 'frame_count') int? frameCount,
+
+    /// Display time of each animation frame in milliseconds (20-2000) when `output_format` is `gif`. Ignored by models that do not produce animations.
+    ///
+    /// Example:
+    /// ```
+    /// 100
+    /// ```
+    @JsonKey(name: 'frame_duration_ms') int? frameDurationMs,
+
     /// Reference images to guide image-to-image generation, as base64 data URLs or HTTP(S) URLs.
     ///
     /// maxItems: 16
     @JsonKey(name: 'input_references') List<ContentPartImage>? inputReferences,
+
+    /// A transparent PNG overlay (arrows, circles, annotations) with the same dimensions as the first reference image, as a base64 data URL or HTTP(S) URL, guiding where an edit applies. Image-to-image requests only; honored by models with markup-guided editing (OpenAI gpt-image-2.6) and ignored otherwise.
+    ///
+    /// Example:
+    /// ```
+    /// {
+    ///   "image_url": {
+    ///     "url": "https://example.com/image.png"
+    ///   },
+    ///   "type": "image_url"
+    /// }
+    /// ```
+    ImageGenerationRequestMarkupImageUrl? markup,
 
     /// The image generation model to use
     ///
@@ -351,9 +454,9 @@ sealed class ImageGenerationRequest with _$ImageGenerationRequest {
     /// ```
     @JsonKey(name: 'output_compression') int? outputCompression,
 
-    /// Encoding of the returned image bytes. Most models produce raster formats (png, jpeg, webp). SVG is supported by vectorization models (e.g. Quiver) — the SVG markup is UTF-8 base64-encoded in `b64_json`.
+    /// Encoding of the returned image bytes. Most models produce raster formats (png, jpeg, webp). SVG is supported by vectorization models (e.g. Quiver) — the SVG markup is UTF-8 base64-encoded in `b64_json`. GIF produces an animation on models that support it (OpenAI gpt-image-2.6; see `frame_count`).
     ///
-    /// Allowed: `png`, `jpeg`, `webp`, `svg`
+    /// Allowed: `png`, `jpeg`, `webp`, `svg`, `gif`
     ///
     /// Unknown values are allowed by the specification.
     ///
@@ -405,7 +508,7 @@ sealed class ImageGenerationRequest with _$ImageGenerationRequest {
 
     /// Normalized resolution tier of the generated image. Concrete pixel dimensions are derived per-provider.
     ///
-    /// Allowed: `512`, `768`, `1K`, `1.5K`, `2K`, `4K`
+    /// Allowed: `512`, `768`, `1K`, `1.5K`, `2K`, `4K`, `8K`
     ///
     /// Unknown values are allowed by the specification.
     ///
@@ -415,6 +518,22 @@ sealed class ImageGenerationRequest with _$ImageGenerationRequest {
     /// ```
     @JsonKey(unknownEnumValue: ImageGenerationRequestResolutionValue.unknown_)
     ImageGenerationRequestResolutionValue? resolution,
+
+    /// `b64_json` (default) returns the image bytes inline. `url` stores each output in OpenRouter storage and returns a signed download URL in place of the bytes. The URL is a bearer link: anyone holding it can download the image until it expires, up to 24 hours after the image was stored (use `expires_at`); the stored copy is deleted by the storage lifecycle within the following day. The response falls back to `b64_json` when a URL cannot be issued: streaming responses, zero-data-retention requests (account settings, guardrails or `provider.zdr`) or endpoints, or storage being unavailable.
+    ///
+    /// Allowed: `b64_json`, `url`
+    ///
+    /// Unknown values are allowed by the specification.
+    ///
+    /// Example:
+    /// ```
+    /// "b64_json"
+    /// ```
+    @JsonKey(
+      name: 'response_format',
+      unknownEnumValue: ImageGenerationRequestResponseFormatValue.unknown_,
+    )
+    ImageGenerationRequestResponseFormatValue? responseFormat,
 
     /// If specified, the generation will sample deterministically, such that repeated requests with the same seed and parameters should return the same result. Determinism is not guaranteed for all providers.
     int? seed,

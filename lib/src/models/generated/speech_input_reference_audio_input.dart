@@ -7,6 +7,13 @@ part 'speech_input_reference_audio_input.freezed.dart';
 part 'speech_input_reference_audio_input.g.dart';
 
 /// Reference audio input object
+///
+/// Example:
+/// ```
+/// {
+///   "data": "data:audio/wav;base64,UklGRuQXDABXQVZF..."
+/// }
+/// ```
 @freezed
 sealed class SpeechInputReferenceAudioInput
     with _$SpeechInputReferenceAudioInput {

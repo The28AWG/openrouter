@@ -18,8 +18,10 @@ part 'private_endpoint_check.g.dart';
 @freezed
 sealed class PrivateEndpointCheck with _$PrivateEndpointCheck {
   const factory PrivateEndpointCheck({
-    /// Model the upstream reported serving, when it differs from the request.
-    @JsonKey(name: 'actual_model') String? actualModel,
+    /// Deprecated: validation no longer compares the model the upstream reports, so this field is never returned.
+    @Deprecated('Deprecated')
+    @JsonKey(name: 'actual_model')
+    String? actualModel,
 
     /// Check name.
     ///

@@ -34,6 +34,7 @@ import 'inputs.dart';
 import 'jev_router_plugin.dart';
 import 'legacy_websearchservertool.dart';
 import 'mcp_server_tool.dart';
+import 'mcpservertool_openrouter.dart';
 import 'moderation_plugin.dart';
 import 'namespace_tool.dart';
 import 'open_ai_responses_tool_choice.dart';
@@ -616,6 +617,10 @@ sealed class ResponsesRequestToolsItemValue
     required ToolSearchServerTool value,
   }) = _ResponsesRequestToolsItemValueToolsearchservertool;
 
+  const factory ResponsesRequestToolsItemValue.mcpservertoolOpenrouter({
+    required McpservertoolOpenrouter value,
+  }) = _ResponsesRequestToolsItemValueMcpservertoolopenrouter;
+
   factory ResponsesRequestToolsItemValue.fromJson(Map<String, dynamic> json) {
     if (json.containsKey('type') &&
         json.containsKey('display_height') &&
@@ -673,6 +678,14 @@ sealed class ResponsesRequestToolsItemValue
       );
       if (decoded != null) {
         return ResponsesRequestToolsItemValue.codeinterpreterservertool(
+          value: decoded,
+        );
+      }
+    }
+    if (json.containsKey('type') && json.containsKey('parameters')) {
+      final decoded = _tryDecode(() => McpservertoolOpenrouter.fromJson(json));
+      if (decoded != null) {
+        return ResponsesRequestToolsItemValue.mcpservertoolOpenrouter(
           value: decoded,
         );
       }
@@ -950,6 +963,8 @@ sealed class ResponsesRequestToolsItemValue
         return value.toJson();
       case _ResponsesRequestToolsItemValueToolsearchservertool(:final value):
         return value.toJson();
+      case _ResponsesRequestToolsItemValueMcpservertoolopenrouter(:final value):
+        return value.toJson();
     }
   }
 }
@@ -1022,7 +1037,7 @@ sealed class ResponsesRequest with _$ResponsesRequest {
     /// ```
     ChatDebugOptions? debug,
 
-    /// Opt-in versioned router-level deferred-tool protocol. Replay assistant reasoning unchanged on continuation; keep the catalog unchanged.
+    /// Opt-in versioned router-level deferred-tool protocol. Replay assistant reasoning unchanged on continuation. The portable profile needs the catalog unchanged across a continuation; the universal profile accepts a changed catalog and, with `announce_catalog_changes`, tells the model about it.
     ///
     /// Example:
     /// ```

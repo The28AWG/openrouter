@@ -29,6 +29,9 @@ Object? decisionsNoulAnswerTypeValueToJson(
 sealed class DecisionsNoulAnswer with _$DecisionsNoulAnswer {
   const factory DecisionsNoulAnswer({
     /// Format: double
+    num? confidence,
+
+    /// Format: double
     required num noul,
 
     /// Allowed: `noul`

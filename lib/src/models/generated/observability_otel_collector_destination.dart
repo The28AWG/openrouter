@@ -17,6 +17,14 @@ sealed class ObservabilityOtelCollectorDestinationConfigValue
 
     /// Custom HTTP headers as a JSON object. For Axiom, use {"Authorization": "Bearer xaat-xxx", "X-Axiom-Dataset": "your-dataset"}
     Map<String, String>? headers,
+
+    /// OTLP/HTTP metrics URL. Required when `shouldSendMetrics` (Send OTLP metrics) is true; ignored otherwise.
+    @JsonKey(name: 'metricsEndpoint') String? metricsendpoint,
+
+    /// Also send OTLP metrics for each delivered generation to the metrics endpoint, with the same headers.
+    ///
+    /// Default: `false`
+    @Default(false) @JsonKey(name: 'shouldSendMetrics') bool shouldsendmetrics,
   }) = _ObservabilityOtelCollectorDestinationConfigValue;
 
   factory ObservabilityOtelCollectorDestinationConfigValue.fromJson(

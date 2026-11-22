@@ -31,6 +31,8 @@ import 'pareto_router_plugin.dart';
 import 'prediction.dart';
 import 'prompt_cache_options.dart';
 import 'provider_preferences.dart';
+import 'reasoning_context.dart';
+import 'reasoning_mode.dart';
 import 'response_healing_plugin.dart';
 import 'stop_server_tools_when_condition.dart';
 import 'switchyard_router_plugin.dart';
@@ -297,6 +299,19 @@ Object? chatRequestReasoningValueEffortValueToJson(
 @freezed
 sealed class ChatRequestReasoningValue with _$ChatRequestReasoningValue {
   const factory ChatRequestReasoningValue({
+    /// Controls which reasoning is available to the model. `auto` uses the model default (same as omitting); `all_turns` includes reasoning from earlier turns passed in input; `current_turn` limits to the current turn only. Only supported by OpenAI GPT-5.6 and newer.
+    ///
+    /// Allowed: `auto`, `all_turns`, `current_turn`
+    ///
+    /// Unknown values are allowed by the specification.
+    ///
+    /// Example:
+    /// ```
+    /// "all_turns"
+    /// ```
+    @JsonKey(unknownEnumValue: ReasoningContext.unknown_)
+    ReasoningContext? context,
+
     /// Constrains effort on reasoning for reasoning models
     ///
     /// Allowed: `max`, `xhigh`, `high`, `medium`, `low`, `minimal`, `none`
@@ -309,6 +324,42 @@ sealed class ChatRequestReasoningValue with _$ChatRequestReasoningValue {
     /// ```
     @JsonKey(unknownEnumValue: ChatRequestReasoningValueEffortValue.unknown_)
     ChatRequestReasoningValueEffortValue? effort,
+
+    /// Enables reasoning with default settings. Defaults to being inferred from `effort` or `max_tokens`.
+    ///
+    /// Example:
+    /// ```
+    /// true
+    /// ```
+    bool? enabled,
+
+    /// When true, the model still reasons but the reasoning is omitted from the response. Defaults to false.
+    ///
+    /// Example:
+    /// ```
+    /// false
+    /// ```
+    bool? exclude,
+
+    /// Maximum number of tokens the model may spend on reasoning, for models that take a reasoning token budget instead of an effort level. Cannot be combined with `reasoning.effort` or the top-level `reasoning_effort`: a request that sets both is rejected with "Only one of "reasoning.effort" and "reasoning.max_tokens" can be specified".
+    ///
+    /// Example:
+    /// ```
+    /// 2000
+    /// ```
+    @JsonKey(name: 'max_tokens') int? maxTokens,
+
+    /// Selects the reasoning mode. `standard` is the default; `pro` engages deeper reasoning on models that support it, billed at standard token rates. Only supported by OpenAI GPT-5.6 and newer.
+    ///
+    /// Allowed: `standard`, `pro`
+    ///
+    /// Unknown values are allowed by the specification.
+    ///
+    /// Example:
+    /// ```
+    /// "standard"
+    /// ```
+    @JsonKey(unknownEnumValue: ReasoningMode.unknown_) ReasoningMode? mode,
 
     /// Allowed: `auto`, `concise`, `detailed`
     ///
@@ -596,7 +647,7 @@ sealed class ChatRequest with _$ChatRequest {
     /// ```
     ChatDebugOptions? debug,
 
-    /// Opt-in versioned router-level deferred-tool protocol. Replay assistant reasoning unchanged on continuation; keep the catalog unchanged.
+    /// Opt-in versioned router-level deferred-tool protocol. Replay assistant reasoning unchanged on continuation. The portable profile needs the catalog unchanged across a continuation; the universal profile accepts a changed catalog and, with `announce_catalog_changes`, tells the model about it.
     ///
     /// Example:
     /// ```

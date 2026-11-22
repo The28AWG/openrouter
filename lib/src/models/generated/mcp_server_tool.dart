@@ -69,56 +69,11 @@ sealed class McpServerToolAllowedToolsValue
   }
 }
 
-/// Allowed: `connector_dropbox`, `connector_gmail`, `connector_googlecalendar`, `connector_googledrive`, `connector_microsoftteams`, `connector_outlookcalendar`, `connector_outlookemail`, `connector_sharepoint`
-///
-/// Unknown values are allowed by the specification.
-@JsonEnum(alwaysCreate: true)
-enum McpServerToolConnectorIdValue {
-  @JsonValue('connector_dropbox')
-  connectorDropbox,
-  @JsonValue('connector_gmail')
-  connectorGmail,
-  @JsonValue('connector_googlecalendar')
-  connectorGooglecalendar,
-  @JsonValue('connector_googledrive')
-  connectorGoogledrive,
-  @JsonValue('connector_microsoftteams')
-  connectorMicrosoftteams,
-  @JsonValue('connector_outlookcalendar')
-  connectorOutlookcalendar,
-  @JsonValue('connector_outlookemail')
-  connectorOutlookemail,
-  @JsonValue('connector_sharepoint')
-  connectorSharepoint,
-
-  /// Value returned when the API sends a member that is not listed yet.
-  unknown_,
-}
-
-McpServerToolConnectorIdValue mcpServerToolConnectorIdValueFromJson(
-  Object? json,
-) => $enumDecode(
-  _$McpServerToolConnectorIdValueEnumMap,
-  json,
-  unknownValue: McpServerToolConnectorIdValue.unknown_,
-);
-
-McpServerToolConnectorIdValue? mcpServerToolConnectorIdValueFromJsonNullable(
-  Object? json,
-) => $enumDecodeNullable(
-  _$McpServerToolConnectorIdValueEnumMap,
-  json,
-  unknownValue: McpServerToolConnectorIdValue.unknown_,
-);
-
-Object? mcpServerToolConnectorIdValueToJson(
-  McpServerToolConnectorIdValue value,
-) => _$McpServerToolConnectorIdValueEnumMap[value];
-
 @freezed
 sealed class McpServerToolRequireApprovalValueVariant1ValueAlwaysValue
     with _$McpServerToolRequireApprovalValueVariant1ValueAlwaysValue {
   const factory McpServerToolRequireApprovalValueVariant1ValueAlwaysValue({
+    @JsonKey(name: 'read_only') bool? readOnly,
     @JsonKey(name: 'tool_names') List<String>? toolNames,
   }) = _McpServerToolRequireApprovalValueVariant1ValueAlwaysValue;
 
@@ -132,6 +87,7 @@ sealed class McpServerToolRequireApprovalValueVariant1ValueAlwaysValue
 sealed class McpServerToolRequireApprovalValueVariant1ValueNeverValue
     with _$McpServerToolRequireApprovalValueVariant1ValueNeverValue {
   const factory McpServerToolRequireApprovalValueVariant1ValueNeverValue({
+    @JsonKey(name: 'read_only') bool? readOnly,
     @JsonKey(name: 'tool_names') List<String>? toolNames,
   }) = _McpServerToolRequireApprovalValueVariant1ValueNeverValue;
 
@@ -231,15 +187,7 @@ sealed class McpServerTool with _$McpServerTool {
     @JsonKey(name: 'allowed_tools')
     McpServerToolAllowedToolsValue? allowedTools,
     String? authorization,
-
-    /// Allowed: `connector_dropbox`, `connector_gmail`, `connector_googlecalendar`, `connector_googledrive`, `connector_microsoftteams`, `connector_outlookcalendar`, `connector_outlookemail`, `connector_sharepoint`
-    ///
-    /// Unknown values are allowed by the specification.
-    @JsonKey(
-      name: 'connector_id',
-      unknownEnumValue: McpServerToolConnectorIdValue.unknown_,
-    )
-    McpServerToolConnectorIdValue? connectorId,
+    @JsonKey(name: 'connector_id') String? connectorId,
     Map<String, String>? headers,
     @JsonKey(name: 'require_approval')
     McpServerToolRequireApprovalValue? requireApproval,

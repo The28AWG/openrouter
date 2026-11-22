@@ -65,8 +65,8 @@ void main() {
 
     final client = _source(sources, 'src/openrouter.dart');
     expect(client, contains('String? httpReferer'));
-    expect(client, contains('String? xOpenrouterTitle'));
-    expect(client, contains('String? xOpenrouterCategories'));
+    expect(client, contains('String? appTitle'));
+    expect(client, contains('String? appCategories'));
     expect(client, contains('late final ChatResource chat'));
     expect(client, contains('API key as bearer token'));
   });

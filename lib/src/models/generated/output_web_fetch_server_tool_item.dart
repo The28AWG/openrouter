@@ -52,6 +52,14 @@ sealed class OutputWebFetchServerToolItem with _$OutputWebFetchServerToolItem {
     @JsonKey(name: 'httpStatus') int? httpstatus,
     String? id,
 
+    /// The time the content was fetched, as an ISO 8601 timestamp.
+    ///
+    /// Example:
+    /// ```
+    /// "2026-11-12T05:27:43.000Z"
+    /// ```
+    @JsonKey(name: 'retrieved_at') String? retrievedAt,
+
     /// Allowed: `in_progress`, `completed`, `incomplete`
     ///
     /// Unknown values are allowed by the specification.

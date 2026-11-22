@@ -20,7 +20,7 @@ class BenchmarksResource {
 
   /// List Benchmarks
   ///
-  /// Unified benchmark endpoint that aggregates scores from multiple benchmark sources (Artificial Analysis, Design Arena, and OpenRouter's own tau-bench, GPQA, and web-search evals). Filter by source to reproduce the exact shapes from the legacy per-source endpoints, or use task_type to find models suited for specific workloads. Use task_type=search (or a search_* benchmark_type) for OpenRouter's search benchmarks, which publish each model's highest-scoring eligible evaluation configuration with same-configuration runs combined by task-weighted mean. Authenticate with any valid OpenRouter API key. Rate-limited to 30 requests/minute per key and 500 requests/day per account.
+  /// Unified benchmark endpoint that aggregates scores from multiple benchmark sources (Artificial Analysis, Design Arena, and OpenRouter's own tau-bench, GPQA, and web-search evals). Filter by source to reproduce the exact shapes from the legacy per-source endpoints, or use task_type to find models suited for specific workloads. Artificial Analysis items carry one score per Artificial Analysis index (Intelligence Index, Finance &amp; Accounting Index, Strategy &amp; Ops Index, Legal Index, Healthcare &amp; Medical Index, Engineering Index, Economics Index, Cyber Index, Openness Index, Multilingual Index, Decision Index); attribute Artificial Analysis when you republish them. A response whose items all come from one source carries that source's citation in meta; in a mixed response, attribute each item by its source. Use task_type=search (or a search_* benchmark_type) for OpenRouter's search benchmarks, which publish each model's highest-scoring eligible evaluation configuration with same-configuration runs combined by task-weighted mean. Authenticate with any valid OpenRouter API key. Rate-limited to 30 requests/minute per key and 500 requests/day per account.
   ///
   /// `GET /benchmarks`
   ///
@@ -48,15 +48,15 @@ class BenchmarksResource {
     /// ```
     GetBenchmarksSource? source,
 
-    /// Filter results by task type. For Artificial Analysis, maps to the corresponding index. For Design Arena, maps to the matching category. `search` returns OpenRouter search benchmark results only.
+    /// Filter results by task type. Every value except `search` names the Artificial Analysis index of the same name and returns only models scored on it, best first (`coding` and `agentic` are deprecated: Artificial Analysis has retired those indexes and returns no item for them). Design Arena answers only `coding`, `intelligence` and `agentic`, and OpenRouter's own evals only `intelligence` and `agentic`. `search` returns OpenRouter search benchmark results only.
     ///
-    /// Allowed: `coding`, `intelligence`, `agentic`, `search`
+    /// Allowed: `intelligence`, `coding`, `agentic`, `finance-and-accounting`, `strategy-and-ops`, `legal`, `healthcare-and-medical`, `engineering`, `economics`, `cyber`, `multilingual`, `decision`, `search`
     ///
     /// Unknown values are allowed by the specification.
     ///
     /// Example:
     /// ```
-    /// "coding"
+    /// "intelligence"
     /// ```
     GetBenchmarksTaskType? taskType,
 

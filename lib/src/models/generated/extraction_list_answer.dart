@@ -151,7 +151,9 @@ sealed class ExtractionListAnswer with _$ExtractionListAnswer {
     /// Unknown values are allowed by the specification.
     @JsonKey(unknownEnumValue: ExtractionListAnswerSourceValue.unknown_)
     ExtractionListAnswerSourceValue? source,
-    List<List<int>>? spans,
+
+    /// One span per item of `value`, in the same order; null for an item that has no offsets in the state text: one read from an image or a document, or one the provider returned without offsets that delimit it.
+    List<List<int>?>? spans,
 
     /// Confidence in the spelling of text read from an image.
     ///

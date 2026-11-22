@@ -113,7 +113,7 @@ void main() {
     expect(metadataLevel.allowUnknownValues, isTrue);
     expect(metadata.example, 'enabled');
     expect(appTitle, isNotNull);
-    expect(appTitle!.nameOverride, isNull);
+    expect(appTitle!.nameOverride, 'appTitle');
     expect(appTitle.ref, '#/components/parameters/AppDisplayName');
     expect(appTitle.description, isNotEmpty);
 
@@ -411,8 +411,8 @@ void main() {
     expect(error.required, isTrue);
     final errorRef = error.schema as OpenApiReference;
     expect(errorRef.name, 'ResponsesErrorField');
-    expect(errorRef.nullable, isFalse);
-    expect(errorRef.describe(), 'ResponsesErrorField');
+    expect(errorRef.nullable, isTrue);
+    expect(errorRef.describe(), 'ResponsesErrorField?');
 
     final level = document.schemaByName('MetadataLevel')! as OpenApiEnum;
     expect(level.describe(), 'enum<string> [disabled, enabled]');

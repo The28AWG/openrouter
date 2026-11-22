@@ -3,6 +3,7 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'batch_input_reference.dart';
 import 'batch_provider_preferences.dart';
 
 part 'batch_submit_body.freezed.dart';
@@ -29,7 +30,7 @@ Object? batchSubmitBodyCompletionWindowValueToJson(
   BatchSubmitBodyCompletionWindowValue value,
 ) => _$BatchSubmitBodyCompletionWindowValueEnumMap[value];
 
-/// Allowed: `/v1/chat/completions`, `/v1/responses`, `/v1/messages`, `/v1/embeddings`
+/// Allowed: `/v1/chat/completions`, `/v1/responses`, `/v1/messages`, `/v1/embeddings`, `/v1/audio/speech`
 ///
 /// Unknown values are allowed by the specification.
 @JsonEnum(alwaysCreate: true)
@@ -42,6 +43,8 @@ enum BatchSubmitBodyEndpointValue {
   v1Messages,
   @JsonValue('/v1/embeddings')
   v1Embeddings,
+  @JsonValue('/v1/audio/speech')
+  v1AudioSpeech,
 
   /// Value returned when the API sends a member that is not listed yet.
   unknown_,
@@ -98,11 +101,14 @@ sealed class BatchSubmitBody with _$BatchSubmitBody {
     @JsonKey(name: 'completion_window')
     BatchSubmitBodyCompletionWindowValue? completionWindow,
 
-    /// Allowed: `/v1/chat/completions`, `/v1/responses`, `/v1/messages`, `/v1/embeddings`
+    /// Allowed: `/v1/chat/completions`, `/v1/responses`, `/v1/messages`, `/v1/embeddings`, `/v1/audio/speech`
     ///
     /// Unknown values are allowed by the specification.
     @JsonKey(unknownEnumValue: BatchSubmitBodyEndpointValue.unknown_)
     required BatchSubmitBodyEndpointValue endpoint,
+
+    /// A batch input file or table in your own storage, named in place of `requests`. Available to allowlisted callers on Google Vertex BYOK endpoints only.
+    BatchInputReference? input,
 
     /// minLength: 1
     required String model,
@@ -119,8 +125,10 @@ sealed class BatchSubmitBody with _$BatchSubmitBody {
     /// ```
     BatchProviderPreferences? provider,
 
+    /// The batch requests. Send exactly one of `requests` or `input`; `requests` must be the last field in the request body.
+    ///
     /// minItems: 1
-    required List<BatchSubmitBodyRequestsItemValue> requests,
+    List<BatchSubmitBodyRequestsItemValue>? requests,
   }) = _BatchSubmitBody;
 
   factory BatchSubmitBody.fromJson(Map<String, dynamic> json) =>

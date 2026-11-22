@@ -25,7 +25,7 @@ jobs:
 
       # *.g.dart / *.freezed.dart are gitignored — required before analyze/test.
       - name: Generate Freezed / json_serializable
-        run: dart run build_runner build --delete-conflicting-outputs
+        run: dart run build_runner build
 
       - name: Analyze
         run: dart analyze --fatal-infos

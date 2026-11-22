@@ -54,162 +54,162 @@ Object? createEmbeddingsRequestEncodingFormatValueToJson(
 
 /// Allowed: `text`
 @JsonEnum(alwaysCreate: true)
-enum CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueTextTextTypeValue {
+enum CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueTextTextTypeValue {
   @JsonValue('text')
   text,
 }
 
-CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueTextTextTypeValue
-createEmbeddingsRequestInputValueList4ItemValueContentItemValueTextTextTypeValueFromJson(
+CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueTextTextTypeValue
+createEmbeddingsRequestInputValueList5ItemValueContentItemValueTextTextTypeValueFromJson(
   Object? json,
 ) => $enumDecode(
-  _$CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueTextTextTypeValueEnumMap,
+  _$CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueTextTextTypeValueEnumMap,
   json,
 );
 
-CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueTextTextTypeValue?
-createEmbeddingsRequestInputValueList4ItemValueContentItemValueTextTextTypeValueFromJsonNullable(
+CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueTextTextTypeValue?
+createEmbeddingsRequestInputValueList5ItemValueContentItemValueTextTextTypeValueFromJsonNullable(
   Object? json,
 ) => $enumDecodeNullable(
-  _$CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueTextTextTypeValueEnumMap,
+  _$CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueTextTextTypeValueEnumMap,
   json,
 );
 
 Object?
-createEmbeddingsRequestInputValueList4ItemValueContentItemValueTextTextTypeValueToJson(
-  CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueTextTextTypeValue
+createEmbeddingsRequestInputValueList5ItemValueContentItemValueTextTextTypeValueToJson(
+  CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueTextTextTypeValue
   value,
 ) =>
-    _$CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueTextTextTypeValueEnumMap[value];
+    _$CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueTextTextTypeValueEnumMap[value];
 
 @freezed
-sealed class CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueTextText
+sealed class CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueTextText
     with
-        _$CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueTextText {
-  const factory CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueTextText({
+        _$CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueTextText {
+  const factory CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueTextText({
     /// minLength: 1
     required String text,
 
     /// Allowed: `text`
-    required CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueTextTextTypeValue
+    required CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueTextTextTypeValue
     type,
-  }) = _CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueTextText;
+  }) = _CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueTextText;
 
-  factory CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueTextText.fromJson(
+  factory CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueTextText.fromJson(
     Map<String, dynamic> json,
   ) =>
-      _$CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueTextTextFromJson(
+      _$CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueTextTextFromJson(
         json,
       );
 }
 
 @freezed
-sealed class CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurlImageUrlImageUrlValue
+sealed class CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurlImageUrlImageUrlValue
     with
-        _$CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurlImageUrlImageUrlValue {
-  const factory CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurlImageUrlImageUrlValue({
+        _$CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurlImageUrlImageUrlValue {
+  const factory CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurlImageUrlImageUrlValue({
     required String url,
   }) =
-      _CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurlImageUrlImageUrlValue;
+      _CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurlImageUrlImageUrlValue;
 
-  factory CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurlImageUrlImageUrlValue.fromJson(
+  factory CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurlImageUrlImageUrlValue.fromJson(
     Map<String, dynamic> json,
   ) =>
-      _$CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurlImageUrlImageUrlValueFromJson(
+      _$CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurlImageUrlImageUrlValueFromJson(
         json,
       );
 }
 
 /// Allowed: `image_url`
 @JsonEnum(alwaysCreate: true)
-enum CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurlImageUrlTypeValue {
+enum CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurlImageUrlTypeValue {
   @JsonValue('image_url')
   imageUrl,
 }
 
-CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurlImageUrlTypeValue
-createEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurlImageUrlTypeValueFromJson(
+CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurlImageUrlTypeValue
+createEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurlImageUrlTypeValueFromJson(
   Object? json,
 ) => $enumDecode(
-  _$CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurlImageUrlTypeValueEnumMap,
+  _$CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurlImageUrlTypeValueEnumMap,
   json,
 );
 
-CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurlImageUrlTypeValue?
-createEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurlImageUrlTypeValueFromJsonNullable(
+CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurlImageUrlTypeValue?
+createEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurlImageUrlTypeValueFromJsonNullable(
   Object? json,
 ) => $enumDecodeNullable(
-  _$CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurlImageUrlTypeValueEnumMap,
+  _$CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurlImageUrlTypeValueEnumMap,
   json,
 );
 
 Object?
-createEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurlImageUrlTypeValueToJson(
-  CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurlImageUrlTypeValue
+createEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurlImageUrlTypeValueToJson(
+  CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurlImageUrlTypeValue
   value,
 ) =>
-    _$CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurlImageUrlTypeValueEnumMap[value];
+    _$CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurlImageUrlTypeValueEnumMap[value];
 
 @freezed
-sealed class CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurlImageUrl
+sealed class CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurlImageUrl
     with
-        _$CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurlImageUrl {
-  const factory CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurlImageUrl({
+        _$CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurlImageUrl {
+  const factory CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurlImageUrl({
     @JsonKey(name: 'image_url')
-    required CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurlImageUrlImageUrlValue
+    required CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurlImageUrlImageUrlValue
     imageUrl,
 
     /// Allowed: `image_url`
-    required CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurlImageUrlTypeValue
+    required CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurlImageUrlTypeValue
     type,
   }) =
-      _CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurlImageUrl;
+      _CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurlImageUrl;
 
-  factory CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurlImageUrl.fromJson(
+  factory CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurlImageUrl.fromJson(
     Map<String, dynamic> json,
   ) =>
-      _$CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurlImageUrlFromJson(
+      _$CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurlImageUrlFromJson(
         json,
       );
 }
 
 @Freezed(fromJson: false, toJson: false)
-sealed class CreateEmbeddingsRequestInputValueList4ItemValueContentItemValue
-    with _$CreateEmbeddingsRequestInputValueList4ItemValueContentItemValue {
-  const CreateEmbeddingsRequestInputValueList4ItemValueContentItemValue._();
+sealed class CreateEmbeddingsRequestInputValueList5ItemValueContentItemValue
+    with _$CreateEmbeddingsRequestInputValueList5ItemValueContentItemValue {
+  const CreateEmbeddingsRequestInputValueList5ItemValueContentItemValue._();
 
-  const factory CreateEmbeddingsRequestInputValueList4ItemValueContentItemValue.text({
-    required CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueTextText
+  const factory CreateEmbeddingsRequestInputValueList5ItemValueContentItemValue.text({
+    required CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueTextText
     value,
-  }) = _CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueText;
+  }) = _CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueText;
 
-  const factory CreateEmbeddingsRequestInputValueList4ItemValueContentItemValue.imageUrl({
-    required CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurlImageUrl
+  const factory CreateEmbeddingsRequestInputValueList5ItemValueContentItemValue.imageUrl({
+    required CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurlImageUrl
     value,
-  }) = _CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurl;
+  }) = _CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurl;
 
-  const factory CreateEmbeddingsRequestInputValueList4ItemValueContentItemValue.contentpartinputaudio({
+  const factory CreateEmbeddingsRequestInputValueList5ItemValueContentItemValue.contentpartinputaudio({
     required ContentPartInputAudio value,
   }) =
-      _CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueContentpartinputaudio;
+      _CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueContentpartinputaudio;
 
-  const factory CreateEmbeddingsRequestInputValueList4ItemValueContentItemValue.contentpartinputvideo({
+  const factory CreateEmbeddingsRequestInputValueList5ItemValueContentItemValue.contentpartinputvideo({
     required ContentPartInputVideo value,
   }) =
-      _CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueContentpartinputvideo;
+      _CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueContentpartinputvideo;
 
-  const factory CreateEmbeddingsRequestInputValueList4ItemValueContentItemValue.contentpartinputfile({
+  const factory CreateEmbeddingsRequestInputValueList5ItemValueContentItemValue.contentpartinputfile({
     required ContentPartInputFile value,
   }) =
-      _CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueContentpartinputfile;
+      _CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueContentpartinputfile;
 
-  factory CreateEmbeddingsRequestInputValueList4ItemValueContentItemValue.fromJson(
+  factory CreateEmbeddingsRequestInputValueList5ItemValueContentItemValue.fromJson(
     Map<String, dynamic> json,
   ) {
     if (json.containsKey('type') && json.containsKey('input_audio')) {
       final decoded = _tryDecode(() => ContentPartInputAudio.fromJson(json));
       if (decoded != null) {
-        return CreateEmbeddingsRequestInputValueList4ItemValueContentItemValue.contentpartinputaudio(
+        return CreateEmbeddingsRequestInputValueList5ItemValueContentItemValue.contentpartinputaudio(
           value: decoded,
         );
       }
@@ -217,7 +217,7 @@ sealed class CreateEmbeddingsRequestInputValueList4ItemValueContentItemValue
     if (json.containsKey('type') && json.containsKey('input_file')) {
       final decoded = _tryDecode(() => ContentPartInputFile.fromJson(json));
       if (decoded != null) {
-        return CreateEmbeddingsRequestInputValueList4ItemValueContentItemValue.contentpartinputfile(
+        return CreateEmbeddingsRequestInputValueList5ItemValueContentItemValue.contentpartinputfile(
           value: decoded,
         );
       }
@@ -225,7 +225,7 @@ sealed class CreateEmbeddingsRequestInputValueList4ItemValueContentItemValue
     if (json.containsKey('type') && json.containsKey('input_video')) {
       final decoded = _tryDecode(() => ContentPartInputVideo.fromJson(json));
       if (decoded != null) {
-        return CreateEmbeddingsRequestInputValueList4ItemValueContentItemValue.contentpartinputvideo(
+        return CreateEmbeddingsRequestInputValueList5ItemValueContentItemValue.contentpartinputvideo(
           value: decoded,
         );
       }
@@ -233,12 +233,12 @@ sealed class CreateEmbeddingsRequestInputValueList4ItemValueContentItemValue
     if (json.containsKey('type') && json.containsKey('image_url')) {
       final decoded = _tryDecode(
         () =>
-            CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurlImageUrl.fromJson(
+            CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurlImageUrl.fromJson(
               json,
             ),
       );
       if (decoded != null) {
-        return CreateEmbeddingsRequestInputValueList4ItemValueContentItemValue.imageUrl(
+        return CreateEmbeddingsRequestInputValueList5ItemValueContentItemValue.imageUrl(
           value: decoded,
         );
       }
@@ -246,40 +246,40 @@ sealed class CreateEmbeddingsRequestInputValueList4ItemValueContentItemValue
     if (json.containsKey('type') && json.containsKey('text')) {
       final decoded = _tryDecode(
         () =>
-            CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueTextText.fromJson(
+            CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueTextText.fromJson(
               json,
             ),
       );
       if (decoded != null) {
-        return CreateEmbeddingsRequestInputValueList4ItemValueContentItemValue.text(
+        return CreateEmbeddingsRequestInputValueList5ItemValueContentItemValue.text(
           value: decoded,
         );
       }
     }
     throw FormatException(
-      'CreateEmbeddingsRequestInputValueList4ItemValueContentItemValue',
+      'CreateEmbeddingsRequestInputValueList5ItemValueContentItemValue',
     );
   }
 
   Object? toJson() {
     switch (this) {
-      case _CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueText(
+      case _CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueText(
         :final value,
       ):
         return value.toJson();
-      case _CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueImageurl(
+      case _CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueImageurl(
         :final value,
       ):
         return value.toJson();
-      case _CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueContentpartinputaudio(
+      case _CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueContentpartinputaudio(
         :final value,
       ):
         return value.toJson();
-      case _CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueContentpartinputvideo(
+      case _CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueContentpartinputvideo(
         :final value,
       ):
         return value.toJson();
-      case _CreateEmbeddingsRequestInputValueList4ItemValueContentItemValueContentpartinputfile(
+      case _CreateEmbeddingsRequestInputValueList5ItemValueContentItemValueContentpartinputfile(
         :final value,
       ):
         return value.toJson();
@@ -288,19 +288,19 @@ sealed class CreateEmbeddingsRequestInputValueList4ItemValueContentItemValue
 }
 
 @freezed
-sealed class CreateEmbeddingsRequestInputValueList4ItemValue
-    with _$CreateEmbeddingsRequestInputValueList4ItemValue {
-  const factory CreateEmbeddingsRequestInputValueList4ItemValue({
+sealed class CreateEmbeddingsRequestInputValueList5ItemValue
+    with _$CreateEmbeddingsRequestInputValueList5ItemValue {
+  const factory CreateEmbeddingsRequestInputValueList5ItemValue({
     /// minItems: 1
     required List<
-      CreateEmbeddingsRequestInputValueList4ItemValueContentItemValue
+      CreateEmbeddingsRequestInputValueList5ItemValueContentItemValue
     >
     content,
-  }) = _CreateEmbeddingsRequestInputValueList4ItemValue;
+  }) = _CreateEmbeddingsRequestInputValueList5ItemValue;
 
-  factory CreateEmbeddingsRequestInputValueList4ItemValue.fromJson(
+  factory CreateEmbeddingsRequestInputValueList5ItemValue.fromJson(
     Map<String, dynamic> json,
-  ) => _$CreateEmbeddingsRequestInputValueList4ItemValueFromJson(json);
+  ) => _$CreateEmbeddingsRequestInputValueList5ItemValueFromJson(json);
 }
 
 /// Text, token, or multimodal input(s) to embed
@@ -323,16 +323,20 @@ sealed class CreateEmbeddingsRequestInputValue
   }) = _CreateEmbeddingsRequestInputValueList;
 
   const factory CreateEmbeddingsRequestInputValue.list2({
-    required List<num> value,
+    required List<List<String>> value,
   }) = _CreateEmbeddingsRequestInputValueList2;
 
   const factory CreateEmbeddingsRequestInputValue.list3({
-    required List<List<num>> value,
+    required List<num> value,
   }) = _CreateEmbeddingsRequestInputValueList3;
 
   const factory CreateEmbeddingsRequestInputValue.list4({
-    required List<CreateEmbeddingsRequestInputValueList4ItemValue> value,
+    required List<List<num>> value,
   }) = _CreateEmbeddingsRequestInputValueList4;
+
+  const factory CreateEmbeddingsRequestInputValue.list5({
+    required List<CreateEmbeddingsRequestInputValueList5ItemValue> value,
+  }) = _CreateEmbeddingsRequestInputValueList5;
 
   factory CreateEmbeddingsRequestInputValue.fromJson(Object? json) {
     if (json is String) {
@@ -353,9 +357,17 @@ sealed class CreateEmbeddingsRequestInputValue
       }
       final list2Value = _tryDecode(
         () => (() {
-          final items = <num>[];
+          final items = <List<String>>[];
           for (final entry in json) {
-            items.add(entry as num);
+            items.add(
+              (() {
+                final items = <String>[];
+                for (final entry in entry as List) {
+                  items.add(entry as String);
+                }
+                return items;
+              })(),
+            );
           }
           return items;
         })(),
@@ -364,6 +376,18 @@ sealed class CreateEmbeddingsRequestInputValue
         return CreateEmbeddingsRequestInputValue.list2(value: list2Value);
       }
       final list3Value = _tryDecode(
+        () => (() {
+          final items = <num>[];
+          for (final entry in json) {
+            items.add(entry as num);
+          }
+          return items;
+        })(),
+      );
+      if (list3Value != null) {
+        return CreateEmbeddingsRequestInputValue.list3(value: list3Value);
+      }
+      final list4Value = _tryDecode(
         () => (() {
           final items = <List<num>>[];
           for (final entry in json) {
@@ -380,15 +404,15 @@ sealed class CreateEmbeddingsRequestInputValue
           return items;
         })(),
       );
-      if (list3Value != null) {
-        return CreateEmbeddingsRequestInputValue.list3(value: list3Value);
+      if (list4Value != null) {
+        return CreateEmbeddingsRequestInputValue.list4(value: list4Value);
       }
-      final list4Value = _tryDecode(
+      final list5Value = _tryDecode(
         () => (() {
-          final items = <CreateEmbeddingsRequestInputValueList4ItemValue>[];
+          final items = <CreateEmbeddingsRequestInputValueList5ItemValue>[];
           for (final entry in json) {
             items.add(
-              CreateEmbeddingsRequestInputValueList4ItemValue.fromJson(
+              CreateEmbeddingsRequestInputValueList5ItemValue.fromJson(
                 entry as Map<String, dynamic>,
               ),
             );
@@ -396,8 +420,8 @@ sealed class CreateEmbeddingsRequestInputValue
           return items;
         })(),
       );
-      if (list4Value != null) {
-        return CreateEmbeddingsRequestInputValue.list4(value: list4Value);
+      if (list5Value != null) {
+        return CreateEmbeddingsRequestInputValue.list5(value: list5Value);
       }
     }
     throw FormatException('CreateEmbeddingsRequestInputValue: $json');
@@ -410,8 +434,6 @@ sealed class CreateEmbeddingsRequestInputValue
       case _CreateEmbeddingsRequestInputValueList(:final value):
         return value;
       case _CreateEmbeddingsRequestInputValueList2(:final value):
-        return value;
-      case _CreateEmbeddingsRequestInputValueList3(:final value):
         return (() {
           final encoded = <Object?>[];
           for (final entry in value) {
@@ -419,7 +441,17 @@ sealed class CreateEmbeddingsRequestInputValue
           }
           return encoded;
         })();
+      case _CreateEmbeddingsRequestInputValueList3(:final value):
+        return value;
       case _CreateEmbeddingsRequestInputValueList4(:final value):
+        return (() {
+          final encoded = <Object?>[];
+          for (final entry in value) {
+            encoded.add(entry);
+          }
+          return encoded;
+        })();
+      case _CreateEmbeddingsRequestInputValueList5(:final value):
         return (() {
           final encoded = <Object?>[];
           for (final entry in value) {
@@ -478,7 +510,7 @@ sealed class CreateEmbeddingsRequest with _$CreateEmbeddingsRequest {
     /// ```
     required CreateEmbeddingsRequestInputValue input,
 
-    /// The type of input (e.g. search_query, search_document)
+    /// The type of input (e.g. search_query, search_document). Document-chunk input (`string[][]`) is only valid with a document input type.
     ///
     /// Example:
     /// ```

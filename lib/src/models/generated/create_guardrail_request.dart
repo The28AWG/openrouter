@@ -43,7 +43,7 @@ part 'create_guardrail_request.g.dart';
 @freezed
 sealed class CreateGuardrailRequest with _$CreateGuardrailRequest {
   const factory CreateGuardrailRequest({
-    /// Whether ZDR-only requests to google/* models may use endpoints that may retain prompts for safety monitoring. false allows only zero-retention endpoints. A guardrail can only be more restrictive than the account setting. Inherits the account setting when not provided.
+    /// Whether ZDR-only requests to google/* models may also use Safety Retention endpoints, which may retain prompts and responses from any request, only to prevent abuse, and do not use them for training. false allows only ZDR endpoints. A guardrail can only be more restrictive than the account setting. Inherits the account setting when not provided.
     ///
     /// Example:
     /// ```
@@ -52,7 +52,7 @@ sealed class CreateGuardrailRequest with _$CreateGuardrailRequest {
     @JsonKey(name: 'allow_safety_retention_google')
     bool? allowSafetyRetentionGoogle,
 
-    /// Whether ZDR-only requests to models outside the named providers (for example open-weight models on Vertex) may use endpoints that may retain prompts for safety monitoring. false allows only zero-retention endpoints. A guardrail can only be more restrictive than the account setting. Inherits the account setting when not provided.
+    /// Whether ZDR-only requests to models outside the named providers (for example open-weight models on Vertex) may also use Safety Retention endpoints, which may retain prompts and responses from any request, only to prevent abuse, and do not use them for training. false allows only ZDR endpoints. A guardrail can only be more restrictive than the account setting. Inherits the account setting when not provided.
     ///
     /// Example:
     /// ```
@@ -293,7 +293,7 @@ sealed class CreateGuardrailRequest with _$CreateGuardrailRequest {
     )
     GuardrailInterval? resetInterval,
 
-    /// The workspace to create the guardrail in. When omitted, the guardrail is created in the default workspace; if that default has been deleted, the request returns a 400 and you must pass `workspace_id` explicitly. This only places the guardrail in the workspace; the created guardrail enforces nothing for that workspace's traffic until it is assigned to API keys or members. To restrict all traffic in a workspace, update the workspace's default guardrail instead.
+    /// The workspace to create the guardrail in. When omitted, an organization management key creates the guardrail in the default workspace (a 400 if that default has been deleted, so pass `workspace_id` explicitly) and a workspace-scoped key creates it in its own workspace. A workspace-scoped key gets a 403 for any other workspace. This only places the guardrail in the workspace; the created guardrail enforces nothing for that workspace's traffic until it is assigned to API keys or members. To restrict all traffic in a workspace, update the workspace's default guardrail instead.
     ///
     /// Format: uuid
     ///

@@ -22,8 +22,6 @@ import '../../models/generated/private_endpoint_validation_response.dart';
 import '../../models/generated/request_timeout_response.dart';
 import '../../models/generated/unauthorized_response.dart';
 import '../../models/generated/unprocessable_entity_response.dart';
-import '../../models/generated/update_private_endpoint_parameters_request.dart';
-import '../../models/generated/update_private_endpoint_pricing_request.dart';
 import '../../models/generated/update_private_endpoint_request.dart';
 import '../../models/generated/validate_private_endpoint_request.dart';
 
@@ -96,7 +94,7 @@ class PrivateEndpointsResource {
   Future<ManagedPrivateEndpointResponse> create({
     required CreatePrivateEndpointRequest body,
 
-    /// Retry-safe create: a repeated create with the same key from the same organization returns the endpoint the first request created instead of creating another. The endpoint is returned as it is now. Reusing a key with a different request body (model, provider, base URL, upstream model ID, declared ZDR or region, pricing, or declared parameters) is rejected with 422 `idempotency_key_reused`. Declared parameters are compared as a set, so a retry that reorders or repeats a name replays the endpoint. `activate` and `max_completion_tokens` are not compared, and later edits to the endpoint do not affect the comparison.
+    /// Retry-safe create: a repeated create with the same key from the same organization returns the endpoint the first request created instead of creating another. The endpoint is returned as it is now. Reusing a key with a different request body (model, provider, base URL, upstream model ID, declared ZDR or region, pricing, or declared parameters) is rejected with 422 `idempotency_key_reused`. Declared parameters are compared as a set, so a retry that reorders or repeats a name replays the endpoint. `activate` and `settings` are not compared, and later edits to the endpoint do not affect the comparison. `settings` is still validated before the replay, so a retry with invalid settings returns 400 `settings_invalid` instead of the endpoint.
     ///
     /// minLength: 1, maxLength: 255
     ///
@@ -276,7 +274,7 @@ class PrivateEndpointsResource {
 
   /// Update a private endpoint
   ///
-  /// Change any of the endpoint fields you own in one call; only the fields present change, and the response is the whole endpoint. `pricing` and `declared_parameters` replace their stored value, `settings` changes only the fields it names (`null` clears a limit or restores the provider default); routing picks these up for subsequent requests on drafts and active endpoints alike. `upstream_model_id`, `base_url`, `declared_zdr` and `declared_region` re-point a draft: an omitted `upstream_model_id` or `base_url` keeps the stored one, omitted data-policy declarations are kept while the upstream is unchanged and cleared when it changes, and any upstream change clears earlier validation. Naming an upstream field on an active endpoint returns 409 `already_active` and writes nothing; delete and re-create instead. Every group is checked before anything is written: 400 `parameters_invalid` when `tool_choice` is declared without `tools` tested or declared, 400 `settings_invalid` when `max_prompt_tokens` exceeds the context length, both completion APIs are off, or `excluded_parameters` names a tested parameter, 422 `pricing_invalid` for rates the provider strategy cannot represent. [Management key](/docs/guides/overview/auth/management-api-keys) required.
+  /// Change any of the endpoint fields you own in one call; only the fields present change, and the response is the whole endpoint. `pricing` and `declared_parameters` replace their stored value, `settings` changes only the fields it names (`null` clears a limit or restores the provider default); routing picks these up for subsequent requests on drafts and active endpoints alike. `declared_zdr` and `declared_region` change on drafts and active endpoints alike; on an active endpoint the change keeps its validation and tested parameters, and routing applies it to subsequent requests. `upstream_model_id` and `base_url` re-point a draft: an omitted `upstream_model_id` or `base_url` keeps the stored one, omitted data-policy declarations are kept while the upstream is unchanged and cleared when it changes, and any change to the upstream or declarations of a draft clears earlier validation. Naming `upstream_model_id` or `base_url` on an active endpoint returns 409 `already_active` and writes nothing, even alongside other fields; delete and re-create instead. Every group is checked before anything is written: 400 `parameters_invalid` when `tool_choice` is declared without `tools` tested or declared, 400 `settings_invalid` when `max_prompt_tokens` exceeds the context length, both completion APIs are off, or `excluded_parameters` names a tested parameter, 422 `pricing_invalid` for rates the provider strategy cannot represent, or `pricing_cache_read_unsupported` or `pricing_cache_write_unsupported` when that rate is a cache rate the strategy has no SKU for. [Management key](/docs/guides/overview/auth/management-api-keys) required.
   ///
   /// `PATCH /private-endpoints/{id}`
   ///
@@ -297,7 +295,7 @@ class PrivateEndpointsResource {
   /// - 500 Internal Server Error - Unexpected server error
   /// - 502 Bad Gateway - Provider/upstream API failure
   Future<PrivateEndpointResponse> update({
-    /// Only the fields present change. `base_url`, `upstream_model_id`, `declared_zdr` and `declared_region` are accepted on a draft only; `pricing` and `declared_parameters` replace their value; `settings` is itself a partial update where `null` clears a limit or restores the provider default.
+    /// Only the fields present change. `base_url` and `upstream_model_id` are accepted on a draft only; `declared_zdr` and `declared_region` on drafts and active endpoints; `pricing` and `declared_parameters` replace their value; `settings` is itself a partial update where `null` clears a limit or restores the provider default.
     ///
     /// Example:
     /// ```
@@ -513,129 +511,6 @@ class PrivateEndpointsResource {
       },
       options: options,
       decode: (json) => ManagedPrivateEndpointResponse.fromJson(
-        Map<String, dynamic>.from(json as Map),
-      ),
-    );
-  }
-
-  /// Set private endpoint supported parameters (deprecated)
-  ///
-  /// Deprecated: send `declared_parameters` to `PATCH /private-endpoints/{id}` instead; this route behaves exactly like that call and will be removed. The body replaces the earlier declaration and is read as a set; `tested_parameters` stay. Returns 400 `parameters_invalid` when `tool_choice` is declared without `tools` being tested or declared. [Management key](/docs/guides/overview/auth/management-api-keys) required.
-  ///
-  /// `PUT /private-endpoints/{id}/parameters`
-  ///
-  /// Operation: `updatePrivateEndpointParameters`.
-  ///
-  /// Sends the API key as a bearer token.
-  ///
-  /// The endpoint with its new declared parameters
-  ///
-  /// Errors:
-  /// - 400 Bad Request - Invalid request parameters or malformed input
-  /// - 401 Unauthorized - Authentication required or invalid credentials
-  /// - 403 Forbidden - Authentication successful but insufficient permissions
-  /// - 404 Not Found - Resource does not exist
-  /// - 408 Request Timeout - Operation exceeded time limit
-  /// - 409 Conflict - Resource conflict or concurrent modification
-  /// - 422 Unprocessable Entity - Semantic validation failure
-  /// - 500 Internal Server Error - Unexpected server error
-  /// - 502 Bad Gateway - Provider/upstream API failure
-  @Deprecated('Set private endpoint supported parameters (deprecated)')
-  Future<PrivateEndpointResponse> updateParameters({
-    required UpdatePrivateEndpointParametersRequest body,
-
-    /// Stable identifier of the private endpoint.
-    ///
-    /// Format: uuid
-    ///
-    /// Example:
-    /// ```
-    /// "5b1c4c4e-7d0a-4a8e-9f3a-2d6c1b0e8a11"
-    /// ```
-    required String id,
-    OpenRouterCallOptions? options,
-  }) async {
-    return _client.send<PrivateEndpointResponse>(
-      method: 'PUT',
-      path:
-          '/private-endpoints/${Uri.encodeComponent(id.toString())}/parameters',
-      json: body.toJson(),
-      authenticated: true,
-      accept: 'application/json',
-      errors: {
-        400: BadRequestResponse.fromJson,
-        401: UnauthorizedResponse.fromJson,
-        403: ForbiddenResponse.fromJson,
-        404: NotFoundResponse.fromJson,
-        408: RequestTimeoutResponse.fromJson,
-        409: ConflictResponse.fromJson,
-        422: UnprocessableEntityResponse.fromJson,
-        500: InternalServerResponse.fromJson,
-        502: BadGatewayResponse.fromJson,
-      },
-      options: options,
-      decode: (json) => PrivateEndpointResponse.fromJson(
-        Map<String, dynamic>.from(json as Map),
-      ),
-    );
-  }
-
-  /// Set private endpoint pricing (deprecated)
-  ///
-  /// Deprecated: send `pricing` to `PATCH /private-endpoints/{id}` instead; this route behaves exactly like that call and will be removed. The body replaces the whole pricing object: omitting `cache_read` or `cache_write` reverts that rate to the provider pricing strategy default. [Management key](/docs/guides/overview/auth/management-api-keys) required.
-  ///
-  /// `PUT /private-endpoints/{id}/pricing`
-  ///
-  /// Operation: `updatePrivateEndpointPricing`.
-  ///
-  /// Sends the API key as a bearer token.
-  ///
-  /// The endpoint with its new pricing
-  ///
-  /// Errors:
-  /// - 400 Bad Request - Invalid request parameters or malformed input
-  /// - 401 Unauthorized - Authentication required or invalid credentials
-  /// - 403 Forbidden - Authentication successful but insufficient permissions
-  /// - 404 Not Found - Resource does not exist
-  /// - 408 Request Timeout - Operation exceeded time limit
-  /// - 409 Conflict - Resource conflict or concurrent modification
-  /// - 422 Unprocessable Entity - Semantic validation failure
-  /// - 500 Internal Server Error - Unexpected server error
-  /// - 502 Bad Gateway - Provider/upstream API failure
-  @Deprecated('Set private endpoint pricing (deprecated)')
-  Future<PrivateEndpointResponse> updatePricing({
-    required UpdatePrivateEndpointPricingRequest body,
-
-    /// Stable identifier of the private endpoint.
-    ///
-    /// Format: uuid
-    ///
-    /// Example:
-    /// ```
-    /// "5b1c4c4e-7d0a-4a8e-9f3a-2d6c1b0e8a11"
-    /// ```
-    required String id,
-    OpenRouterCallOptions? options,
-  }) async {
-    return _client.send<PrivateEndpointResponse>(
-      method: 'PUT',
-      path: '/private-endpoints/${Uri.encodeComponent(id.toString())}/pricing',
-      json: body.toJson(),
-      authenticated: true,
-      accept: 'application/json',
-      errors: {
-        400: BadRequestResponse.fromJson,
-        401: UnauthorizedResponse.fromJson,
-        403: ForbiddenResponse.fromJson,
-        404: NotFoundResponse.fromJson,
-        408: RequestTimeoutResponse.fromJson,
-        409: ConflictResponse.fromJson,
-        422: UnprocessableEntityResponse.fromJson,
-        500: InternalServerResponse.fromJson,
-        502: BadGatewayResponse.fromJson,
-      },
-      options: options,
-      decode: (json) => PrivateEndpointResponse.fromJson(
         Map<String, dynamic>.from(json as Map),
       ),
     );

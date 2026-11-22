@@ -27,7 +27,7 @@ part 'bulk_add_workspace_members_response.g.dart';
 sealed class BulkAddWorkspaceMembersResponse
     with _$BulkAddWorkspaceMembersResponse {
   const factory BulkAddWorkspaceMembersResponse({
-    /// Number of workspace memberships created or updated
+    /// Number of workspace memberships created
     ///
     /// Example:
     /// ```

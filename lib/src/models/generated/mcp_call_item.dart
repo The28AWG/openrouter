@@ -8,6 +8,43 @@ import 'mcp_tool_call_error.dart';
 part 'mcp_call_item.freezed.dart';
 part 'mcp_call_item.g.dart';
 
+/// Allowed: `in_progress`, `completed`, `incomplete`, `calling`, `failed`
+///
+/// Unknown values are allowed by the specification.
+@JsonEnum(alwaysCreate: true)
+enum McpCallItemStatusValue {
+  @JsonValue('in_progress')
+  inProgress,
+  @JsonValue('completed')
+  completed,
+  @JsonValue('incomplete')
+  incomplete,
+  @JsonValue('calling')
+  calling,
+  @JsonValue('failed')
+  failed,
+
+  /// Value returned when the API sends a member that is not listed yet.
+  unknown_,
+}
+
+McpCallItemStatusValue mcpCallItemStatusValueFromJson(Object? json) =>
+    $enumDecode(
+      _$McpCallItemStatusValueEnumMap,
+      json,
+      unknownValue: McpCallItemStatusValue.unknown_,
+    );
+
+McpCallItemStatusValue? mcpCallItemStatusValueFromJsonNullable(Object? json) =>
+    $enumDecodeNullable(
+      _$McpCallItemStatusValueEnumMap,
+      json,
+      unknownValue: McpCallItemStatusValue.unknown_,
+    );
+
+Object? mcpCallItemStatusValueToJson(McpCallItemStatusValue value) =>
+    _$McpCallItemStatusValueEnumMap[value];
+
 /// Allowed: `mcp_call`
 @JsonEnum(alwaysCreate: true)
 enum McpCallItemTypeValue {
@@ -40,6 +77,7 @@ Object? mcpCallItemTypeValueToJson(McpCallItemTypeValue value) =>
 @freezed
 sealed class McpCallItem with _$McpCallItem {
   const factory McpCallItem({
+    @JsonKey(name: 'approval_request_id') String? approvalRequestId,
     required String arguments,
 
     /// Error from an MCP tool call, either a plain message or a structured error
@@ -57,6 +95,12 @@ sealed class McpCallItem with _$McpCallItem {
     @JsonKey(name: 'name') required String nameValue,
     String? output,
     @JsonKey(name: 'server_label') required String serverLabel,
+
+    /// Allowed: `in_progress`, `completed`, `incomplete`, `calling`, `failed`
+    ///
+    /// Unknown values are allowed by the specification.
+    @JsonKey(unknownEnumValue: McpCallItemStatusValue.unknown_)
+    McpCallItemStatusValue? status,
 
     /// Allowed: `mcp_call`
     required McpCallItemTypeValue type,

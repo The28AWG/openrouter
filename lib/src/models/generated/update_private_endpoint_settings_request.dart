@@ -5,6 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'private_endpoint_quantization.dart';
 import 'private_endpoint_reasoning_return_mechanism.dart';
+import 'update_private_endpoint_prompt_caching.dart';
 
 part 'update_private_endpoint_settings_request.freezed.dart';
 part 'update_private_endpoint_settings_request.g.dart';
@@ -25,7 +26,7 @@ sealed class UpdatePrivateEndpointSettingsRequestCompletionsValue
   ) => _$UpdatePrivateEndpointSettingsRequestCompletionsValueFromJson(json);
 }
 
-/// Allowed: `temperature`, `top_p`, `top_k`, `min_p`, `top_a`, `frequency_penalty`, `presence_penalty`, `repetition_penalty`, `max_tokens`, `max_completion_tokens`, `logit_bias`, `logprobs`, `top_logprobs`, `prediction`, `seed`, `response_format`, `structured_outputs`, `stop`, `tools`, `tool_choice`, `parallel_tool_calls`, `include_reasoning`, `reasoning`, `reasoning_effort`, `web_search_options`, `verbosity`
+/// Allowed: `temperature`, `top_p`, `top_k`, `min_p`, `top_a`, `frequency_penalty`, `presence_penalty`, `repetition_penalty`, `max_tokens`, `max_completion_tokens`, `logit_bias`, `logprobs`, `top_logprobs`, `prediction`, `seed`, `response_format`, `structured_outputs`, `strict_tool_schemas`, `stop`, `tools`, `tool_choice`, `parallel_tool_calls`, `include_reasoning`, `reasoning`, `reasoning_effort`, `web_search_options`, `verbosity`
 ///
 /// Unknown values are allowed by the specification.
 @JsonEnum(alwaysCreate: true)
@@ -64,6 +65,8 @@ enum UpdatePrivateEndpointSettingsRequestExcludedParametersItemValue {
   responseFormat,
   @JsonValue('structured_outputs')
   structuredOutputs,
+  @JsonValue('strict_tool_schemas')
+  strictToolSchemas,
   @JsonValue('stop')
   stop,
   @JsonValue('tools')
@@ -252,6 +255,17 @@ sealed class UpdatePrivateEndpointSettingsRequest
     ///
     /// minimum: 1
     @JsonKey(name: 'max_prompt_tokens') int? maxPromptTokens,
+
+    /// Change only the named prompt-caching flags; omitted flags keep their stored value.
+    ///
+    /// Example:
+    /// ```
+    /// {
+    ///   "cache_control": true
+    /// }
+    /// ```
+    @JsonKey(name: 'prompt_caching')
+    UpdatePrivateEndpointPromptCaching? promptCaching,
 
     /// Weight precision the deployment runs at; `unknown` when not stated.
     ///

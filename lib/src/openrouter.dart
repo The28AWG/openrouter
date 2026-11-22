@@ -23,6 +23,7 @@ import 'services/generated/external_users.dart';
 import 'services/generated/files.dart';
 import 'services/generated/generations.dart';
 import 'services/generated/guardrails.dart';
+import 'services/generated/guardrail_policies.dart';
 import 'services/generated/images.dart';
 import 'services/generated/api_keys.dart';
 import 'services/generated/anthropic_messages.dart';
@@ -59,15 +60,15 @@ class OpenRouter {
     String? baseUrl,
     OpenRouterTransport? transport,
     String? httpReferer,
-    String? xOpenrouterTitle,
-    String? xOpenrouterCategories,
+    String? appTitle,
+    String? appCategories,
   }) : client = OpenRouterClient(
          apiKey: apiKey,
          baseUrl: baseUrl,
          transport: transport,
          httpReferer: httpReferer,
-         xOpenrouterTitle: xOpenrouterTitle,
-         xOpenrouterCategories: xOpenrouterCategories,
+         appTitle: appTitle,
+         appCategories: appCategories,
        ) {
     analytics = AnalyticsResource(client);
     alphaDecisions = AlphaDecisionsResource(client);
@@ -89,6 +90,7 @@ class OpenRouter {
     files = FilesResource(client);
     generations = GenerationsResource(client);
     guardrails = GuardrailsResource(client);
+    guardrailPolicies = GuardrailPoliciesResource(client);
     images = ImagesResource(client);
     apiKeys = ApiKeysResource(client);
     anthropicMessages = AnthropicMessagesResource(client);
@@ -171,6 +173,9 @@ class OpenRouter {
 
   /// Guardrails endpoints
   late final GuardrailsResource guardrails;
+
+  /// Guardrail Policies endpoints
+  late final GuardrailPoliciesResource guardrailPolicies;
 
   /// Images endpoints
   late final ImagesResource images;

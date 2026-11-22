@@ -19,6 +19,7 @@ import 'image_generation_server_tool.dart';
 import 'imagegenerationservertool_openrouter.dart';
 import 'legacy_websearchservertool.dart';
 import 'mcp_server_tool.dart';
+import 'mcpservertool_openrouter.dart';
 import 'namespace_tool.dart';
 import 'preview_20250311_websearchservertool.dart';
 import 'preview_websearchservertool.dart';
@@ -358,6 +359,10 @@ sealed class AdditionalToolsItemToolsItemValue
     required AdditionalToolsItemToolsItemValueVariant29Value value,
   }) = _AdditionalToolsItemToolsItemValueVariant29;
 
+  const factory AdditionalToolsItemToolsItemValue.mcpservertoolOpenrouter({
+    required McpservertoolOpenrouter value,
+  }) = _AdditionalToolsItemToolsItemValueMcpservertoolopenrouter;
+
   factory AdditionalToolsItemToolsItemValue.fromJson(
     Map<String, dynamic> json,
   ) {
@@ -417,6 +422,14 @@ sealed class AdditionalToolsItemToolsItemValue
       );
       if (decoded != null) {
         return AdditionalToolsItemToolsItemValue.codeinterpreterservertool(
+          value: decoded,
+        );
+      }
+    }
+    if (json.containsKey('type') && json.containsKey('parameters')) {
+      final decoded = _tryDecode(() => McpservertoolOpenrouter.fromJson(json));
+      if (decoded != null) {
+        return AdditionalToolsItemToolsItemValue.mcpservertoolOpenrouter(
           value: decoded,
         );
       }
@@ -709,6 +722,10 @@ sealed class AdditionalToolsItemToolsItemValue
       case _AdditionalToolsItemToolsItemValueToolsearchservertool(:final value):
         return value.toJson();
       case _AdditionalToolsItemToolsItemValueVariant29(:final value):
+        return value.toJson();
+      case _AdditionalToolsItemToolsItemValueMcpservertoolopenrouter(
+        :final value,
+      ):
         return value.toJson();
     }
   }

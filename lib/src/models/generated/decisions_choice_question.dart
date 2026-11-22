@@ -129,7 +129,7 @@ sealed class DecisionsChoiceQuestion with _$DecisionsChoiceQuestion {
     required Map<String, DecisionsChoiceQuestionCriteriaValueValue?> criteria,
 
     /// A plain string, or a JSON object or array of structured guidance.
-    required DecisionsChoiceQuestionInstructionsValue instructions,
+    DecisionsChoiceQuestionInstructionsValue? instructions,
 
     /// Allowed: `choice`
     required DecisionsChoiceQuestionTypeValue type,

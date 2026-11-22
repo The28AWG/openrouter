@@ -116,11 +116,11 @@ sealed class DecisionsNoulQuestionCriteriaValue
   const factory DecisionsNoulQuestionCriteriaValue({
     /// A plain string, or a JSON object or array of structured guidance.
     @JsonKey(name: 'false')
-    required DecisionsNoulQuestionCriteriaValueFalseValue falseValue,
+    DecisionsNoulQuestionCriteriaValueFalseValue? falseValue,
 
     /// A plain string, or a JSON object or array of structured guidance.
     @JsonKey(name: 'true')
-    required DecisionsNoulQuestionCriteriaValueTrueValue trueValue,
+    DecisionsNoulQuestionCriteriaValueTrueValue? trueValue,
   }) = _DecisionsNoulQuestionCriteriaValue;
 
   factory DecisionsNoulQuestionCriteriaValue.fromJson(
@@ -202,7 +202,7 @@ sealed class DecisionsNoulQuestion with _$DecisionsNoulQuestion {
     DecisionsNoulQuestionCriteriaValue? criteria,
 
     /// A plain string, or a JSON object or array of structured guidance.
-    required DecisionsNoulQuestionInstructionsValue instructions,
+    DecisionsNoulQuestionInstructionsValue? instructions,
 
     /// Allowed: `noul`
     required DecisionsNoulQuestionTypeValue type,

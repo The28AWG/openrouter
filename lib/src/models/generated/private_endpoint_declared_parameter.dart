@@ -6,7 +6,7 @@ part 'private_endpoint_declared_parameter.g.dart';
 
 /// A chat request parameter the endpoint accepts.
 ///
-/// Allowed: `temperature`, `top_p`, `top_k`, `min_p`, `top_a`, `frequency_penalty`, `presence_penalty`, `repetition_penalty`, `max_tokens`, `max_completion_tokens`, `logit_bias`, `logprobs`, `top_logprobs`, `prediction`, `seed`, `response_format`, `structured_outputs`, `stop`, `tools`, `tool_choice`, `parallel_tool_calls`, `reasoning`, `reasoning_effort`, `web_search_options`, `verbosity`
+/// Allowed: `temperature`, `top_p`, `top_k`, `min_p`, `top_a`, `frequency_penalty`, `presence_penalty`, `repetition_penalty`, `max_tokens`, `max_completion_tokens`, `logit_bias`, `logprobs`, `top_logprobs`, `prediction`, `seed`, `response_format`, `structured_outputs`, `strict_tool_schemas`, `stop`, `tools`, `tool_choice`, `parallel_tool_calls`, `reasoning`, `reasoning_effort`, `web_search_options`, `verbosity`
 ///
 /// Unknown values are allowed by the specification.
 ///
@@ -50,6 +50,8 @@ enum PrivateEndpointDeclaredParameter {
   responseFormat,
   @JsonValue('structured_outputs')
   structuredOutputs,
+  @JsonValue('strict_tool_schemas')
+  strictToolSchemas,
   @JsonValue('stop')
   stop,
   @JsonValue('tools')

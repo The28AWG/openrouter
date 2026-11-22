@@ -41,6 +41,7 @@ class PresetsResource {
   /// - 400 Bad Request - Invalid request parameters or malformed input
   /// - 401 Unauthorized - Authentication required or invalid credentials
   /// - 403 Forbidden - Authentication successful but insufficient permissions
+  /// - 404 Not Found - Resource does not exist
   /// - 500 Internal Server Error - Unexpected server error
   /// - 503 Service Unavailable - Service temporarily unavailable
   Future<ListPresetsResponse> list({
@@ -67,6 +68,16 @@ class PresetsResource {
     /// 50
     /// ```
     int? limit,
+
+    /// Workspace to act in. Also accepted as a `workspace_id` field in a JSON request body. Defaults to the key's workspace for a key limited to one workspace, otherwise to the account's default workspace.
+    ///
+    /// Format: uuid
+    ///
+    /// Example:
+    /// ```
+    /// "750e8400-e29b-41d4-a716-446655440002"
+    /// ```
+    String? workspaceId,
     OpenRouterCallOptions? options,
   }) async {
     if (offset != null) {
@@ -85,6 +96,7 @@ class PresetsResource {
     final query = OpenRouterQuery();
     query.add('offset', offset);
     query.add('limit', limit);
+    query.add('workspace_id', workspaceId);
     return _client.send<ListPresetsResponse>(
       method: 'GET',
       path: '/presets',
@@ -95,6 +107,7 @@ class PresetsResource {
         400: BadRequestResponse.fromJson,
         401: UnauthorizedResponse.fromJson,
         403: ForbiddenResponse.fromJson,
+        404: NotFoundResponse.fromJson,
         500: InternalServerResponse.fromJson,
         503: ServiceUnavailableResponse.fromJson,
       },
@@ -119,6 +132,16 @@ class PresetsResource {
     /// 50
     /// ```
     int? limit,
+
+    /// Workspace to act in. Also accepted as a `workspace_id` field in a JSON request body. Defaults to the key's workspace for a key limited to one workspace, otherwise to the account's default workspace.
+    ///
+    /// Format: uuid
+    ///
+    /// Example:
+    /// ```
+    /// "750e8400-e29b-41d4-a716-446655440002"
+    /// ```
+    String? workspaceId,
     OpenRouterCallOptions? options,
   }) {
     if (limit != null) {
@@ -130,8 +153,79 @@ class PresetsResource {
       }
     }
     return OpenRouterPagination.offset<Preset, ListPresetsResponse>(
-      load: (offset) => list(offset: offset, limit: limit, options: options),
+      load: (offset) => list(
+        offset: offset,
+        limit: limit,
+        workspaceId: workspaceId,
+        options: options,
+      ),
       items: (page) => page.data,
+    );
+  }
+
+  /// Delete a preset
+  ///
+  /// Archives a preset: it no longer resolves for inference and is hidden from get and list. The preset and its versions are kept, so the slug stays taken; restore it with `POST /presets/{slug}/restore`. Deleting an already-archived preset succeeds again. A disabled preset returns 409. Requires a read-write [management key](/docs/guides/overview/auth/management-api-keys); inference API keys are rejected. `workspace_id` may be sent as a query parameter or a JSON body field.
+  ///
+  /// `DELETE /presets/{slug}`
+  ///
+  /// Operation: `deletePreset`.
+  ///
+  /// Sends the API key as a bearer token.
+  ///
+  /// The archived preset with its designated version.
+  ///
+  /// Errors:
+  /// - 400 Bad Request - Invalid request parameters or malformed input
+  /// - 401 Unauthorized - Authentication required or invalid credentials
+  /// - 403 Forbidden - Authentication successful but insufficient permissions
+  /// - 404 Not Found - Resource does not exist
+  /// - 409 Conflict - Resource conflict or concurrent modification
+  /// - 500 Internal Server Error - Unexpected server error
+  Future<GetPresetResponse> delete({
+    /// URL-safe slug identifying the preset.
+    ///
+    /// minLength: 1
+    ///
+    /// Example:
+    /// ```
+    /// "my-preset"
+    /// ```
+    required String slug,
+
+    /// Workspace to act in. Also accepted as a `workspace_id` field in a JSON request body. Defaults to the key's workspace for a key limited to one workspace, otherwise to the account's default workspace.
+    ///
+    /// Format: uuid
+    ///
+    /// Example:
+    /// ```
+    /// "750e8400-e29b-41d4-a716-446655440002"
+    /// ```
+    String? workspaceId,
+    OpenRouterCallOptions? options,
+  }) async {
+    if (slug.isEmpty) {
+      throw ArgumentError.value(slug, 'slug', 'must have length >= 1');
+    }
+    final query = OpenRouterQuery();
+    query.add('workspace_id', workspaceId);
+    return _client.send<GetPresetResponse>(
+      method: 'DELETE',
+      path: '/presets/${Uri.encodeComponent(slug.toString())}',
+      query: query,
+      authenticated: true,
+      accept: 'application/json',
+      errors: {
+        400: BadRequestResponse.fromJson,
+        401: UnauthorizedResponse.fromJson,
+        403: ForbiddenResponse.fromJson,
+        404: NotFoundResponse.fromJson,
+        409: ConflictResponse.fromJson,
+        500: InternalServerResponse.fromJson,
+      },
+      options: options,
+      decode: (json) =>
+          GetPresetResponse.fromJson(Map<String, dynamic>.from(json as Map)),
     );
   }
 
@@ -164,14 +258,27 @@ class PresetsResource {
     /// "my-preset"
     /// ```
     required String slug,
+
+    /// Workspace to act in. Also accepted as a `workspace_id` field in a JSON request body. Defaults to the key's workspace for a key limited to one workspace, otherwise to the account's default workspace.
+    ///
+    /// Format: uuid
+    ///
+    /// Example:
+    /// ```
+    /// "750e8400-e29b-41d4-a716-446655440002"
+    /// ```
+    String? workspaceId,
     OpenRouterCallOptions? options,
   }) async {
     if (slug.isEmpty) {
       throw ArgumentError.value(slug, 'slug', 'must have length >= 1');
     }
+    final query = OpenRouterQuery();
+    query.add('workspace_id', workspaceId);
     return _client.send<GetPresetResponse>(
       method: 'GET',
       path: '/presets/${Uri.encodeComponent(slug.toString())}',
+      query: query,
       authenticated: true,
       accept: 'application/json',
       errors: {
@@ -190,7 +297,7 @@ class PresetsResource {
 
   /// Create a preset from a chat-completions request body
   ///
-  /// Creates a preset (or a new version of an existing one) from an inference request body. Only fields that overlap with the preset config are persisted; other fields (e.g. `messages`, `stream`, `prompt`) are silently ignored.
+  /// Creates a preset (or a new version of an existing one) from an inference request body. Only fields that overlap with the preset config are persisted; other fields (e.g. `messages`, `stream`, `prompt`) are silently ignored. Requires a read-write [management key](/docs/guides/overview/auth/management-api-keys); inference API keys are rejected.
   ///
   /// `POST /presets/{slug}/chat/completions`
   ///
@@ -257,14 +364,27 @@ class PresetsResource {
     /// "my-preset"
     /// ```
     required String slug,
+
+    /// Workspace to act in. Also accepted as a `workspace_id` field in a JSON request body. Defaults to the key's workspace for a key limited to one workspace, otherwise to the account's default workspace.
+    ///
+    /// Format: uuid
+    ///
+    /// Example:
+    /// ```
+    /// "750e8400-e29b-41d4-a716-446655440002"
+    /// ```
+    String? workspaceId,
     OpenRouterCallOptions? options,
   }) async {
     if (slug.isEmpty) {
       throw ArgumentError.value(slug, 'slug', 'must have length >= 1');
     }
+    final query = OpenRouterQuery();
+    query.add('workspace_id', workspaceId);
     return _client.send<CreatePresetFromInferenceResponse>(
       method: 'POST',
       path: '/presets/${Uri.encodeComponent(slug.toString())}/chat/completions',
+      query: query,
       json: body.toJson(),
       authenticated: true,
       accept: 'application/json',
@@ -285,7 +405,7 @@ class PresetsResource {
 
   /// Create a preset from a messages request body
   ///
-  /// Creates a preset (or a new version of an existing one) from an inference request body. Only fields that overlap with the preset config are persisted; other fields (e.g. `messages`, `stream`, `prompt`) are silently ignored.
+  /// Creates a preset (or a new version of an existing one) from an inference request body. Only fields that overlap with the preset config are persisted; other fields (e.g. `messages`, `stream`, `prompt`) are silently ignored. Requires a read-write [management key](/docs/guides/overview/auth/management-api-keys); inference API keys are rejected.
   ///
   /// `POST /presets/{slug}/messages`
   ///
@@ -345,14 +465,27 @@ class PresetsResource {
     /// "my-preset"
     /// ```
     required String slug,
+
+    /// Workspace to act in. Also accepted as a `workspace_id` field in a JSON request body. Defaults to the key's workspace for a key limited to one workspace, otherwise to the account's default workspace.
+    ///
+    /// Format: uuid
+    ///
+    /// Example:
+    /// ```
+    /// "750e8400-e29b-41d4-a716-446655440002"
+    /// ```
+    String? workspaceId,
     OpenRouterCallOptions? options,
   }) async {
     if (slug.isEmpty) {
       throw ArgumentError.value(slug, 'slug', 'must have length >= 1');
     }
+    final query = OpenRouterQuery();
+    query.add('workspace_id', workspaceId);
     return _client.send<CreatePresetFromInferenceResponse>(
       method: 'POST',
       path: '/presets/${Uri.encodeComponent(slug.toString())}/messages',
+      query: query,
       json: body.toJson(),
       authenticated: true,
       accept: 'application/json',
@@ -373,7 +506,7 @@ class PresetsResource {
 
   /// Create a preset from a responses request body
   ///
-  /// Creates a preset (or a new version of an existing one) from an inference request body. Only fields that overlap with the preset config are persisted; other fields (e.g. `messages`, `stream`, `prompt`) are silently ignored.
+  /// Creates a preset (or a new version of an existing one) from an inference request body. Only fields that overlap with the preset config are persisted; other fields (e.g. `messages`, `stream`, `prompt`) are silently ignored. Requires a read-write [management key](/docs/guides/overview/auth/management-api-keys); inference API keys are rejected.
   ///
   /// `POST /presets/{slug}/responses`
   ///
@@ -443,14 +576,27 @@ class PresetsResource {
     /// "my-preset"
     /// ```
     required String slug,
+
+    /// Workspace to act in. Also accepted as a `workspace_id` field in a JSON request body. Defaults to the key's workspace for a key limited to one workspace, otherwise to the account's default workspace.
+    ///
+    /// Format: uuid
+    ///
+    /// Example:
+    /// ```
+    /// "750e8400-e29b-41d4-a716-446655440002"
+    /// ```
+    String? workspaceId,
     OpenRouterCallOptions? options,
   }) async {
     if (slug.isEmpty) {
       throw ArgumentError.value(slug, 'slug', 'must have length >= 1');
     }
+    final query = OpenRouterQuery();
+    query.add('workspace_id', workspaceId);
     return _client.send<CreatePresetFromInferenceResponse>(
       method: 'POST',
       path: '/presets/${Uri.encodeComponent(slug.toString())}/responses',
+      query: query,
       json: body.toJson(),
       authenticated: true,
       accept: 'application/json',
@@ -466,6 +612,72 @@ class PresetsResource {
       decode: (json) => CreatePresetFromInferenceResponse.fromJson(
         Map<String, dynamic>.from(json as Map),
       ),
+    );
+  }
+
+  /// Restore a preset
+  ///
+  /// Re-activates an archived preset so it resolves for inference again. No version is created and the designated version is unchanged. Restoring an active preset returns it unchanged. A disabled preset returns 409. Requires a read-write [management key](/docs/guides/overview/auth/management-api-keys); inference API keys are rejected. `workspace_id` may be sent as a query parameter or a JSON body field.
+  ///
+  /// `POST /presets/{slug}/restore`
+  ///
+  /// Operation: `restorePreset`.
+  ///
+  /// Sends the API key as a bearer token.
+  ///
+  /// The restored preset with its designated version.
+  ///
+  /// Errors:
+  /// - 400 Bad Request - Invalid request parameters or malformed input
+  /// - 401 Unauthorized - Authentication required or invalid credentials
+  /// - 403 Forbidden - Authentication successful but insufficient permissions
+  /// - 404 Not Found - Resource does not exist
+  /// - 409 Conflict - Resource conflict or concurrent modification
+  /// - 500 Internal Server Error - Unexpected server error
+  Future<GetPresetResponse> restore({
+    /// URL-safe slug identifying the preset.
+    ///
+    /// minLength: 1
+    ///
+    /// Example:
+    /// ```
+    /// "my-preset"
+    /// ```
+    required String slug,
+
+    /// Workspace to act in. Also accepted as a `workspace_id` field in a JSON request body. Defaults to the key's workspace for a key limited to one workspace, otherwise to the account's default workspace.
+    ///
+    /// Format: uuid
+    ///
+    /// Example:
+    /// ```
+    /// "750e8400-e29b-41d4-a716-446655440002"
+    /// ```
+    String? workspaceId,
+    OpenRouterCallOptions? options,
+  }) async {
+    if (slug.isEmpty) {
+      throw ArgumentError.value(slug, 'slug', 'must have length >= 1');
+    }
+    final query = OpenRouterQuery();
+    query.add('workspace_id', workspaceId);
+    return _client.send<GetPresetResponse>(
+      method: 'POST',
+      path: '/presets/${Uri.encodeComponent(slug.toString())}/restore',
+      query: query,
+      authenticated: true,
+      accept: 'application/json',
+      errors: {
+        400: BadRequestResponse.fromJson,
+        401: UnauthorizedResponse.fromJson,
+        403: ForbiddenResponse.fromJson,
+        404: NotFoundResponse.fromJson,
+        409: ConflictResponse.fromJson,
+        500: InternalServerResponse.fromJson,
+      },
+      options: options,
+      decode: (json) =>
+          GetPresetResponse.fromJson(Map<String, dynamic>.from(json as Map)),
     );
   }
 
@@ -522,6 +734,16 @@ class PresetsResource {
     /// 50
     /// ```
     int? limit,
+
+    /// Workspace to act in. Also accepted as a `workspace_id` field in a JSON request body. Defaults to the key's workspace for a key limited to one workspace, otherwise to the account's default workspace.
+    ///
+    /// Format: uuid
+    ///
+    /// Example:
+    /// ```
+    /// "750e8400-e29b-41d4-a716-446655440002"
+    /// ```
+    String? workspaceId,
     OpenRouterCallOptions? options,
   }) async {
     if (slug.isEmpty) {
@@ -543,6 +765,7 @@ class PresetsResource {
     final query = OpenRouterQuery();
     query.add('offset', offset);
     query.add('limit', limit);
+    query.add('workspace_id', workspaceId);
     return _client.send<ListPresetVersionsResponse>(
       method: 'GET',
       path: '/presets/${Uri.encodeComponent(slug.toString())}/versions',
@@ -589,6 +812,16 @@ class PresetsResource {
     /// 50
     /// ```
     int? limit,
+
+    /// Workspace to act in. Also accepted as a `workspace_id` field in a JSON request body. Defaults to the key's workspace for a key limited to one workspace, otherwise to the account's default workspace.
+    ///
+    /// Format: uuid
+    ///
+    /// Example:
+    /// ```
+    /// "750e8400-e29b-41d4-a716-446655440002"
+    /// ```
+    String? workspaceId,
     OpenRouterCallOptions? options,
   }) {
     if (slug.isEmpty) {
@@ -610,6 +843,7 @@ class PresetsResource {
         offset: offset,
         slug: slug,
         limit: limit,
+        workspaceId: workspaceId,
         options: options,
       ),
       items: (page) => page.data,
@@ -655,6 +889,16 @@ class PresetsResource {
     /// "1"
     /// ```
     required String version,
+
+    /// Workspace to act in. Also accepted as a `workspace_id` field in a JSON request body. Defaults to the key's workspace for a key limited to one workspace, otherwise to the account's default workspace.
+    ///
+    /// Format: uuid
+    ///
+    /// Example:
+    /// ```
+    /// "750e8400-e29b-41d4-a716-446655440002"
+    /// ```
+    String? workspaceId,
     OpenRouterCallOptions? options,
   }) async {
     if (slug.isEmpty) {
@@ -663,10 +907,13 @@ class PresetsResource {
     if (version.isEmpty) {
       throw ArgumentError.value(version, 'version', 'must have length >= 1');
     }
+    final query = OpenRouterQuery();
+    query.add('workspace_id', workspaceId);
     return _client.send<GetPresetVersionResponse>(
       method: 'GET',
       path:
           '/presets/${Uri.encodeComponent(slug.toString())}/versions/${Uri.encodeComponent(version.toString())}',
+      query: query,
       authenticated: true,
       accept: 'application/json',
       errors: {

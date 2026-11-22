@@ -114,9 +114,19 @@ sealed class Model with _$Model {
     /// ```
     /// {
     ///   "artificial_analysis": {
-    ///     "agentic_index": 55.8,
-    ///     "coding_index": 63.2,
-    ///     "intelligence_index": 71.4
+    ///     "agentic_index": null,
+    ///     "coding_index": null,
+    ///     "cyber_index": 36.4,
+    ///     "decision_index": 75.7,
+    ///     "economics_index": 57.2,
+    ///     "engineering_index": 60.4,
+    ///     "finance_and_accounting_index": 58.1,
+    ///     "healthcare_and_medical_index": 56.9,
+    ///     "intelligence_index": 71.4,
+    ///     "legal_index": 52.3,
+    ///     "multilingual_index": 0.82,
+    ///     "openness_index": 33.3,
+    ///     "strategy_and_ops_index": 61.7
     ///   },
     ///   "design_arena": [
     ///     {

@@ -13,6 +13,7 @@ import '../../models/generated/internal_server_response.dart';
 import '../../models/generated/list_files_order.dart';
 import '../../models/generated/not_found_response.dart';
 import '../../models/generated/payload_too_large_response.dart';
+import '../../models/generated/payment_required_response.dart';
 import '../../models/generated/service_unavailable_response.dart';
 import '../../models/generated/too_many_requests_response.dart';
 import '../../models/generated/unauthorized_response.dart';
@@ -39,6 +40,7 @@ class FilesResource {
   /// Errors:
   /// - 400 Bad Request - Invalid request parameters or malformed input
   /// - 401 Unauthorized - Authentication required or invalid credentials
+  /// - 402 Payment Required - Insufficient credits or quota to complete request
   /// - 403 Forbidden - Authentication successful but insufficient permissions
   /// - 429 Too Many Requests - Rate limit exceeded
   /// - 500 Internal Server Error - Unexpected server error
@@ -156,6 +158,7 @@ class FilesResource {
       errors: {
         400: BadRequestResponse.fromJson,
         401: UnauthorizedResponse.fromJson,
+        402: PaymentRequiredResponse.fromJson,
         403: ForbiddenResponse.fromJson,
         429: TooManyRequestsResponse.fromJson,
         500: InternalServerResponse.fromJson,
@@ -190,6 +193,7 @@ class FilesResource {
   /// Errors:
   /// - 400 Bad Request - Invalid request parameters or malformed input
   /// - 401 Unauthorized - Authentication required or invalid credentials
+  /// - 402 Payment Required - Insufficient credits or quota to complete request
   /// - 403 Forbidden - Authentication successful but insufficient permissions
   /// - 413 Payload Too Large - Request payload exceeds size limits
   /// - 429 Too Many Requests - Rate limit exceeded
@@ -261,6 +265,7 @@ class FilesResource {
       errors: {
         400: BadRequestResponse.fromJson,
         401: UnauthorizedResponse.fromJson,
+        402: PaymentRequiredResponse.fromJson,
         403: ForbiddenResponse.fromJson,
         413: PayloadTooLargeResponse.fromJson,
         429: TooManyRequestsResponse.fromJson,
@@ -289,6 +294,7 @@ class FilesResource {
   ///
   /// Errors:
   /// - 401 Unauthorized - Authentication required or invalid credentials
+  /// - 402 Payment Required - Insufficient credits or quota to complete request
   /// - 403 Forbidden - Authentication successful but insufficient permissions
   /// - 404 Not Found - Resource does not exist
   /// - 429 Too Many Requests - Rate limit exceeded
@@ -355,6 +361,7 @@ class FilesResource {
       accept: 'application/json',
       errors: {
         401: UnauthorizedResponse.fromJson,
+        402: PaymentRequiredResponse.fromJson,
         403: ForbiddenResponse.fromJson,
         404: NotFoundResponse.fromJson,
         429: TooManyRequestsResponse.fromJson,
@@ -382,6 +389,7 @@ class FilesResource {
   ///
   /// Errors:
   /// - 401 Unauthorized - Authentication required or invalid credentials
+  /// - 402 Payment Required - Insufficient credits or quota to complete request
   /// - 403 Forbidden - Authentication successful but insufficient permissions
   /// - 404 Not Found - Resource does not exist
   /// - 429 Too Many Requests - Rate limit exceeded
@@ -448,6 +456,7 @@ class FilesResource {
       accept: 'application/json',
       errors: {
         401: UnauthorizedResponse.fromJson,
+        402: PaymentRequiredResponse.fromJson,
         403: ForbiddenResponse.fromJson,
         404: NotFoundResponse.fromJson,
         429: TooManyRequestsResponse.fromJson,
@@ -476,6 +485,7 @@ class FilesResource {
   /// Errors:
   /// - 400 Bad Request - Invalid request parameters or malformed input
   /// - 401 Unauthorized - Authentication required or invalid credentials
+  /// - 402 Payment Required - Insufficient credits or quota to complete request
   /// - 403 Forbidden - Authentication successful but insufficient permissions
   /// - 404 Not Found - Resource does not exist
   /// - 429 Too Many Requests - Rate limit exceeded
@@ -543,6 +553,7 @@ class FilesResource {
       errors: {
         400: BadRequestResponse.fromJson,
         401: UnauthorizedResponse.fromJson,
+        402: PaymentRequiredResponse.fromJson,
         403: ForbiddenResponse.fromJson,
         404: NotFoundResponse.fromJson,
         429: TooManyRequestsResponse.fromJson,

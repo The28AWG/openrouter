@@ -40,6 +40,9 @@ sealed class ExtractionTimeField with _$ExtractionTimeField {
 
     /// Allowed: `time`
     required ExtractionTimeFieldTypeValue type,
+
+    /// Unit label for the value.
+    String? unit,
   }) = _ExtractionTimeField;
 
   factory ExtractionTimeField.fromJson(Map<String, dynamic> json) =>

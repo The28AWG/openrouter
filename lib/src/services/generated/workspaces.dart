@@ -539,7 +539,7 @@ class WorkspacesResource {
 
   /// Bulk add members to a workspace
   ///
-  /// Add multiple organization members to a workspace. Members are assigned the same role they hold in the organization. [Management key](/docs/guides/overview/auth/management-api-keys) required.
+  /// Add multiple organization members to a workspace. New members are assigned the workspace role that matches their organization role. Users who are already members of the workspace keep their current role and are not included in the response. [Management key](/docs/guides/overview/auth/management-api-keys) required.
   ///
   /// `POST /workspaces/{id}/members/add`
   ///
@@ -890,7 +890,7 @@ class WorkspacesResource {
 
   /// Create or update a workspace budget
   ///
-  /// Create or update the budget for a given interval. Budget limits must strictly decrease as the interval narrows (lifetime &gt; monthly &gt; weekly &gt; daily). The optional `include_byok_in_budgets` flag is a workspace-wide setting: when provided it applies to every budget interval for the workspace, not just the interval in this request. Note that a change made here is applied to budget enforcement immediately, but an already-open workspace settings page in the web dashboard may keep showing the previous value until it is reloaded. [Management key](/docs/guides/overview/auth/management-api-keys) required.
+  /// Create or update the budget for a given interval. Budget limits must strictly decrease as the interval narrows (lifetime &gt; monthly &gt; weekly &gt; daily). Requires an organization-scoped management key with both budgets:view and budgets:update. The optional `include_byok_in_budgets` flag is a workspace-wide setting: when provided it applies to every budget interval for the workspace, not just the interval in this request. Note that a change made here is applied to budget enforcement immediately, but an already-open workspace settings page in the web dashboard may keep showing the previous value until it is reloaded. [Management key](/docs/guides/overview/auth/management-api-keys) required.
   ///
   /// `PUT /workspaces/{workspace_ref}/budgets/{interval}`
   ///

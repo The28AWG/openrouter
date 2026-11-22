@@ -32,6 +32,14 @@ import 'image_gen_call_completed_event.dart';
 import 'image_gen_call_generating_event.dart';
 import 'image_gen_call_in_progress_event.dart';
 import 'image_gen_call_partial_image_event.dart';
+import 'mcp_call_arguments_delta_event.dart';
+import 'mcp_call_arguments_done_event.dart';
+import 'mcp_call_completed_event.dart';
+import 'mcp_call_failed_event.dart';
+import 'mcp_call_in_progress_event.dart';
+import 'mcp_list_tools_completed_event.dart';
+import 'mcp_list_tools_failed_event.dart';
+import 'mcp_list_tools_in_progress_event.dart';
 import 'open_responses_created_event.dart';
 import 'open_responses_in_progress_event.dart';
 import 'reasoning_delta_event.dart';
@@ -218,6 +226,38 @@ sealed class StreamEvents with _$StreamEvents {
   const factory StreamEvents.responseIncomplete({
     required StreamEventsResponseIncomplete value,
   }) = _StreamEventsResponseincomplete;
+
+  const factory StreamEvents.responseMcpCallArgumentsDelta({
+    required McpCallArgumentsDeltaEvent value,
+  }) = _StreamEventsResponsemcpcallargumentsdelta;
+
+  const factory StreamEvents.responseMcpCallArgumentsDone({
+    required McpCallArgumentsDoneEvent value,
+  }) = _StreamEventsResponsemcpcallargumentsdone;
+
+  const factory StreamEvents.responseMcpCallCompleted({
+    required McpCallCompletedEvent value,
+  }) = _StreamEventsResponsemcpcallcompleted;
+
+  const factory StreamEvents.responseMcpCallFailed({
+    required McpCallFailedEvent value,
+  }) = _StreamEventsResponsemcpcallfailed;
+
+  const factory StreamEvents.responseMcpCallInProgress({
+    required McpCallInProgressEvent value,
+  }) = _StreamEventsResponsemcpcallinprogress;
+
+  const factory StreamEvents.responseMcpListToolsCompleted({
+    required McpListToolsCompletedEvent value,
+  }) = _StreamEventsResponsemcplisttoolscompleted;
+
+  const factory StreamEvents.responseMcpListToolsFailed({
+    required McpListToolsFailedEvent value,
+  }) = _StreamEventsResponsemcplisttoolsfailed;
+
+  const factory StreamEvents.responseMcpListToolsInProgress({
+    required McpListToolsInProgressEvent value,
+  }) = _StreamEventsResponsemcplisttoolsinprogress;
 
   const factory StreamEvents.responseOutputItemAdded({
     required StreamEventsResponseOutputItemAdded value,
@@ -414,6 +454,38 @@ sealed class StreamEvents with _$StreamEvents {
         return StreamEvents.responseIncomplete(
           value: StreamEventsResponseIncomplete.fromJson(json),
         );
+      case 'response.mcp_call_arguments.delta':
+        return StreamEvents.responseMcpCallArgumentsDelta(
+          value: McpCallArgumentsDeltaEvent.fromJson(json),
+        );
+      case 'response.mcp_call_arguments.done':
+        return StreamEvents.responseMcpCallArgumentsDone(
+          value: McpCallArgumentsDoneEvent.fromJson(json),
+        );
+      case 'response.mcp_call.completed':
+        return StreamEvents.responseMcpCallCompleted(
+          value: McpCallCompletedEvent.fromJson(json),
+        );
+      case 'response.mcp_call.failed':
+        return StreamEvents.responseMcpCallFailed(
+          value: McpCallFailedEvent.fromJson(json),
+        );
+      case 'response.mcp_call.in_progress':
+        return StreamEvents.responseMcpCallInProgress(
+          value: McpCallInProgressEvent.fromJson(json),
+        );
+      case 'response.mcp_list_tools.completed':
+        return StreamEvents.responseMcpListToolsCompleted(
+          value: McpListToolsCompletedEvent.fromJson(json),
+        );
+      case 'response.mcp_list_tools.failed':
+        return StreamEvents.responseMcpListToolsFailed(
+          value: McpListToolsFailedEvent.fromJson(json),
+        );
+      case 'response.mcp_list_tools.in_progress':
+        return StreamEvents.responseMcpListToolsInProgress(
+          value: McpListToolsInProgressEvent.fromJson(json),
+        );
       case 'response.output_item.added':
         return StreamEvents.responseOutputItemAdded(
           value: StreamEventsResponseOutputItemAdded.fromJson(json),
@@ -550,6 +622,22 @@ sealed class StreamEvents with _$StreamEvents {
       case _StreamEventsResponseinprogress(:final value):
         return value.toJson();
       case _StreamEventsResponseincomplete(:final value):
+        return value.toJson();
+      case _StreamEventsResponsemcpcallargumentsdelta(:final value):
+        return value.toJson();
+      case _StreamEventsResponsemcpcallargumentsdone(:final value):
+        return value.toJson();
+      case _StreamEventsResponsemcpcallcompleted(:final value):
+        return value.toJson();
+      case _StreamEventsResponsemcpcallfailed(:final value):
+        return value.toJson();
+      case _StreamEventsResponsemcpcallinprogress(:final value):
+        return value.toJson();
+      case _StreamEventsResponsemcplisttoolscompleted(:final value):
+        return value.toJson();
+      case _StreamEventsResponsemcplisttoolsfailed(:final value):
+        return value.toJson();
+      case _StreamEventsResponsemcplisttoolsinprogress(:final value):
         return value.toJson();
       case _StreamEventsResponseoutputitemadded(:final value):
         return value.toJson();

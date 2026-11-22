@@ -42,6 +42,13 @@ Object? speechInputReferenceImageTypeValueToJson(
 sealed class SpeechInputReferenceImage with _$SpeechInputReferenceImage {
   const factory SpeechInputReferenceImage({
     /// Reference image input object
+    ///
+    /// Example:
+    /// ```
+    /// {
+    ///   "url": "data:image/png;base64,iVBORw0KGgo..."
+    /// }
+    /// ```
     @JsonKey(name: 'image_url')
     required SpeechInputReferenceImageInput imageUrl,
 

@@ -52,6 +52,10 @@ sealed class PrivateEndpointResponse with _$PrivateEndpointResponse {
     ///     },
     ///     "max_completion_tokens": 16384,
     ///     "max_prompt_tokens": null,
+    ///     "prompt_caching": {
+    ///       "cache_control": false,
+    ///       "prompt_cache_key": false
+    ///     },
     ///     "quantization": "bf16",
     ///     "reasoning": {
     ///       "return_mechanism": "reasoning",

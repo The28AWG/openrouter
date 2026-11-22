@@ -4,7 +4,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'content_filter_builtin_entry.dart';
-import 'content_filter_entry.dart';
+import 'content_filter_read_entry.dart';
 import 'guardrail_data_region.dart';
 import 'guardrail_interval.dart';
 
@@ -54,7 +54,7 @@ part 'guardrail.g.dart';
 @freezed
 sealed class Guardrail with _$Guardrail {
   const factory Guardrail({
-    /// Whether ZDR-only requests to google/* models may use endpoints that may retain prompts for safety monitoring. false allows only zero-retention endpoints. A guardrail can only be more restrictive than the account setting. Inherits the account setting when not provided.
+    /// Whether ZDR-only requests to google/* models may also use Safety Retention endpoints, which may retain prompts and responses from any request, only to prevent abuse, and do not use them for training. false allows only ZDR endpoints. A guardrail can only be more restrictive than the account setting. Inherits the account setting when not provided.
     ///
     /// Example:
     /// ```
@@ -63,7 +63,7 @@ sealed class Guardrail with _$Guardrail {
     @JsonKey(name: 'allow_safety_retention_google')
     bool? allowSafetyRetentionGoogle,
 
-    /// Whether ZDR-only requests to models outside the named providers (for example open-weight models on Vertex) may use endpoints that may retain prompts for safety monitoring. false allows only zero-retention endpoints. A guardrail can only be more restrictive than the account setting. Inherits the account setting when not provided.
+    /// Whether ZDR-only requests to models outside the named providers (for example open-weight models on Vertex) may also use Safety Retention endpoints, which may retain prompts and responses from any request, only to prevent abuse, and do not use them for training. false allows only ZDR endpoints. A guardrail can only be more restrictive than the account setting. Inherits the account setting when not provided.
     ///
     /// Example:
     /// ```
@@ -132,12 +132,14 @@ sealed class Guardrail with _$Guardrail {
     /// [
     ///   {
     ///     "action": "redact",
+    ///     "is_enforced": true,
     ///     "label": "[API_KEY]",
     ///     "pattern": "\\b(sk-[a-zA-Z0-9]{48})\\b"
     ///   }
     /// ]
     /// ```
-    @JsonKey(name: 'content_filters') List<ContentFilterEntry>? contentFilters,
+    @JsonKey(name: 'content_filters')
+    List<ContentFilterReadEntry>? contentFilters,
 
     /// ISO 8601 timestamp of when the guardrail was created
     ///

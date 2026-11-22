@@ -17,7 +17,7 @@ import 'or_anthropic_content_block.dart';
 part 'messages_start_event.freezed.dart';
 part 'messages_start_event.g.dart';
 
-/// Allowed: `AnyScale`, `Atoma`, `Cent-ML`, `CrofAI`, `Enfer`, `GoPomelo`, `HuggingFace`, `Hyperbolic`, `Hyperbolic 2`, `InoCloud`, `Kluster`, `Lambda`, `Lepton`, `Lynn 2`, `Lynn`, `Mancer`, `Modal`, `NCompass`, `Nineteen`, `OctoAI`, `Recursal`, `Reflection`, `Replicate`, `SambaNova 2`, `SF Compute`, `Targon`, `Together 2`, `Ubicloud`, `01.AI`, `AkashML`, `AI21`, `AionLabs`, `Alibaba`, `Ambient`, `Baidu`, `Amazon Bedrock`, `Amazon Nova`, `Anthropic`, `Arcee AI`, `AssemblyAI`, `AtlasCloud`, `Avian`, `Azure`, `BaseTen`, `BytePlus`, `Black Forest Labs`, `Cerebras`, `Chutes`, `Cirrascale`, `Claude Platform on AWS`, `Clarifai`, `Cloudflare`, `Cohere`, `CoreWeave`, `Cosine`, `Crucible`, `Crusoe`, `Darkbloom`, `Databricks`, `Decart`, `Deepgram`, `DeepInfra`, `DeepSeek`, `DekaLLM`, `DigitalOcean`, `ElevenLabs`, `Featherless`, `Fireworks`, `Fish Audio`, `Friendli`, `GMICloud`, `Google`, `Google AI Studio`, `Groq`, `HeyGen`, `Inception`, `Inceptron`, `InferenceNet`, `Ionstream`, `Infermatic`, `Io Net`, `Inferact vLLM`, `Inflection`, `KT`, `Liquid`, `Makora`, `Mara`, `Mancer 2`, `Meta`, `Minimax`, `ModelRun`, `Mistral`, `Modular`, `Moonshot AI`, `Morph`, `VoyageAI by MongoDB`, `TypeSafe`, `Near AI`, `Nebius`, `Nex AGI`, `NextBit`, `Novita`, `Nvidia`, `Ollama`, `OpenAI`, `OpenInference`, `Parasail`, `ParetoAlpha`, `Particle AI`, `Poolside`, `PrimaLabs`, `PrimeIntellect`, `Perceptron`, `Perplexity`, `Phala`, `Recraft`, `Recursive`, `Reka`, `Relace`, `Respan`, `Sail Research`, `Sakana AI`, `SambaNova`, `ScaleDown`, `Seed`, `SiliconFlow`, `Sourceful`, `StepFun`, `Stealth`, `StreamLake`, `Switchpoint`, `Tencent`, `Tenstorrent`, `Thinking Machines`, `Together`, `Unbiased`, `Upstage`, `Venice`, `Wafer`, `WandB`, `Quiver`, `Krea`, `Runway`, `Xiaomi`, `xAI`, `Z.AI`, `FakeProvider`
+/// Allowed: `AnyScale`, `Atoma`, `Cent-ML`, `CrofAI`, `Enfer`, `GoPomelo`, `HuggingFace`, `Hyperbolic`, `Hyperbolic 2`, `InoCloud`, `Kluster`, `Lambda`, `Lepton`, `Lynn 2`, `Lynn`, `Mancer`, `Modal`, `NCompass`, `Nineteen`, `OctoAI`, `Recursal`, `Reflection`, `Replicate`, `SambaNova 2`, `SF Compute`, `Targon`, `Together 2`, `Ubicloud`, `01.AI`, `AkashML`, `AI21`, `AionLabs`, `Alibaba`, `Ambient`, `Ant Digital`, `Baidu`, `Amazon Bedrock`, `Amazon Nova`, `Anthropic`, `Arcee AI`, `AssemblyAI`, `AtlasCloud`, `Avian`, `Azure`, `BaseTen`, `BytePlus`, `Black Forest Labs`, `Cerebras`, `Chutes`, `Cirrascale`, `Claude Platform on AWS`, `Clarifai`, `Cloudflare`, `Cohere`, `CoreWeave`, `Cosine`, `Crucible`, `Crusoe`, `Darkbloom`, `Databricks`, `Decart`, `Deepgram`, `DeepInfra`, `DeepSeek`, `DekaLLM`, `DigitalOcean`, `Doubleword`, `ElevenLabs`, `Featherless`, `Fireworks`, `Fish Audio`, `Friendli`, `GMICloud`, `Google`, `Google AI Studio`, `Groq`, `HeyGen`, `Inception`, `Inceptron`, `InferenceNet`, `Ionstream`, `Infermatic`, `Io Net`, `Inferact vLLM`, `Inflection`, `KT`, `Liquid`, `Makora`, `Mara`, `Mancer 2`, `Meta`, `Minimax`, `ModelRun`, `Mistral`, `Modular`, `Moonshot AI`, `Morph`, `VoyageAI by MongoDB`, `TypeSafe`, `Near AI`, `Nebius`, `Nex AGI`, `NextBit`, `Novita`, `Nvidia`, `Ollama`, `OpenAI`, `OpenInference`, `Parallel`, `Parasail`, `ParetoAlpha`, `Pareto Inference`, `Particle AI`, `Pearl Research`, `Poolside`, `PrimaLabs`, `PrimeIntellect`, `Perceptron`, `Perplexity`, `Phala`, `Recraft`, `Recursive`, `Reka`, `Relace`, `Respan`, `River`, `Sail Research`, `Sakana AI`, `SambaNova`, `ScaleDown`, `Seed`, `SiliconFlow`, `Sourceful`, `Speechify`, `StepFun`, `Stealth`, `StreamLake`, `Switchpoint`, `Tencent`, `Tenstorrent`, `Thinking Machines`, `Together`, `Unbiased`, `Upstage`, `Venice`, `Wafer`, `WandB`, `Quiver`, `Krea`, `Runway`, `Xiaomi`, `xAI`, `Z.AI`, `FakeProvider`
 ///
 /// Unknown values are allowed by the specification.
 @JsonEnum(alwaysCreate: true)
@@ -90,6 +90,8 @@ enum MessagesStartEventMessageMessageProviderValue {
   alibaba,
   @JsonValue('Ambient')
   ambient,
+  @JsonValue('Ant Digital')
+  antDigital,
   @JsonValue('Baidu')
   baidu,
   @JsonValue('Amazon Bedrock')
@@ -152,6 +154,8 @@ enum MessagesStartEventMessageMessageProviderValue {
   dekallm,
   @JsonValue('DigitalOcean')
   digitalocean,
+  @JsonValue('Doubleword')
+  doubleword,
   @JsonValue('ElevenLabs')
   elevenlabs,
   @JsonValue('Featherless')
@@ -234,12 +238,18 @@ enum MessagesStartEventMessageMessageProviderValue {
   openai,
   @JsonValue('OpenInference')
   openinference,
+  @JsonValue('Parallel')
+  parallel,
   @JsonValue('Parasail')
   parasail,
   @JsonValue('ParetoAlpha')
   paretoalpha,
+  @JsonValue('Pareto Inference')
+  paretoInference,
   @JsonValue('Particle AI')
   particleAi,
+  @JsonValue('Pearl Research')
+  pearlResearch,
   @JsonValue('Poolside')
   poolside,
   @JsonValue('PrimaLabs')
@@ -262,6 +272,8 @@ enum MessagesStartEventMessageMessageProviderValue {
   relace,
   @JsonValue('Respan')
   respan,
+  @JsonValue('River')
+  river,
   @JsonValue('Sail Research')
   sailResearch,
   @JsonValue('Sakana AI')
@@ -276,6 +288,8 @@ enum MessagesStartEventMessageMessageProviderValue {
   siliconflow,
   @JsonValue('Sourceful')
   sourceful,
+  @JsonValue('Speechify')
+  speechify,
   @JsonValue('StepFun')
   stepfun,
   @JsonValue('Stealth')
@@ -488,7 +502,7 @@ sealed class MessagesStartEventMessageMessage
     List<AnthropicInputTransformation>? inputTransformations,
     required String model,
 
-    /// Allowed: `AnyScale`, `Atoma`, `Cent-ML`, `CrofAI`, `Enfer`, `GoPomelo`, `HuggingFace`, `Hyperbolic`, `Hyperbolic 2`, `InoCloud`, `Kluster`, `Lambda`, `Lepton`, `Lynn 2`, `Lynn`, `Mancer`, `Modal`, `NCompass`, `Nineteen`, `OctoAI`, `Recursal`, `Reflection`, `Replicate`, `SambaNova 2`, `SF Compute`, `Targon`, `Together 2`, `Ubicloud`, `01.AI`, `AkashML`, `AI21`, `AionLabs`, `Alibaba`, `Ambient`, `Baidu`, `Amazon Bedrock`, `Amazon Nova`, `Anthropic`, `Arcee AI`, `AssemblyAI`, `AtlasCloud`, `Avian`, `Azure`, `BaseTen`, `BytePlus`, `Black Forest Labs`, `Cerebras`, `Chutes`, `Cirrascale`, `Claude Platform on AWS`, `Clarifai`, `Cloudflare`, `Cohere`, `CoreWeave`, `Cosine`, `Crucible`, `Crusoe`, `Darkbloom`, `Databricks`, `Decart`, `Deepgram`, `DeepInfra`, `DeepSeek`, `DekaLLM`, `DigitalOcean`, `ElevenLabs`, `Featherless`, `Fireworks`, `Fish Audio`, `Friendli`, `GMICloud`, `Google`, `Google AI Studio`, `Groq`, `HeyGen`, `Inception`, `Inceptron`, `InferenceNet`, `Ionstream`, `Infermatic`, `Io Net`, `Inferact vLLM`, `Inflection`, `KT`, `Liquid`, `Makora`, `Mara`, `Mancer 2`, `Meta`, `Minimax`, `ModelRun`, `Mistral`, `Modular`, `Moonshot AI`, `Morph`, `VoyageAI by MongoDB`, `TypeSafe`, `Near AI`, `Nebius`, `Nex AGI`, `NextBit`, `Novita`, `Nvidia`, `Ollama`, `OpenAI`, `OpenInference`, `Parasail`, `ParetoAlpha`, `Particle AI`, `Poolside`, `PrimaLabs`, `PrimeIntellect`, `Perceptron`, `Perplexity`, `Phala`, `Recraft`, `Recursive`, `Reka`, `Relace`, `Respan`, `Sail Research`, `Sakana AI`, `SambaNova`, `ScaleDown`, `Seed`, `SiliconFlow`, `Sourceful`, `StepFun`, `Stealth`, `StreamLake`, `Switchpoint`, `Tencent`, `Tenstorrent`, `Thinking Machines`, `Together`, `Unbiased`, `Upstage`, `Venice`, `Wafer`, `WandB`, `Quiver`, `Krea`, `Runway`, `Xiaomi`, `xAI`, `Z.AI`, `FakeProvider`
+    /// Allowed: `AnyScale`, `Atoma`, `Cent-ML`, `CrofAI`, `Enfer`, `GoPomelo`, `HuggingFace`, `Hyperbolic`, `Hyperbolic 2`, `InoCloud`, `Kluster`, `Lambda`, `Lepton`, `Lynn 2`, `Lynn`, `Mancer`, `Modal`, `NCompass`, `Nineteen`, `OctoAI`, `Recursal`, `Reflection`, `Replicate`, `SambaNova 2`, `SF Compute`, `Targon`, `Together 2`, `Ubicloud`, `01.AI`, `AkashML`, `AI21`, `AionLabs`, `Alibaba`, `Ambient`, `Ant Digital`, `Baidu`, `Amazon Bedrock`, `Amazon Nova`, `Anthropic`, `Arcee AI`, `AssemblyAI`, `AtlasCloud`, `Avian`, `Azure`, `BaseTen`, `BytePlus`, `Black Forest Labs`, `Cerebras`, `Chutes`, `Cirrascale`, `Claude Platform on AWS`, `Clarifai`, `Cloudflare`, `Cohere`, `CoreWeave`, `Cosine`, `Crucible`, `Crusoe`, `Darkbloom`, `Databricks`, `Decart`, `Deepgram`, `DeepInfra`, `DeepSeek`, `DekaLLM`, `DigitalOcean`, `Doubleword`, `ElevenLabs`, `Featherless`, `Fireworks`, `Fish Audio`, `Friendli`, `GMICloud`, `Google`, `Google AI Studio`, `Groq`, `HeyGen`, `Inception`, `Inceptron`, `InferenceNet`, `Ionstream`, `Infermatic`, `Io Net`, `Inferact vLLM`, `Inflection`, `KT`, `Liquid`, `Makora`, `Mara`, `Mancer 2`, `Meta`, `Minimax`, `ModelRun`, `Mistral`, `Modular`, `Moonshot AI`, `Morph`, `VoyageAI by MongoDB`, `TypeSafe`, `Near AI`, `Nebius`, `Nex AGI`, `NextBit`, `Novita`, `Nvidia`, `Ollama`, `OpenAI`, `OpenInference`, `Parallel`, `Parasail`, `ParetoAlpha`, `Pareto Inference`, `Particle AI`, `Pearl Research`, `Poolside`, `PrimaLabs`, `PrimeIntellect`, `Perceptron`, `Perplexity`, `Phala`, `Recraft`, `Recursive`, `Reka`, `Relace`, `Respan`, `River`, `Sail Research`, `Sakana AI`, `SambaNova`, `ScaleDown`, `Seed`, `SiliconFlow`, `Sourceful`, `Speechify`, `StepFun`, `Stealth`, `StreamLake`, `Switchpoint`, `Tencent`, `Tenstorrent`, `Thinking Machines`, `Together`, `Unbiased`, `Upstage`, `Venice`, `Wafer`, `WandB`, `Quiver`, `Krea`, `Runway`, `Xiaomi`, `xAI`, `Z.AI`, `FakeProvider`
     ///
     /// Unknown values are allowed by the specification.
     @JsonKey(

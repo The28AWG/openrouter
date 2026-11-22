@@ -6,6 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'anthropic_cache_creation.dart';
 import 'anthropic_speed.dart';
 import 'anthropic_usage_iteration.dart';
+import 'batch_output_reference.dart';
 import 'cost_details.dart';
 
 part 'batch_list_item.freezed.dart';
@@ -268,6 +269,9 @@ sealed class BatchListItem with _$BatchListItem {
 
     /// Allowed: `batch`
     required BatchListItemObjectValue object,
+
+    /// The output location of a batch submitted with `input`, whose `results` are `null`. Returned only by `GET /batches/{id}`, once the batch has ended and the provider reported an output folder or table. Batch lists and responses for a batch with an unpaid charge leave it out.
+    BatchOutputReference? output,
 
     /// Provider OpenRouter assigned to run the batch, using the same name as the `provider` field of sync responses.
     String? provider,

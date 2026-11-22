@@ -6,9 +6,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'workspace_member.freezed.dart';
 part 'workspace_member.g.dart';
 
-/// Role of the member in the workspace
+/// Role of the member in the workspace. `viewer` and `restricted_viewer` are read-only: `viewer` can view the whole workspace, and `restricted_viewer` can view only their own activity.
 ///
-/// Allowed: `admin`, `member`
+/// Allowed: `admin`, `member`, `viewer`, `restricted_viewer`
 ///
 /// Unknown values are allowed by the specification.
 ///
@@ -22,6 +22,10 @@ enum WorkspaceMemberRoleValue {
   admin,
   @JsonValue('member')
   member,
+  @JsonValue('viewer')
+  viewer,
+  @JsonValue('restricted_viewer')
+  restrictedViewer,
 
   /// Value returned when the API sends a member that is not listed yet.
   unknown_,
@@ -76,9 +80,9 @@ sealed class WorkspaceMember with _$WorkspaceMember {
     /// ```
     required String id,
 
-    /// Role of the member in the workspace
+    /// Role of the member in the workspace. `viewer` and `restricted_viewer` are read-only: `viewer` can view the whole workspace, and `restricted_viewer` can view only their own activity.
     ///
-    /// Allowed: `admin`, `member`
+    /// Allowed: `admin`, `member`, `viewer`, `restricted_viewer`
     ///
     /// Unknown values are allowed by the specification.
     ///

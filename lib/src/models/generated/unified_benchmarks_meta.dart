@@ -6,7 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'unified_benchmarks_meta.freezed.dart';
 part 'unified_benchmarks_meta.g.dart';
 
-/// The source filter applied, or null when all sources are returned.
+/// The one source the response is limited to: the `source` filter, or Artificial Analysis for a `task_type` only it answers. Null when the response draws on every source.
 ///
 /// Allowed: `artificial-analysis`, `design-arena`, `openrouter`
 ///
@@ -93,7 +93,7 @@ sealed class UnifiedBenchmarksMeta with _$UnifiedBenchmarksMeta {
     /// ```
     @JsonKey(name: 'as_of') required String asOf,
 
-    /// Required attribution when republishing this data, or null when results span multiple sources (attribute each item individually by its `source` discriminator).
+    /// Required attribution when republishing this data. Always set when `source` is set. When `source` is null, set if every returned item comes from one source, and null if the items span sources (attribute each item by its `source` discriminator) or there are none.
     ///
     /// Example:
     /// ```
@@ -104,7 +104,7 @@ sealed class UnifiedBenchmarksMeta with _$UnifiedBenchmarksMeta {
     /// Number of unique models in the response.
     @JsonKey(name: 'model_count') required int modelCount,
 
-    /// The source filter applied, or null when all sources are returned.
+    /// The one source the response is limited to: the `source` filter, or Artificial Analysis for a `task_type` only it answers. Null when the response draws on every source.
     ///
     /// Allowed: `artificial-analysis`, `design-arena`, `openrouter`
     ///
@@ -117,7 +117,7 @@ sealed class UnifiedBenchmarksMeta with _$UnifiedBenchmarksMeta {
     @JsonKey(unknownEnumValue: UnifiedBenchmarksMetaSourceValue.unknown_)
     UnifiedBenchmarksMetaSourceValue? source,
 
-    /// URL of the upstream data source, or null when results span multiple sources.
+    /// URL of the upstream data source. Always set when `source` is set. When `source` is null, set if every returned item comes from one source, and null if the items span sources or there are none.
     ///
     /// Example:
     /// ```

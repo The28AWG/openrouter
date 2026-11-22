@@ -107,6 +107,7 @@ class GenerationsResource {
   /// - 429 Too Many Requests - Rate limit exceeded
   /// - 500 Internal Server Error - Unexpected server error
   /// - 502 Bad Gateway - Provider/upstream API failure
+  /// - 503 Service Unavailable - Service temporarily unavailable
   /// - 524 Infrastructure Timeout - Provider request timed out at edge network
   /// - 529 Provider Overloaded - Provider is temporarily overloaded
   Future<GenerationContentResponse> listGenerationContent({
@@ -143,6 +144,7 @@ class GenerationsResource {
         429: TooManyRequestsResponse.fromJson,
         500: InternalServerResponse.fromJson,
         502: BadGatewayResponse.fromJson,
+        503: ServiceUnavailableResponse.fromJson,
         524: EdgeNetworkTimeoutResponse.fromJson,
         529: ProviderOverloadedResponse.fromJson,
       },

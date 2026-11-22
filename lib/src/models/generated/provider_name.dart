@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'provider_name.g.dart';
 
-/// Allowed: `Modal`, `AkashML`, `AI21`, `AionLabs`, `Alibaba`, `Ambient`, `Baidu`, `Amazon Bedrock`, `Amazon Nova`, `Anthropic`, `Arcee AI`, `AssemblyAI`, `AtlasCloud`, `Avian`, `Azure`, `BaseTen`, `BytePlus`, `Black Forest Labs`, `Cerebras`, `Chutes`, `Cirrascale`, `Claude Platform on AWS`, `Clarifai`, `Cloudflare`, `Cohere`, `CoreWeave`, `Cosine`, `Crucible`, `Crusoe`, `Darkbloom`, `Databricks`, `Decart`, `Deepgram`, `DeepInfra`, `DeepSeek`, `DekaLLM`, `DigitalOcean`, `ElevenLabs`, `Featherless`, `Fireworks`, `Fish Audio`, `Friendli`, `GMICloud`, `Google`, `Google AI Studio`, `Groq`, `HeyGen`, `Inception`, `Inceptron`, `InferenceNet`, `Ionstream`, `Infermatic`, `Io Net`, `Inferact vLLM`, `Inflection`, `KT`, `Liquid`, `Makora`, `Mara`, `Mancer 2`, `Meta`, `Minimax`, `ModelRun`, `Mistral`, `Modular`, `Moonshot AI`, `Morph`, `VoyageAI by MongoDB`, `TypeSafe`, `Near AI`, `Nebius`, `Nex AGI`, `NextBit`, `Novita`, `Nvidia`, `Ollama`, `OpenAI`, `OpenInference`, `Parasail`, `ParetoAlpha`, `Particle AI`, `Poolside`, `PrimaLabs`, `PrimeIntellect`, `Perceptron`, `Perplexity`, `Phala`, `Recraft`, `Recursive`, `Reka`, `Relace`, `Respan`, `Sail Research`, `Sakana AI`, `SambaNova`, `ScaleDown`, `Seed`, `SiliconFlow`, `Sourceful`, `StepFun`, `Stealth`, `StreamLake`, `Switchpoint`, `Tencent`, `Tenstorrent`, `Thinking Machines`, `Together`, `Unbiased`, `Upstage`, `Venice`, `Wafer`, `WandB`, `Quiver`, `Krea`, `Runway`, `Xiaomi`, `xAI`, `Z.AI`, `FakeProvider`
+/// Allowed: `Modal`, `AkashML`, `AI21`, `AionLabs`, `Alibaba`, `Ambient`, `Ant Digital`, `Baidu`, `Amazon Bedrock`, `Amazon Nova`, `Anthropic`, `Arcee AI`, `AssemblyAI`, `AtlasCloud`, `Avian`, `Azure`, `BaseTen`, `BytePlus`, `Black Forest Labs`, `Cerebras`, `Chutes`, `Cirrascale`, `Claude Platform on AWS`, `Clarifai`, `Cloudflare`, `Cohere`, `CoreWeave`, `Cosine`, `Crucible`, `Crusoe`, `Darkbloom`, `Databricks`, `Decart`, `Deepgram`, `DeepInfra`, `DeepSeek`, `DekaLLM`, `DigitalOcean`, `Doubleword`, `ElevenLabs`, `Featherless`, `Fireworks`, `Fish Audio`, `Friendli`, `GMICloud`, `Google`, `Google AI Studio`, `Groq`, `HeyGen`, `Inception`, `Inceptron`, `InferenceNet`, `Ionstream`, `Infermatic`, `Io Net`, `Inferact vLLM`, `Inflection`, `KT`, `Liquid`, `Makora`, `Mara`, `Mancer 2`, `Meta`, `Minimax`, `ModelRun`, `Mistral`, `Modular`, `Moonshot AI`, `Morph`, `VoyageAI by MongoDB`, `TypeSafe`, `Near AI`, `Nebius`, `Nex AGI`, `NextBit`, `Novita`, `Nvidia`, `Ollama`, `OpenAI`, `OpenInference`, `Parallel`, `Parasail`, `ParetoAlpha`, `Pareto Inference`, `Particle AI`, `Pearl Research`, `Poolside`, `PrimaLabs`, `PrimeIntellect`, `Perceptron`, `Perplexity`, `Phala`, `Recraft`, `Recursive`, `Reka`, `Relace`, `Respan`, `River`, `Sail Research`, `Sakana AI`, `SambaNova`, `ScaleDown`, `Seed`, `SiliconFlow`, `Sourceful`, `Speechify`, `StepFun`, `Stealth`, `StreamLake`, `Switchpoint`, `Tencent`, `Tenstorrent`, `Thinking Machines`, `Together`, `Unbiased`, `Upstage`, `Venice`, `Wafer`, `WandB`, `Quiver`, `Krea`, `Runway`, `Xiaomi`, `xAI`, `Z.AI`, `FakeProvider`
 ///
 /// Unknown values are allowed by the specification.
 ///
@@ -26,6 +26,8 @@ enum ProviderName {
   alibaba,
   @JsonValue('Ambient')
   ambient,
+  @JsonValue('Ant Digital')
+  antDigital,
   @JsonValue('Baidu')
   baidu,
   @JsonValue('Amazon Bedrock')
@@ -88,6 +90,8 @@ enum ProviderName {
   dekallm,
   @JsonValue('DigitalOcean')
   digitalocean,
+  @JsonValue('Doubleword')
+  doubleword,
   @JsonValue('ElevenLabs')
   elevenlabs,
   @JsonValue('Featherless')
@@ -170,12 +174,18 @@ enum ProviderName {
   openai,
   @JsonValue('OpenInference')
   openinference,
+  @JsonValue('Parallel')
+  parallel,
   @JsonValue('Parasail')
   parasail,
   @JsonValue('ParetoAlpha')
   paretoalpha,
+  @JsonValue('Pareto Inference')
+  paretoInference,
   @JsonValue('Particle AI')
   particleAi,
+  @JsonValue('Pearl Research')
+  pearlResearch,
   @JsonValue('Poolside')
   poolside,
   @JsonValue('PrimaLabs')
@@ -198,6 +208,8 @@ enum ProviderName {
   relace,
   @JsonValue('Respan')
   respan,
+  @JsonValue('River')
+  river,
   @JsonValue('Sail Research')
   sailResearch,
   @JsonValue('Sakana AI')
@@ -212,6 +224,8 @@ enum ProviderName {
   siliconflow,
   @JsonValue('Sourceful')
   sourceful,
+  @JsonValue('Speechify')
+  speechify,
   @JsonValue('StepFun')
   stepfun,
   @JsonValue('Stealth')
